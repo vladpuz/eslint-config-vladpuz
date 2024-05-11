@@ -1,0 +1,47 @@
+{
+  "name": "eslint-config-vladpuz",
+  "version": "0.1.0",
+  "description": "ESLint config based on the JavaScript Standard Style",
+  "keywords": [
+    "eslint-config",
+    "eslint",
+    "typescript",
+    "standard",
+    "lint",
+    "style"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vladpuz/eslint-config-vladpuz.git"
+  },
+  "license": "MIT",
+  "author": "Vladislav Puzyrev",
+  "type": "module",
+  "main": "eslint.config.js",
+  "scripts": {
+    "check": "npm run lint && npm run format",
+    "format": "prettier --check .",
+    "lint": "eslint .",
+    "update-dry-run": "npm-check-updates",
+    "update-latest": "npm-check-updates --upgrade --peer --target latest",
+    "update-minor": "npm-check-updates --upgrade --peer --target minor"
+  },
+  "dependencies": {
+    "@eslint/eslintrc": "^3.0.2",
+    "eslint-config-love": "^47.0.0",
+    "eslint-config-standard": "^17.1.0",
+    "eslint-plugin-json-files": "^4.2.0",
+    "eslint-plugin-perfectionist": "^2.10.0",
+    "typescript-eslint": "^7.8.0"
+  },
+  "devDependencies": {
+    "@tsconfig/strictest": "^2.0.5",
+    "npm-check-updates": "^16.14.20",
+    "prettier": "^3.2.5",
+    "prettier-config-standard": "^7.0.0",
+    "typescript": "^5.4.5"
+  },
+  "peerDependencies": {
+    "eslint": "^8.23.0"
+  }
+}
