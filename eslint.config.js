@@ -1,43 +1,44 @@
 import { FlatCompat } from '@eslint/eslintrc'
+import love from 'eslint-config-love'
+import esx from 'eslint-plugin-es-x'
 import perfectionist from 'eslint-plugin-perfectionist'
-import tseslint from 'typescript-eslint'
 
-/* compat */
-const compat = new FlatCompat()
+/* FlatCompat */
+const flatCompat = new FlatCompat()
+const flatCompatPlugins = flatCompat.plugins('json-files')
 
-const compatPlugins = compat.plugins('json-files')
-const compatExtendsJavascript = compat.extends('standard')
-const compatExtendsTypescript = compat.extends('love')
-
-/* constants */
+/* Files */
 const jsonFiles = ['**/*.json']
 const javascriptFiles = ['**/*.js', '**/*.jsx', '**/*.mjs', '**/*.cjs']
 const typescriptFiles = ['**/*.ts', '**/*.tsx', '**/*.mts', '**/*.cts']
 const codeFiles = [...javascriptFiles, ...typescriptFiles]
+
+/* Constants */
 const perfectionistConfig = 'recommended-natural'
+const typescriptRulesPrefix = '@typescript-eslint/'
 
 const eslintConfig = [
-  ...compatPlugins,
+  ...flatCompatPlugins,
 
-  ...compatExtendsJavascript.map((config) => {
-    return {
-      ...config,
-      files: javascriptFiles
+  /* Config love */
+  {
+    ...love,
+    files: codeFiles
+  },
+
+  /* Overrides typescript */
+  {
+    files: typescriptFiles,
+    rules: {
+      // https://github.com/mightyiam/eslint-config-love/issues/111
+      '@typescript-eslint/explicit-member-accessibility': 'error'
     }
-  }),
+  },
 
-  ...compatExtendsTypescript.map((config) => {
-    return {
-      ...config,
-      files: typescriptFiles
-    }
-  }),
-
-  /* eslint */
+  /* Overrides code */
   {
     files: codeFiles,
     rules: {
-      // override
       curly: ['error', 'all'],
       // https://github.com/standard/standard/issues/1144
       'arrow-body-style': ['error', 'always'],
@@ -45,19 +46,21 @@ const eslintConfig = [
     }
   },
 
-  /* typescript-eslint */
+  /* Disable all typescript rules for javascript, except extension rules */
   {
-    files: typescriptFiles,
-    plugins: {
-      '@typescript-eslint': tseslint.plugin
-    },
-    rules: {
-      // https://github.com/mightyiam/eslint-config-love/issues/111
-      '@typescript-eslint/explicit-member-accessibility': 'error'
-    }
+    files: javascriptFiles,
+    rules: Object.fromEntries(Object.entries(love.rules).map(([key, value]) => {
+      const isTypescriptRule = key.startsWith(typescriptRulesPrefix)
+      const isExtensionRule = isTypescriptRule
+        ? key.split(typescriptRulesPrefix)[1] in love.rules
+        : false
+
+      const isDisabled = isTypescriptRule && !isExtensionRule
+      return [key, isDisabled ? 'off' : value]
+    }))
   },
 
-  /* perfectionist */
+  /* Plugin perfectionist */
   {
     files: codeFiles,
     plugins: {
@@ -71,7 +74,16 @@ const eslintConfig = [
     }
   },
 
-  /* json-files */
+  /* Plugin es-x */
+  {
+    files: codeFiles,
+    plugins: { 'es-x': esx },
+    rules: {
+      'es-x/no-optional-chaining': 'error'
+    }
+  },
+
+  /* Plugin json-files */
   {
     files: jsonFiles,
     rules: {
