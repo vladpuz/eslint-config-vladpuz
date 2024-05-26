@@ -1,9 +1,9 @@
 {
   "name": "eslint-config-vladpuz",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "ESLint config based on the JavaScript Standard Style",
   "keywords": [
-    "eslint-config",
+    "eslintconfig",
     "eslint",
     "typescript",
     "standard",
@@ -17,7 +17,7 @@
   "license": "MIT",
   "author": "Vladislav Puzyrev",
   "type": "module",
-  "main": "eslint.config.js",
+  "main": "src/index.js",
   "scripts": {
     "check": "npm run lint && npm run format",
     "format": "prettier --check .",
