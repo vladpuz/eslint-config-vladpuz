@@ -1,4 +1,4 @@
-function sayHello (): void {
+function sayHello(): void {
   console.log('Hello World!')
 }
 

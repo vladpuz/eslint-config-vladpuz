@@ -1,14 +1,11 @@
 {
   "name": "eslint-config-vladpuz",
-  "version": "0.3.0",
-  "description": "ESLint config based on the JavaScript Standard Style",
+  "version": "0.4.0",
+  "description": "ESLint config based on love and stylistic",
   "keywords": [
-    "eslintconfig",
     "eslint",
-    "typescript",
-    "standard",
-    "lint",
-    "style"
+    "eslintconfig",
+    "typescript"
   ],
   "repository": {
     "type": "git",
@@ -22,21 +19,24 @@
     "check": "npm run lint && npm run format",
     "format": "prettier --check .",
     "lint": "eslint .",
+    "start-inspector": "npx @eslint/config-inspector",
     "update-dry-run": "npm-check-updates",
     "update-latest": "npm-check-updates --upgrade --peer --target latest",
     "update-minor": "npm-check-updates --upgrade --peer --target minor"
   },
   "dependencies": {
     "@eslint/eslintrc": "^3.1.0",
-    "eslint-config-love": "^48.0.0",
+    "@stylistic/eslint-plugin": "^2.1.0",
+    "eslint-config-love": "^52.0.0",
     "eslint-plugin-es-x": "^7.6.0",
     "eslint-plugin-json-files": "^4.2.0",
     "eslint-plugin-perfectionist": "^2.10.0"
   },
   "devDependencies": {
+    "@eslint/config-inspector": "^0.4.10",
     "@tsconfig/strictest": "^2.0.5",
     "npm-check-updates": "^16.14.20",
-    "prettier": "^3.2.5",
+    "prettier": "^3.3.0",
     "prettier-config-standard": "^7.0.0",
     "typescript": "^5.4.5"
   },
