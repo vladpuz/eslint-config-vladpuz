@@ -1,3 +1,5 @@
-const prettierConfig = 'prettier-config-standard'
+import vladpuz from 'prettier-config-vladpuz'
 
-export default prettierConfig
+export default {
+  ...vladpuz(),
+}

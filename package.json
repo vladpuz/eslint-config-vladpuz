@@ -1,11 +1,11 @@
 {
   "name": "eslint-config-vladpuz",
-  "version": "0.4.0",
-  "description": "ESLint config based on love and stylistic",
+  "version": "0.5.0",
+  "description": "ESLint config based on stylistic and love",
   "keywords": [
+    "vladpuz",
     "eslint",
-    "eslintconfig",
-    "typescript"
+    "eslintconfig"
   ],
   "repository": {
     "type": "git",
@@ -14,30 +14,34 @@
   "license": "MIT",
   "author": "Vladislav Puzyrev",
   "type": "module",
-  "main": "src/index.js",
+  "main": "build/index.js",
+  "types": "build/index.d.ts",
   "scripts": {
+    "build": "npm run clean && tsc --project tsconfig.build.json",
     "check": "npm run lint && npm run format",
+    "clean": "rimraf build",
     "format": "prettier --check .",
     "lint": "eslint .",
+    "prepublishOnly": "npm run build",
     "start-inspector": "npx @eslint/config-inspector",
     "update-dry-run": "npm-check-updates",
     "update-latest": "npm-check-updates --upgrade --peer --target latest",
     "update-minor": "npm-check-updates --upgrade --peer --target minor"
   },
   "dependencies": {
-    "@eslint/eslintrc": "^3.1.0",
     "@stylistic/eslint-plugin": "^2.1.0",
     "eslint-config-love": "^52.0.0",
-    "eslint-plugin-es-x": "^7.6.0",
-    "eslint-plugin-json-files": "^4.2.0",
+    "eslint-plugin-es-x": "^7.7.0",
     "eslint-plugin-perfectionist": "^2.10.0"
   },
   "devDependencies": {
     "@eslint/config-inspector": "^0.4.10",
     "@tsconfig/strictest": "^2.0.5",
+    "@types/react": "^18.3.3",
     "npm-check-updates": "^16.14.20",
-    "prettier": "^3.3.0",
-    "prettier-config-standard": "^7.0.0",
+    "prettier": "^3.3.1",
+    "prettier-config-vladpuz": "^0.1.0",
+    "rimraf": "^5.0.7",
     "typescript": "^5.4.5"
   },
   "peerDependencies": {

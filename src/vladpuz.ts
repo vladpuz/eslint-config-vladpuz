@@ -1,58 +1,42 @@
-import { FlatCompat } from '@eslint/eslintrc'
 import stylistic from '@stylistic/eslint-plugin'
 import love from 'eslint-config-love'
 import esx from 'eslint-plugin-es-x'
 import perfectionist from 'eslint-plugin-perfectionist'
 
-import { GLOBS_JS, GLOBS_PACKAGE_JSON, GLOBS_SRC, GLOBS_TS } from './globs.js'
+import { defaultFiles, defaultOptions } from './constants.js'
+import { type Config, type Options } from './types.js'
 
-const defaultFiles = {
-  js: GLOBS_JS,
-  ts: GLOBS_TS,
-  src: GLOBS_SRC,
-  packageJson: GLOBS_PACKAGE_JSON,
-}
-
-const defaultOptions = {
-  files: defaultFiles,
-  perfectionistConfig: 'recommended-natural',
-  flatCompatConfig: {},
-}
-
-function vladpuz(options = defaultOptions) {
+function vladpuz(options: Options = defaultOptions): Config[] {
   const {
     files = defaultOptions.files,
     perfectionistConfig = defaultOptions.perfectionistConfig,
-    flatCompatConfig = defaultOptions.flatCompatConfig,
   } = options
 
   const {
     js: jsFiles = defaultFiles.js,
     ts: tsFiles = defaultFiles.ts,
     src: srcFiles = defaultFiles.src,
-    packageJson: packageJsonFiles = defaultFiles.packageJson,
   } = files
 
-  /* FlatCompat */
-  const flatCompat = new FlatCompat(flatCompatConfig)
-  const flatCompatPlugins = flatCompat.plugins('json-files')
-
   return [
-    ...flatCompatPlugins,
+    /* Config stylistic */
+    stylistic.configs.customize({
+      flat: true,
+      indent: 2,
+      quotes: 'single',
+      semi: false,
+      jsx: true,
+      arrowParens: true,
+      braceStyle: '1tbs',
+      blockSpacing: true,
+      quoteProps: 'consistent-as-needed',
+      commaDangle: 'always-multiline',
+    }),
 
     /* Config love */
     {
       ...love,
       files: srcFiles,
-    },
-
-    /* Overrides ts */
-    {
-      files: tsFiles,
-      rules: {
-        // https://github.com/mightyiam/eslint-config-love/issues/111
-        '@typescript-eslint/explicit-member-accessibility': 'error',
-      },
     },
 
     /* Overrides src */
@@ -65,13 +49,23 @@ function vladpuz(options = defaultOptions) {
       },
     },
 
+    /* Overrides ts */
+    {
+      files: tsFiles,
+      rules: {
+        // https://github.com/mightyiam/eslint-config-love/issues/111
+        '@typescript-eslint/explicit-member-accessibility': 'error',
+      },
+    },
+
     /* Disable all typescript rules for javascript, except extension rules */
     {
       files: jsFiles,
       rules: Object.fromEntries(Object.entries(love.rules).map(([key, value]) => {
-        const isTypescriptRule = key.startsWith('@typescript-eslint')
+        const [pluginName, ruleName] = key.split('/')
+        const isTypescriptRule = pluginName === '@typescript-eslint' && ruleName != null
         const isExtensionRule = isTypescriptRule
-          ? key.split('/')[1] in love.rules
+          ? ruleName in love.rules
           : false
 
         // https://typescript-eslint.io/rules/#extension-rules
@@ -79,11 +73,6 @@ function vladpuz(options = defaultOptions) {
         return [key, isDisabled ? 'off' : value]
       })),
     },
-
-    /* Plugin stylistic */
-    stylistic.configs.customize({
-      braceStyle: '1tbs',
-    }),
 
     /* Plugin perfectionist */
     {
@@ -105,14 +94,6 @@ function vladpuz(options = defaultOptions) {
       plugins: { 'es-x': esx },
       rules: {
         'es-x/no-optional-chaining': 'error',
-      },
-    },
-
-    /* Plugin json-files */
-    {
-      files: packageJsonFiles,
-      rules: {
-        'json-files/sort-package-json': 'error',
       },
     },
   ]
