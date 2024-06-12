@@ -1,6 +1,6 @@
 {
   "name": "eslint-config-vladpuz",
-  "version": "0.5.0",
+  "version": "0.6.0",
   "description": "ESLint config based on stylistic and love",
   "keywords": [
     "vladpuz",
@@ -24,9 +24,9 @@
     "lint": "eslint .",
     "prepublishOnly": "npm run build",
     "start-inspector": "npx @eslint/config-inspector",
-    "update-dry-run": "npm-check-updates",
-    "update-latest": "npm-check-updates --upgrade --peer --target latest",
-    "update-minor": "npm-check-updates --upgrade --peer --target minor"
+    "update-check": "npm-check-updates --peer",
+    "update-latest": "npm-check-updates --peer --upgrade --target latest",
+    "update-minor": "npm-check-updates --peer --upgrade --target minor"
   },
   "dependencies": {
     "@stylistic/eslint-plugin": "^2.1.0",
@@ -35,11 +35,11 @@
     "eslint-plugin-perfectionist": "^2.10.0"
   },
   "devDependencies": {
-    "@eslint/config-inspector": "^0.4.10",
+    "@eslint/config-inspector": "^0.4.11",
     "@tsconfig/strictest": "^2.0.5",
     "@types/react": "^18.3.3",
     "npm-check-updates": "^16.14.20",
-    "prettier": "^3.3.1",
+    "prettier": "^3.3.2",
     "prettier-config-vladpuz": "^0.1.0",
     "rimraf": "^5.0.7",
     "typescript": "^5.4.5"

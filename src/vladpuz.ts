@@ -64,13 +64,14 @@ function vladpuz(options: Options = defaultOptions): Config[] {
       rules: Object.fromEntries(Object.entries(love.rules).map(([key, value]) => {
         const [pluginName, ruleName] = key.split('/')
         const isTypescriptRule = pluginName === '@typescript-eslint' && ruleName != null
-        const isExtensionRule = isTypescriptRule
-          ? ruleName in love.rules
-          : false
+
+        if (!isTypescriptRule) {
+          return [key, value]
+        }
 
         // https://typescript-eslint.io/rules/#extension-rules
-        const isDisabled = isTypescriptRule && !isExtensionRule
-        return [key, isDisabled ? 'off' : value]
+        const isExtensionRule = ruleName in love.rules
+        return [key, isExtensionRule ? value : 'off']
       })),
     },
 
