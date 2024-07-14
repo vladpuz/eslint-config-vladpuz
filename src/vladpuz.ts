@@ -6,17 +6,18 @@ import perfectionist from 'eslint-plugin-perfectionist'
 import { defaultFiles, defaultOptions } from './constants.js'
 import { type Config, type Options } from './types.js'
 
-function vladpuz(options: Options = defaultOptions): Config[] {
+export function vladpuz(options: Options = defaultOptions): Config[] {
   const {
     files = defaultOptions.files,
-    perfectionistConfig = defaultOptions.perfectionistConfig,
   } = options
 
   const {
-    js: jsFiles = defaultFiles.js,
-    ts: tsFiles = defaultFiles.ts,
-    src: srcFiles = defaultFiles.src,
+    js = defaultFiles.js,
+    ts = defaultFiles.ts,
   } = files
+
+  const loveRules = love.rules ?? {}
+  const perfectionistRules = perfectionist.configs['recommended-alphabetical'].rules ?? {}
 
   return [
     /* Config stylistic */
@@ -34,24 +35,19 @@ function vladpuz(options: Options = defaultOptions): Config[] {
     }),
 
     /* Config love */
-    {
-      ...love,
-      files: srcFiles,
-    },
+    love,
 
-    /* Overrides src */
+    /* Overrides */
     {
-      files: srcFiles,
       rules: {
         'curly': ['error', 'all'],
-        // https://github.com/standard/standard/issues/1144
         'arrow-body-style': ['error', 'always'],
       },
     },
 
     /* Overrides ts */
     {
-      files: tsFiles,
+      files: ts,
       rules: {
         // https://github.com/mightyiam/eslint-config-love/issues/111
         '@typescript-eslint/explicit-member-accessibility': 'error',
@@ -60,8 +56,8 @@ function vladpuz(options: Options = defaultOptions): Config[] {
 
     /* Disable all typescript rules for javascript, except extension rules */
     {
-      files: jsFiles,
-      rules: Object.fromEntries(Object.entries(love.rules).map(([key, value]) => {
+      files: js,
+      rules: Object.fromEntries(Object.entries(loveRules).map(([key, value]) => {
         const [pluginName, ruleName] = key.split('/')
         const isTypescriptRule = pluginName === '@typescript-eslint' && ruleName != null
 
@@ -70,34 +66,32 @@ function vladpuz(options: Options = defaultOptions): Config[] {
         }
 
         // https://typescript-eslint.io/rules/#extension-rules
-        const isExtensionRule = ruleName in love.rules
+        const isExtensionRule = ruleName in loveRules
         return [key, isExtensionRule ? value : 'off']
       })),
     },
 
     /* Plugin perfectionist */
     {
-      files: srcFiles,
       plugins: {
         perfectionist,
       },
       rules: {
-        'perfectionist/sort-exports': perfectionist.configs[perfectionistConfig].rules['perfectionist/sort-exports'],
-        'perfectionist/sort-imports': perfectionist.configs[perfectionistConfig].rules['perfectionist/sort-imports'],
-        'perfectionist/sort-named-exports': perfectionist.configs[perfectionistConfig].rules['perfectionist/sort-named-exports'],
-        'perfectionist/sort-named-imports': perfectionist.configs[perfectionistConfig].rules['perfectionist/sort-named-imports'],
+        'perfectionist/sort-imports': perfectionistRules['perfectionist/sort-imports'],
+        'perfectionist/sort-exports': perfectionistRules['perfectionist/sort-exports'],
+        'perfectionist/sort-named-imports': perfectionistRules['perfectionist/sort-named-imports'],
+        'perfectionist/sort-named-exports': perfectionistRules['perfectionist/sort-named-exports'],
       },
     },
 
     /* Plugin es-x */
     {
-      files: srcFiles,
-      plugins: { 'es-x': esx },
+      plugins: {
+        'es-x': esx,
+      },
       rules: {
         'es-x/no-optional-chaining': 'error',
       },
     },
   ]
 }
-
-export default vladpuz
