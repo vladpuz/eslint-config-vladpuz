@@ -3,8 +3,9 @@ import love from 'eslint-config-love'
 import esx from 'eslint-plugin-es-x'
 import perfectionist from 'eslint-plugin-perfectionist'
 
+import type { Config, Options } from './types.js'
+
 import { defaultFiles, defaultOptions } from './constants.js'
-import { type Config, type Options } from './types.js'
 
 export function vladpuz(options: Options = defaultOptions): Config[] {
   const {
@@ -17,7 +18,6 @@ export function vladpuz(options: Options = defaultOptions): Config[] {
   } = files
 
   const loveRules = love.rules ?? {}
-  const perfectionistRules = perfectionist.configs['recommended-alphabetical'].rules ?? {}
 
   return [
     /* Config stylistic */
@@ -77,10 +77,10 @@ export function vladpuz(options: Options = defaultOptions): Config[] {
         perfectionist,
       },
       rules: {
-        'perfectionist/sort-imports': perfectionistRules['perfectionist/sort-imports'],
-        'perfectionist/sort-exports': perfectionistRules['perfectionist/sort-exports'],
-        'perfectionist/sort-named-imports': perfectionistRules['perfectionist/sort-named-imports'],
-        'perfectionist/sort-named-exports': perfectionistRules['perfectionist/sort-named-exports'],
+        'perfectionist/sort-imports': 'error',
+        'perfectionist/sort-exports': 'error',
+        'perfectionist/sort-named-imports': 'error',
+        'perfectionist/sort-named-exports': 'error',
       },
     },
 

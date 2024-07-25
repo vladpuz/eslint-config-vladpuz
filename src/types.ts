@@ -1,5 +1,5 @@
-import { type TSESLint } from '@typescript-eslint/utils'
-import { type Linter } from 'eslint'
+import type { TSESLint } from '@typescript-eslint/utils'
+import type { Linter } from 'eslint'
 
 export interface Files {
   js?: string[]

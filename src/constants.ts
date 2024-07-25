@@ -1,5 +1,6 @@
+import type { Files, Options } from './types.js'
+
 import { GLOBS_JS, GLOBS_TS } from './globs.js'
-import { type Files, type Options } from './types.js'
 
 export const defaultFiles: Required<Files> = {
   js: GLOBS_JS,
