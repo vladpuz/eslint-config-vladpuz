@@ -1,21 +1,21 @@
 {
   "name": "eslint-config-vladpuz",
-  "version": "0.8.0",
+  "version": "0.9.0",
+  "type": "module",
   "description": "ESLint config based on stylistic and love",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vladpuz/eslint-config-vladpuz.git"
+  },
+  "author": "Vladislav Puzyrev",
+  "license": "MIT",
+  "main": "build/index.js",
+  "types": "build/index.d.ts",
   "keywords": [
     "vladpuz",
     "eslint",
     "eslintconfig"
   ],
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/vladpuz/eslint-config-vladpuz.git"
-  },
-  "license": "MIT",
-  "author": "Vladislav Puzyrev",
-  "type": "module",
-  "main": "build/index.js",
-  "types": "build/index.d.ts",
   "scripts": {
     "build": "tsc --project tsconfig.build.json",
     "check": "npm run typecheck && npm run lint && npm run format",
@@ -28,24 +28,24 @@
     "typecheck": "tsc --noEmit",
     "update-latest": "rimraf package-lock.json && npm-check-updates --peer --upgrade && npm install"
   },
+  "peerDependencies": {
+    "eslint": "^8.23.0"
+  },
   "dependencies": {
-    "@stylistic/eslint-plugin": "^2.3.0",
-    "eslint-config-love": "^59.0.0",
+    "@stylistic/eslint-plugin": "^2.6.1",
+    "eslint-config-love": "^62.0.0",
     "eslint-plugin-es-x": "^8.0.0",
-    "eslint-plugin-perfectionist": "^3.0.0"
+    "eslint-plugin-perfectionist": "^3.1.0"
   },
   "devDependencies": {
     "@eslint/config-inspector": "^0.5.2",
     "@tsconfig/strictest": "^2.0.5",
     "@types/react": "^18.3.3",
-    "husky": "^9.1.1",
-    "npm-check-updates": "^16.14.20",
+    "husky": "^9.1.4",
+    "npm-check-updates": "^17.0.2",
     "prettier": "^3.3.3",
-    "prettier-config-vladpuz": "^0.5.0",
+    "prettier-config-vladpuz": "^0.7.0",
     "rimraf": "^6.0.1",
     "typescript": "^5.5.4"
-  },
-  "peerDependencies": {
-    "eslint": "^8.23.0"
   }
 }

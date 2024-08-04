@@ -45,15 +45,6 @@ export function vladpuz(options: Options = defaultOptions): Config[] {
       },
     },
 
-    /* Overrides ts */
-    {
-      files: ts,
-      rules: {
-        // https://github.com/mightyiam/eslint-config-love/issues/111
-        '@typescript-eslint/explicit-member-accessibility': 'error',
-      },
-    },
-
     /* Disable all typescript rules for javascript, except extension rules */
     {
       files: js,
@@ -69,6 +60,22 @@ export function vladpuz(options: Options = defaultOptions): Config[] {
         const isExtensionRule = ruleName in loveRules
         return [key, isExtensionRule ? value : 'off']
       })),
+    },
+
+    /* Plugin @typescript-eslint */
+    {
+      files: ts,
+      rules: {
+        // https://github.com/mightyiam/eslint-config-love/issues/111
+        '@typescript-eslint/explicit-member-accessibility': 'error',
+      },
+    },
+
+    /* Plugin n */
+    {
+      rules: {
+        'n/prefer-node-protocol': 'error',
+      },
     },
 
     /* Plugin perfectionist */
