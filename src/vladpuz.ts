@@ -5,7 +5,7 @@ import perfectionist from 'eslint-plugin-perfectionist'
 
 import type { Config, Options } from './types.js'
 
-import { defaultFiles, defaultOptions } from './constants.js'
+import { defaultFiles, defaultOptions } from './defaults.js'
 
 export function vladpuz(options: Options = defaultOptions): Config[] {
   const {
@@ -20,7 +20,7 @@ export function vladpuz(options: Options = defaultOptions): Config[] {
   const loveRules = love.rules ?? {}
 
   return [
-    /* Config stylistic */
+    /* Config stylistic. */
     stylistic.configs.customize({
       flat: true,
       indent: 2,
@@ -34,10 +34,32 @@ export function vladpuz(options: Options = defaultOptions): Config[] {
       commaDangle: 'always-multiline',
     }),
 
-    /* Config love */
+    /* Config love. */
     love,
 
-    /* Overrides */
+    /*
+    * Disable all love config typescript rules
+    * for javascript, except extension rules.
+    */
+    {
+      files: js,
+      rules: Object.fromEntries(
+        Object.entries(loveRules).map(([key, value]) => {
+          const [pluginName, ruleName] = key.split('/')
+          const isTypeScriptRule = pluginName === '@typescript-eslint' && ruleName != null
+
+          if (!isTypeScriptRule) {
+            return [key, value]
+          }
+
+          // https://typescript-eslint.io/rules/#extension-rules
+          const isExtensionRule = ruleName in loveRules
+          return [key, isExtensionRule ? value : 'off']
+        }),
+      ),
+    },
+
+    /* ESLint rules. */
     {
       rules: {
         'curly': ['error', 'all'],
@@ -45,24 +67,21 @@ export function vladpuz(options: Options = defaultOptions): Config[] {
       },
     },
 
-    /* Disable all typescript rules for javascript, except extension rules */
+    /* Plugin @stylistic. */
     {
-      files: js,
-      rules: Object.fromEntries(Object.entries(loveRules).map(([key, value]) => {
-        const [pluginName, ruleName] = key.split('/')
-        const isTypescriptRule = pluginName === '@typescript-eslint' && ruleName != null
-
-        if (!isTypescriptRule) {
-          return [key, value]
-        }
-
-        // https://typescript-eslint.io/rules/#extension-rules
-        const isExtensionRule = ruleName in loveRules
-        return [key, isExtensionRule ? value : 'off']
-      })),
+      rules: {
+        '@stylistic/max-len': ['error', {
+          code: 80,
+          tabWidth: 2,
+          ignoreUrls: true,
+          ignoreStrings: true,
+          ignoreTemplateLiterals: true,
+          ignoreRegExpLiterals: true,
+        }],
+      },
     },
 
-    /* Plugin @typescript-eslint */
+    /* Plugin @typescript-eslint. */
     {
       files: ts,
       rules: {
@@ -71,14 +90,14 @@ export function vladpuz(options: Options = defaultOptions): Config[] {
       },
     },
 
-    /* Plugin n */
+    /* Plugin n. */
     {
       rules: {
         'n/prefer-node-protocol': 'error',
       },
     },
 
-    /* Plugin perfectionist */
+    /* Plugin perfectionist. */
     {
       plugins: {
         perfectionist,
@@ -91,7 +110,7 @@ export function vladpuz(options: Options = defaultOptions): Config[] {
       },
     },
 
-    /* Plugin es-x */
+    /* Plugin es-x. */
     {
       plugins: {
         'es-x': esx,

@@ -6,9 +6,6 @@ node_modules
 .pnp.js
 .yarn/install-state.gz
 
-# testing
-coverage
-
 # production
 build
 
@@ -21,12 +18,9 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
-# local env files
-.env*.local
-
 # editors
-.vscode
-.idea
+/.vscode
+/.idea
 
 # husky
-.husky/_
+/.husky/_

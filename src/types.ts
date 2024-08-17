@@ -10,4 +10,4 @@ export interface Options {
   files?: Files
 }
 
-export type Config = Linter.FlatConfig | TSESLint.FlatConfig.Config
+export type Config = Linter.Config | TSESLint.FlatConfig.Config
