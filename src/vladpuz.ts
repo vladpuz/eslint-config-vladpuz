@@ -20,7 +20,7 @@ export function vladpuz(options: Options = defaultOptions): Config[] {
   const loveRules = love.rules ?? {}
 
   return [
-    /* Config stylistic. */
+    /* Config stylistic */
     stylistic.configs.customize({
       flat: true,
       indent: 2,
@@ -34,7 +34,7 @@ export function vladpuz(options: Options = defaultOptions): Config[] {
       commaDangle: 'always-multiline',
     }),
 
-    /* Config love. */
+    /* Config love */
     love,
 
     /*
@@ -59,7 +59,7 @@ export function vladpuz(options: Options = defaultOptions): Config[] {
       ),
     },
 
-    /* ESLint rules. */
+    /* ESLint rules */
     {
       rules: {
         'curly': ['error', 'all'],
@@ -67,7 +67,7 @@ export function vladpuz(options: Options = defaultOptions): Config[] {
       },
     },
 
-    /* Plugin @stylistic. */
+    /* Plugin @stylistic */
     {
       rules: {
         '@stylistic/max-len': ['error', {
@@ -81,7 +81,7 @@ export function vladpuz(options: Options = defaultOptions): Config[] {
       },
     },
 
-    /* Plugin @typescript-eslint. */
+    /* Plugin @typescript-eslint */
     {
       files: ts,
       rules: {
@@ -90,14 +90,14 @@ export function vladpuz(options: Options = defaultOptions): Config[] {
       },
     },
 
-    /* Plugin n. */
+    /* Plugin n */
     {
       rules: {
         'n/prefer-node-protocol': 'error',
       },
     },
 
-    /* Plugin perfectionist. */
+    /* Plugin perfectionist */
     {
       plugins: {
         perfectionist,
@@ -110,7 +110,7 @@ export function vladpuz(options: Options = defaultOptions): Config[] {
       },
     },
 
-    /* Plugin es-x. */
+    /* Plugin es-x */
     {
       plugins: {
         'es-x': esx,

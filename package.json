@@ -1,6 +1,6 @@
 {
   "name": "eslint-config-vladpuz",
-  "version": "0.10.0",
+  "version": "0.11.0",
   "type": "module",
   "description": "ESLint config based on stylistic and love",
   "repository": {
@@ -33,16 +33,16 @@
   },
   "dependencies": {
     "@stylistic/eslint-plugin": "^2.6.4",
-    "eslint-config-love": "^62.0.0",
+    "eslint-config-love": "^63.0.0",
     "eslint-plugin-es-x": "^8.0.0",
     "eslint-plugin-perfectionist": "^3.2.0"
   },
   "devDependencies": {
-    "@eslint/config-inspector": "^0.5.3",
+    "@eslint/config-inspector": "^0.5.4",
     "@tsconfig/strictest": "^2.0.5",
-    "@types/react": "^18.3.3",
-    "husky": "^9.1.4",
-    "npm-check-updates": "^17.0.6",
+    "@types/react": "^18.3.4",
+    "husky": "^9.1.5",
+    "npm-check-updates": "^17.1.0",
     "prettier": "^3.3.3",
     "prettier-config-vladpuz": "^0.8.0",
     "rimraf": "^6.0.1",
