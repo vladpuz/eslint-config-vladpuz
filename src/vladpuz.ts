@@ -3,9 +3,22 @@ import love from 'eslint-config-love'
 import esx from 'eslint-plugin-es-x'
 import perfectionist from 'eslint-plugin-perfectionist'
 
-import type { Config } from './types.js'
+import type { Config, Options } from './types.js'
 
-export function vladpuz(): Config[] {
+import { defaultFiles, defaultOptions } from './defaults.js'
+
+export function vladpuz(options: Options = defaultOptions): Config[] {
+  const {
+    files = defaultOptions.files,
+  } = options
+
+  const {
+    js = defaultFiles.js,
+    ts = defaultFiles.ts,
+  } = files
+
+  const loveRules = love.rules ?? {}
+
   return [
     /* Config stylistic */
     stylistic.configs.customize({
@@ -23,6 +36,28 @@ export function vladpuz(): Config[] {
 
     /* Config love */
     love,
+
+    /*
+    * Disable all love config typescript rules
+    * for javascript, except extension rules.
+    */
+    {
+      files: js,
+      rules: Object.fromEntries(
+        Object.entries(loveRules).map(([key, value]) => {
+          const [pluginName, ruleName] = key.split('/')
+          const isTypeScriptRule = pluginName === '@typescript-eslint' && ruleName != null
+
+          if (!isTypeScriptRule) {
+            return [key, value]
+          }
+
+          // https://typescript-eslint.io/rules/#extension-rules
+          const isExtensionRule = ruleName in loveRules
+          return [key, isExtensionRule ? value : 'off']
+        }),
+      ),
+    },
 
     /* ESLint rules */
     {
@@ -48,6 +83,7 @@ export function vladpuz(): Config[] {
 
     /* Plugin @typescript-eslint */
     {
+      files: ts,
       rules: {
         // https://github.com/mightyiam/eslint-config-love/issues/111
         '@typescript-eslint/explicit-member-accessibility': 'error',
