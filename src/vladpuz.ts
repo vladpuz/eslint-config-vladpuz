@@ -34,8 +34,25 @@ export function vladpuz(options: Options = defaultOptions): Config[] {
       commaDangle: 'always-multiline',
     }),
 
+    /* Stylistic rules */
+    {
+      rules: {
+        '@stylistic/max-len': ['error', {
+          code: 80,
+          tabWidth: 2,
+          ignoreUrls: true,
+          ignoreStrings: true,
+          ignoreTemplateLiterals: true,
+          ignoreRegExpLiterals: true,
+        }],
+      },
+    },
+
     /* Config love */
-    love,
+    {
+      files: [...js, ...ts],
+      ...love,
+    },
 
     /*
     * Disable all love config typescript rules
@@ -59,34 +76,20 @@ export function vladpuz(options: Options = defaultOptions): Config[] {
       ),
     },
 
-    /* ESLint rules */
-    {
-      rules: {
-        'curly': ['error', 'all'],
-        'arrow-body-style': ['error', 'always'],
-      },
-    },
-
-    /* Plugin @stylistic */
-    {
-      rules: {
-        '@stylistic/max-len': ['error', {
-          code: 80,
-          tabWidth: 2,
-          ignoreUrls: true,
-          ignoreStrings: true,
-          ignoreTemplateLiterals: true,
-          ignoreRegExpLiterals: true,
-        }],
-      },
-    },
-
-    /* Plugin @typescript-eslint */
+    /* TypeScript rules */
     {
       files: ts,
       rules: {
         // https://github.com/mightyiam/eslint-config-love/issues/111
         '@typescript-eslint/explicit-member-accessibility': 'error',
+      },
+    },
+
+    /* ESLint rules */
+    {
+      rules: {
+        'curly': ['error', 'all'],
+        'arrow-body-style': ['error', 'always'],
       },
     },
 
