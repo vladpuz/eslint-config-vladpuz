@@ -7,8 +7,6 @@ import type { Config, Options } from './types.js'
 
 import { defaultFiles, defaultOptions } from './defaults.js'
 
-/* eslint @typescript-eslint/no-magic-numbers: "off" */
-
 export function vladpuz(options: Options = defaultOptions): Config[] {
   const {
     files = defaultOptions.files,
@@ -87,11 +85,12 @@ export function vladpuz(options: Options = defaultOptions): Config[] {
       },
     },
 
-    /* Rules eslint */
+    /* Rules love */
     {
       rules: {
         'curly': ['error', 'all'],
         'arrow-body-style': ['error', 'always'],
+        '@typescript-eslint/no-magic-numbers': ['off'],
       },
     },
 
