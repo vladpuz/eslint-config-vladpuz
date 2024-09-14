@@ -7,6 +7,8 @@ import type { Config, Options } from './types.js'
 
 import { defaultFiles, defaultOptions } from './defaults.js'
 
+/* eslint @typescript-eslint/no-magic-numbers: "off" */
+
 export function vladpuz(options: Options = defaultOptions): Config[] {
   const {
     files = defaultOptions.files,
@@ -34,7 +36,7 @@ export function vladpuz(options: Options = defaultOptions): Config[] {
       commaDangle: 'always-multiline',
     }),
 
-    /* Stylistic rules */
+    /* Rules stylistic */
     {
       rules: {
         '@stylistic/max-len': ['error', {
@@ -76,7 +78,7 @@ export function vladpuz(options: Options = defaultOptions): Config[] {
       ),
     },
 
-    /* TypeScript rules */
+    /* Rules typescript */
     {
       files: ts,
       rules: {
@@ -85,7 +87,7 @@ export function vladpuz(options: Options = defaultOptions): Config[] {
       },
     },
 
-    /* ESLint rules */
+    /* Rules eslint */
     {
       rules: {
         'curly': ['error', 'all'],

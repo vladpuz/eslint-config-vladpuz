@@ -1,6 +1,6 @@
 {
   "name": "eslint-config-vladpuz",
-  "version": "0.13.0",
+  "version": "0.14.0",
   "type": "module",
   "description": "ESLint config based on stylistic and love",
   "repository": {
@@ -21,31 +21,31 @@
     "check": "npm run typecheck && npm run lint && npm run format",
     "clean": "rimraf build",
     "format": "prettier --check .",
+    "inspector": "npx @eslint/config-inspector",
     "lint": "eslint .",
     "prepack": "npm run clean && npm run build && npm run check",
     "prepare": "husky",
-    "start-inspector": "npx @eslint/config-inspector",
     "typecheck": "tsc --noEmit",
-    "update-latest": "rimraf package-lock.json && npm-check-updates --peer --upgrade && npm install"
+    "update-latest": "npm-check-updates --peer --upgrade && npm update"
   },
   "peerDependencies": {
     "eslint": "^8.23.0"
   },
   "dependencies": {
-    "@stylistic/eslint-plugin": "^2.7.2",
-    "eslint-config-love": "^63.0.0",
+    "@stylistic/eslint-plugin": "^2.8.0",
+    "eslint-config-love": "^66.0.0",
     "eslint-plugin-es-x": "^8.0.0",
-    "eslint-plugin-perfectionist": "^3.4.0"
+    "eslint-plugin-perfectionist": "^3.6.0"
   },
   "devDependencies": {
     "@eslint/config-inspector": "^0.5.4",
     "@tsconfig/strictest": "^2.0.5",
     "@types/react": "^18.3.5",
-    "husky": "^9.1.5",
+    "husky": "^9.1.6",
     "npm-check-updates": "^17.1.1",
     "prettier": "^3.3.3",
     "prettier-config-vladpuz": "^0.8.0",
     "rimraf": "^6.0.1",
-    "typescript": "^5.5.4"
+    "typescript": "^5.6.2"
   }
 }
