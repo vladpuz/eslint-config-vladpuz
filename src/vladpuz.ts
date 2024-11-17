@@ -1,13 +1,12 @@
 import stylistic from '@stylistic/eslint-plugin'
 import love from 'eslint-config-love'
-import esx from 'eslint-plugin-es-x'
 import perfectionist from 'eslint-plugin-perfectionist'
 
 import type { Config, Options } from './types.js'
 
 import { defaultFiles, defaultOptions } from './defaults.js'
 
-export function vladpuz(options: Options = defaultOptions): Config[] {
+function vladpuz(options: Options = defaultOptions): Config[] {
   const {
     files = defaultOptions.files,
   } = options
@@ -113,15 +112,7 @@ export function vladpuz(options: Options = defaultOptions): Config[] {
         'perfectionist/sort-named-exports': 'error',
       },
     },
-
-    /* Plugin es-x */
-    {
-      plugins: {
-        'es-x': esx,
-      },
-      rules: {
-        'es-x/no-optional-chaining': 'error',
-      },
-    },
   ]
 }
+
+export default vladpuz

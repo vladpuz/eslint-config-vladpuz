@@ -3,5 +3,3 @@ function sayHello(): void {
 }
 
 sayHello()
-
-export {}
