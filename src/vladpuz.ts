@@ -1,3 +1,4 @@
+import eslint from '@eslint/js'
 import stylistic from '@stylistic/eslint-plugin'
 import love from 'eslint-config-love'
 import perfectionist from 'eslint-plugin-perfectionist'
@@ -15,8 +16,6 @@ function vladpuz(options: Options = defaultOptions): Config[] {
     js = defaultFiles.js,
     ts = defaultFiles.ts,
   } = files
-
-  const loveRules = love.rules ?? {}
 
   return [
     /* Config stylistic */
@@ -60,7 +59,7 @@ function vladpuz(options: Options = defaultOptions): Config[] {
     {
       files: js,
       rules: Object.fromEntries(
-        Object.entries(loveRules).map(([key, value]) => {
+        Object.entries(love.rules ?? {}).map(([key, value]) => {
           const [pluginName, ruleName] = key.split('/')
           const isTypeScriptRule = pluginName === '@typescript-eslint' && ruleName != null
 
@@ -69,7 +68,7 @@ function vladpuz(options: Options = defaultOptions): Config[] {
           }
 
           // https://typescript-eslint.io/rules/#extension-rules
-          const isExtensionRule = ruleName in loveRules
+          const isExtensionRule = ruleName in eslint.configs.all.rules
           return [key, isExtensionRule ? value : 'off']
         }),
       ),
@@ -89,6 +88,7 @@ function vladpuz(options: Options = defaultOptions): Config[] {
       rules: {
         'curly': ['error', 'all'],
         'arrow-body-style': ['error', 'always'],
+        'complexity': ['off'],
         '@typescript-eslint/no-magic-numbers': ['off'],
       },
     },
