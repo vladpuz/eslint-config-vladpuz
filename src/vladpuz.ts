@@ -1,21 +1,21 @@
+import type { TSESLint } from '@typescript-eslint/utils'
+
 import eslint from '@eslint/js'
 import stylistic from '@stylistic/eslint-plugin'
 import love from 'eslint-config-love'
 import perfectionist from 'eslint-plugin-perfectionist'
 
-import type { Config, Options } from './types.js'
+import type { Options } from './types.js'
 
-import { defaultFiles, defaultOptions } from './defaults.js'
+import { defaultOptions } from './defaults.js'
 
-function vladpuz(options: Options = defaultOptions): Config[] {
+function vladpuz(
+  options: Options = defaultOptions,
+): TSESLint.FlatConfig.Config[] {
   const {
-    files = defaultOptions.files,
+    filesJs = defaultOptions.filesJs,
+    filesTs = defaultOptions.filesTs,
   } = options
-
-  const {
-    js = defaultFiles.js,
-    ts = defaultFiles.ts,
-  } = files
 
   return [
     /* Config stylistic */
@@ -48,7 +48,7 @@ function vladpuz(options: Options = defaultOptions): Config[] {
 
     /* Config love */
     {
-      files: [...js, ...ts],
+      files: [...filesJs, ...filesTs],
       ...love,
     },
 
@@ -57,7 +57,7 @@ function vladpuz(options: Options = defaultOptions): Config[] {
     * for javascript, except extension rules.
     */
     {
-      files: js,
+      files: filesJs,
       rules: Object.fromEntries(
         Object.entries(love.rules ?? {}).map(([key, value]) => {
           const [pluginName, ruleName] = key.split('/')
@@ -76,7 +76,7 @@ function vladpuz(options: Options = defaultOptions): Config[] {
 
     /* Rules typescript */
     {
-      files: ts,
+      files: filesTs,
       rules: {
         // https://github.com/mightyiam/eslint-config-love/issues/111
         '@typescript-eslint/explicit-member-accessibility': 'error',

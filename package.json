@@ -1,6 +1,6 @@
 {
   "name": "eslint-config-vladpuz",
-  "version": "0.17.0",
+  "version": "0.18.0",
   "type": "module",
   "description": "ESLint config based on stylistic and love",
   "repository": {
@@ -34,7 +34,7 @@
   "dependencies": {
     "@stylistic/eslint-plugin": "^2.11.0",
     "eslint-config-love": "^109.0.0",
-    "eslint-plugin-perfectionist": "^4.1.2"
+    "eslint-plugin-perfectionist": "^4.2.0"
   },
   "devDependencies": {
     "@eslint/config-inspector": "^0.5.6",
