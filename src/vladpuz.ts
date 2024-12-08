@@ -38,6 +38,8 @@ function vladpuz(
         '@stylistic/max-len': ['error', {
           code: 80,
           tabWidth: 2,
+          ignoreComments: true,
+          ignoreTrailingComments: true,
           ignoreUrls: true,
           ignoreStrings: true,
           ignoreTemplateLiterals: true,
@@ -53,9 +55,9 @@ function vladpuz(
     },
 
     /*
-    * Disable all love config typescript rules
-    * for javascript, except extension rules.
-    */
+     * Disable all love config typescript rules
+     * for javascript, except extension rules.
+     */
     {
       files: filesJs,
       rules: Object.fromEntries(
