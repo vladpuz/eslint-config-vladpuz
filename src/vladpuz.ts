@@ -90,14 +90,8 @@ function vladpuz(
       rules: {
         'curly': ['error', 'all'],
         'arrow-body-style': ['error', 'always'],
-        'complexity': ['off'],
-        '@typescript-eslint/no-magic-numbers': ['off'],
-      },
-    },
-
-    /* Plugin n */
-    {
-      rules: {
+        'complexity': 'off',
+        '@typescript-eslint/no-magic-numbers': 'off',
         'n/prefer-node-protocol': 'error',
       },
     },

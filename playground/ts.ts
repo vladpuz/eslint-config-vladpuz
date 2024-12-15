@@ -1,5 +1,5 @@
 function sayHello(): void {
-  console.log('Hello World!')
+  console.log('Hello, world!')
 }
 
 sayHello()
