@@ -96,6 +96,7 @@ function vladpuz(
         '@typescript-eslint/no-magic-numbers': 'off',
         '@typescript-eslint/prefer-destructuring': 'off',
         'promise/avoid-new': 'off',
+        'import/no-cycle': 'error',
         'n/prefer-node-protocol': 'error',
       },
     },
