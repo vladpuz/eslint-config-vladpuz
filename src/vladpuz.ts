@@ -95,6 +95,7 @@ function vladpuz(
       rules: {
         '@typescript-eslint/no-magic-numbers': 'off',
         '@typescript-eslint/prefer-destructuring': 'off',
+        '@typescript-eslint/class-methods-use-this': 'off',
       },
     },
 
