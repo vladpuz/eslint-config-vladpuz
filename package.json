@@ -1,8 +1,8 @@
 {
   "name": "eslint-config-vladpuz",
-  "version": "0.24.0",
+  "version": "1.0.0",
   "type": "module",
-  "description": "ESLint config based on stylistic and love",
+  "description": "My eslint config",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/vladpuz/eslint-config-vladpuz.git"
@@ -24,25 +24,25 @@
     "lint": "eslint .",
     "prepack": "npm run clean && npm run build && npm run check",
     "prepare": "husky",
-    "typecheck": "tsc --noEmit",
-    "upgrade": "npm-check-updates --peer --upgrade && npm update"
+    "typecheck": "tsc --noEmit"
   },
   "peerDependencies": {
     "eslint": "^9.0.0"
   },
   "dependencies": {
-    "@stylistic/eslint-plugin": "^2.12.1",
-    "eslint-config-love": "^113.0.0",
-    "eslint-plugin-perfectionist": "^4.4.0"
+    "@stylistic/eslint-plugin": "^4.2.0",
+    "eslint-config-love": "^119.0.0",
+    "eslint-plugin-perfectionist": "^4.10.1"
   },
   "devDependencies": {
+    "@tsconfig/node-lts": "^22.0.1",
     "@tsconfig/strictest": "^2.0.5",
-    "@types/react": "^19.0.2",
+    "@types/node": "^22.13.13",
+    "@types/react": "^19.0.12",
     "husky": "^9.1.7",
-    "npm-check-updates": "^17.1.12",
-    "prettier": "^3.4.2",
+    "prettier": "^3.5.3",
     "prettier-config-vladpuz": "^0.9.0",
     "rimraf": "^6.0.1",
-    "typescript": "^5.7.2"
+    "typescript": "^5.8.2"
   }
 }

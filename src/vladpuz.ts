@@ -5,9 +5,18 @@ import stylistic from '@stylistic/eslint-plugin'
 import love from 'eslint-config-love'
 import perfectionist from 'eslint-plugin-perfectionist'
 
-import type { Options } from './types.js'
+export const GLOBS_JS = ['**/*.js', '**/*.jsx', '**/*.mjs', '**/*.cjs']
+export const GLOBS_TS = ['**/*.ts', '**/*.tsx', '**/*.mts', '**/*.cts']
 
-import { defaultOptions } from './defaults.js'
+export interface Options {
+  filesJs?: string[]
+  filesTs?: string[]
+}
+
+const defaultOptions: Required<Options> = {
+  filesJs: GLOBS_JS,
+  filesTs: GLOBS_TS,
+}
 
 function vladpuz(
   options: Options = defaultOptions,
@@ -20,7 +29,6 @@ function vladpuz(
   return [
     /* Config stylistic */
     stylistic.configs.customize({
-      flat: true,
       indent: 2,
       quotes: 'single',
       semi: false,
@@ -32,7 +40,6 @@ function vladpuz(
       commaDangle: 'always-multiline',
     }),
 
-    /* Rules stylistic */
     {
       rules: {
         '@stylistic/max-len': ['error', {
@@ -63,9 +70,9 @@ function vladpuz(
       rules: Object.fromEntries(
         Object.entries(love.rules ?? {}).map(([key, value]) => {
           const [pluginName, ruleName] = key.split('/')
-          const isTypeScriptRule = pluginName === '@typescript-eslint' && ruleName != null
+          const isTypescriptRule = pluginName === '@typescript-eslint' && ruleName != null
 
-          if (!isTypeScriptRule) {
+          if (!isTypescriptRule) {
             return [key, value]
           }
 
@@ -76,7 +83,6 @@ function vladpuz(
       ),
     },
 
-    /* Rules typescript */
     {
       files: filesTs,
       rules: {
@@ -85,7 +91,13 @@ function vladpuz(
       },
     },
 
-    /* Rules love */
+    {
+      rules: {
+        '@typescript-eslint/no-magic-numbers': 'off',
+        '@typescript-eslint/prefer-destructuring': 'off',
+      },
+    },
+
     {
       rules: {
         'curly': ['error', 'all'],
@@ -93,11 +105,36 @@ function vladpuz(
         'complexity': 'off',
         'max-lines': 'off',
         'max-depth': 'off',
-        '@typescript-eslint/no-magic-numbers': 'off',
-        '@typescript-eslint/prefer-destructuring': 'off',
+        'max-nested-callbacks': 'off',
+        'no-console': 'off',
+      },
+    },
+
+    /* Plugin promise */
+    {
+      rules: {
         'promise/avoid-new': 'off',
+      },
+    },
+
+    /* Plugin import */
+    {
+      rules: {
         'import/no-cycle': 'error',
+      },
+    },
+
+    /* Plugin n */
+    {
+      rules: {
         'n/prefer-node-protocol': 'error',
+      },
+    },
+
+    /* Plugin eslint-comments */
+    {
+      rules: {
+        'eslint-comments/require-description': 'off',
       },
     },
 
