@@ -60,6 +60,26 @@ eslint .
 eslint --fix .
 ```
 
+## Опции конфигурации
+
+- `filesJs`, `filesTs` - переопределить или добавить паттерны для js и ts.
+  Например, можно добавить любое расширение файла:
+
+```javascript
+import vladpuz, { GLOBS_JS, GLOBS_TS } from 'eslint-config-vladpuz'
+
+export default [
+  ...vladpuz({
+    filesJs: [...GLOBS_JS, '*.EXTJS'],
+    filesTs: [...GLOBS_TS, '*.EXTTS'],
+  }),
+]
+```
+
+## API
+
+Документация TypeDoc: [docs/API.md](docs/API.md)
+
 ## Смотрите так же
 
 - [prettier-config-vladpuz](https://github.com/vladpuz/prettier-config-vladpuz)
