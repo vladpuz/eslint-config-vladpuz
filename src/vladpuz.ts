@@ -88,6 +88,7 @@ function vladpuz(
       rules: {
         // https://github.com/mightyiam/eslint-config-love/issues/111
         '@typescript-eslint/explicit-member-accessibility': 'error',
+        '@typescript-eslint/prefer-readonly': 'off',
       },
     },
 

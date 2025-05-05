@@ -76,10 +76,6 @@ export default [
 ]
 ```
 
-## API
-
-Документация TypeDoc: [docs/API.md](docs/API.md)
-
 ## Смотрите так же
 
 - [prettier-config-vladpuz](https://github.com/vladpuz/prettier-config-vladpuz)
