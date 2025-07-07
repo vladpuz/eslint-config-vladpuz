@@ -1,0 +1,22 @@
+import type { Linter } from 'eslint'
+
+import importLite from 'eslint-plugin-import-lite'
+
+export function getImportConfig(files: string[]): Linter.Config {
+  return {
+    name: 'vladpuz/import',
+    files: files,
+    plugins: {
+      'import-lite': importLite,
+    },
+    rules: {
+      'import-lite/consistent-type-specifier-style': 'off',
+      'import-lite/first': 'error',
+      'import-lite/newline-after-import': 'error',
+      'import-lite/no-default-export': 'off',
+      'import-lite/no-duplicates': 'error',
+      'import-lite/no-mutable-exports': 'error',
+      'import-lite/no-named-default': 'error',
+    },
+  }
+}

@@ -1,160 +1,193 @@
-import type { TSESLint } from '@typescript-eslint/utils'
+import type { Linter } from 'eslint'
 
-import eslint from '@eslint/js'
-import stylistic from '@stylistic/eslint-plugin'
-import love from 'eslint-config-love'
-import perfectionist from 'eslint-plugin-perfectionist'
+import stylistic, {
+  type StylisticCustomizeOptions,
+} from '@stylistic/eslint-plugin'
+import globals from 'globals'
+import tseslint from 'typescript-eslint'
 
-export const GLOBS_JS = ['**/*.js', '**/*.jsx', '**/*.mjs', '**/*.cjs']
-export const GLOBS_TS = ['**/*.ts', '**/*.tsx', '**/*.mts', '**/*.cts']
+import { getImportConfig } from './configs/import.js'
+import { getJsConfig } from './configs/js.js'
+import { getNodeConfig } from './configs/node.js'
+import { getPerfectionistConfig } from './configs/perfectionist.js'
+import { getPromiseConfig } from './configs/promise.js'
+import { getTsConfig } from './configs/ts.js'
+import { getTsConfigJson } from './getTsConfigJson.js'
+
+export type StylisticOptions = Pick<
+  StylisticCustomizeOptions,
+  'indent' | 'quotes' | 'semi'
+>
+
+export const FILES_JS = ['**/*.js', '**/*.jsx', '**/*.mjs', '**/*.cjs']
+export const FILES_TS = ['**/*.ts', '**/*.tsx', '**/*.mts', '**/*.cts']
 
 export interface Options {
   filesJs?: string[]
   filesTs?: string[]
+  env?: (keyof typeof globals)[]
+  stylistic?: boolean | StylisticOptions
+  typescript?: boolean | string
+  jsx?: boolean
 }
 
-const defaultOptions: Required<Options> = {
-  filesJs: GLOBS_JS,
-  filesTs: GLOBS_TS,
-}
-
-function vladpuz(
-  options: Options = defaultOptions,
-): TSESLint.FlatConfig.Config[] {
+function vladpuz(options: Options = {}): Linter.Config[] {
   const {
-    filesJs = defaultOptions.filesJs,
-    filesTs = defaultOptions.filesTs,
+    filesJs = FILES_JS,
+    filesTs = FILES_TS,
+    env = ['node', 'browser'],
+    stylistic: enableStylistic = true,
+    typescript: enableTypescript = true,
+    jsx: enableJsx = true,
   } = options
 
-  return [
-    /* Config stylistic */
-    stylistic.configs.customize({
+  const filesJsAndTs = (enableTypescript !== false)
+    ? [...filesJs, ...filesTs]
+    : filesJs
+
+  const resolvedGlobals: Linter.Globals = {}
+  env.forEach((env) => {
+    const envGlobals: Linter.Globals = globals[env]
+
+    for (const key in envGlobals) {
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      const value = envGlobals[key]!
+      resolvedGlobals[key] = value
+    }
+  })
+
+  const config: Linter.Config[] = []
+
+  config.push({
+    name: 'vladpuz/base',
+    files: filesJsAndTs,
+    languageOptions: {
+      globals: resolvedGlobals,
+      parserOptions: {
+        ecmaFeatures: {
+          jsx: enableJsx,
+        },
+      },
+    },
+    linterOptions: {
+      reportUnusedDisableDirectives: 'error',
+      reportUnusedInlineConfigs: 'error',
+    },
+  })
+
+  const jsConfig = getJsConfig(filesJsAndTs)
+  const jsRules = jsConfig.rules ?? {}
+
+  config.push(jsConfig)
+
+  if (enableTypescript !== false) {
+    const tsconfigRootDir = (typeof enableTypescript === 'string')
+      ? enableTypescript
+      : process.cwd()
+
+    const tsConfigJson = getTsConfigJson(tsconfigRootDir)
+    const tsConfig = getTsConfig(filesTs, tsConfigJson)
+
+    // Setup parser
+    tsConfig.languageOptions = {
+      // @ts-expect-error: parser
+      parser: tseslint.parser,
+      parserOptions: {
+        projectService: true,
+        tsconfigRootDir: tsconfigRootDir,
+        ecmaFeatures: {
+          jsx: enableJsx,
+        },
+      },
+    }
+
+    const tsRules = tsConfig.rules ?? {}
+
+    // Disable equivalent js rules
+    for (const ruleName in tsRules) {
+      const [, ...ruleNameRest] = ruleName.split('/')
+      const rule = ruleNameRest.join('/')
+
+      const hasJsRule = rule in jsRules
+
+      if (hasJsRule) {
+        tsRules[rule] = 'off'
+      }
+    }
+
+    const tsHandledRules = tseslint.configs.eslintRecommended.rules ?? {}
+
+    // Disable ts handled js rules
+    for (const ruleName in tsHandledRules) {
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      const ruleEntry = tsHandledRules[ruleName]!
+
+      const ruleSeverity = Array.isArray(ruleEntry) ? ruleEntry[0] : ruleEntry
+
+      if (ruleSeverity === 'off') {
+        tsRules[ruleName] = 'off'
+      }
+    }
+
+    config.push(tsConfig)
+  }
+
+  config.push(
+    getImportConfig(filesJsAndTs),
+  )
+
+  config.push(
+    getNodeConfig(filesJsAndTs),
+  )
+
+  config.push(
+    getPerfectionistConfig(filesJsAndTs),
+  )
+
+  config.push(
+    getPromiseConfig(filesJsAndTs),
+  )
+
+  if (enableStylistic !== false) {
+    const stylisticOptions: StylisticCustomizeOptions = {
       indent: 2,
       quotes: 'single',
       semi: false,
-      jsx: true,
+      jsx: enableJsx,
       arrowParens: true,
       braceStyle: '1tbs',
       blockSpacing: true,
       quoteProps: 'consistent-as-needed',
       commaDangle: 'always-multiline',
-    }),
+      ...((typeof enableStylistic === 'object') ? enableStylistic : {}),
+    }
 
-    {
-      rules: {
-        '@stylistic/max-len': ['error', {
-          code: 80,
-          tabWidth: 2,
-          ignoreComments: true,
-          ignoreTrailingComments: true,
-          ignoreUrls: true,
-          ignoreStrings: true,
-          ignoreTemplateLiterals: true,
-          ignoreRegExpLiterals: true,
-        }],
-      },
-    },
+    const styleConfig = stylistic.configs.customize(stylisticOptions)
+    const styleConfigPlugins = styleConfig.plugins ?? {}
+    const styleConfigRules = styleConfig.rules ?? {}
 
-    /* Config love */
-    {
-      files: [...filesJs, ...filesTs],
-      ...love,
-    },
+    const indent = stylisticOptions.indent
 
-    /*
-     * Disable all love config typescript rules
-     * for javascript, except extension rules.
-     */
-    {
-      files: filesJs,
-      rules: Object.fromEntries(
-        Object.entries(love.rules ?? {}).map(([key, value]) => {
-          const [pluginName, ruleName] = key.split('/')
-          const isTypescriptRule = pluginName === '@typescript-eslint' && ruleName != null
+    styleConfigRules['@stylistic/max-len'] = ['error', {
+      code: 80,
+      tabWidth: (indent === 'tab') ? 4 : indent,
+      ignoreComments: true,
+      ignoreTrailingComments: true,
+      ignoreUrls: true,
+      ignoreStrings: true,
+      ignoreTemplateLiterals: true,
+      ignoreRegExpLiterals: true,
+    }]
 
-          if (!isTypescriptRule) {
-            return [key, value]
-          }
+    config.push({
+      name: 'vladpuz/style',
+      files: filesJsAndTs,
+      plugins: styleConfigPlugins,
+      rules: styleConfigRules,
+    })
+  }
 
-          // https://typescript-eslint.io/rules/#extension-rules
-          const isExtensionRule = ruleName in eslint.configs.all.rules
-          return [key, isExtensionRule ? value : 'off']
-        }),
-      ),
-    },
-
-    {
-      files: filesTs,
-      rules: {
-        // https://github.com/mightyiam/eslint-config-love/issues/111
-        '@typescript-eslint/explicit-member-accessibility': 'error',
-        '@typescript-eslint/no-unnecessary-condition': 'off',
-        '@typescript-eslint/no-unsafe-assignment': 'off',
-        '@typescript-eslint/prefer-readonly': 'off',
-      },
-    },
-
-    {
-      rules: {
-        '@typescript-eslint/no-magic-numbers': 'off',
-        '@typescript-eslint/prefer-destructuring': 'off',
-        '@typescript-eslint/class-methods-use-this': 'off',
-      },
-    },
-
-    {
-      rules: {
-        'curly': ['error', 'all'],
-        'arrow-body-style': ['error', 'always'],
-        'complexity': 'off',
-        'max-lines': 'off',
-        'max-depth': 'off',
-        'max-nested-callbacks': 'off',
-        'no-console': 'off',
-      },
-    },
-
-    /* Plugin promise */
-    {
-      rules: {
-        'promise/avoid-new': 'off',
-      },
-    },
-
-    /* Plugin import */
-    {
-      rules: {
-        'import/no-cycle': 'error',
-      },
-    },
-
-    /* Plugin n */
-    {
-      rules: {
-        'n/prefer-node-protocol': 'error',
-      },
-    },
-
-    /* Plugin eslint-comments */
-    {
-      rules: {
-        'eslint-comments/require-description': 'off',
-      },
-    },
-
-    /* Plugin perfectionist */
-    {
-      plugins: {
-        perfectionist,
-      },
-      rules: {
-        'perfectionist/sort-imports': 'error',
-        'perfectionist/sort-exports': 'error',
-        'perfectionist/sort-named-imports': 'error',
-        'perfectionist/sort-named-exports': 'error',
-      },
-    },
-  ]
+  return config
 }
 
 export default vladpuz

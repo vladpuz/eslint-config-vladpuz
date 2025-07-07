@@ -1,38 +1,47 @@
 # eslint-config-vladpuz
 
-> Моя конфигурация eslint
+> My ESLint config
 
-Особенности:
+Features:
 
-- Поддерживает javascript, typescript и независимый от фреймворка jsx (чистая
-  основа для использования с любым фреймворком)
-- Автоматическое форматирование исходного кода через
+- Supports JavaScript, TypeScript, mixed codebases and framework-agnostic JSX
+  (pure base for using with any framework!)
+- Auto fix for formatting via
   [eslint-stylistic](https://github.com/eslint-stylistic/eslint-stylistic)
-  (нацелен на использование без prettier)
-- Базируется на конфигурации
-  [eslint-config-love](https://github.com/mightyiam/eslint-config-love)
-- Сортировка импортов и экспортов через
-  [eslint-plugin-perfectionist](https://github.com/azat-io/eslint-plugin-perfectionist)
+  (targeted at using without Prettier!)
+- Does not conflict with TypeScript at any tsconfig.json settings (TypeScript
+  completely replaces some rules)
+- Ability to customize your own stylistic preferences
+- Ability to disable TypeScript, Stylistic and JSX
 
-## Установка
+Principles:
+
+- Safety
+- Minimalism for readability
+- Stability for diff
+- Consistency
+- No deprecated rules
+- No warn severity rules
+
+## Installation
 
 ```shell
 npm install --save-dev eslint eslint-config-vladpuz
 ```
 
-## Использование
+## Usage
 
-Создайте файл `eslint.config.js`:
+Create a file `eslint.config.js`:
 
 ```javascript
 import vladpuz from 'eslint-config-vladpuz'
 
-export default [...vladpuz()]
+export default vladpuz()
 ```
 
-Если вы хотите использовать prettier для форматирования файлов не содержащих
-исходный код (json, md, html), отключите prettier для файлов javascript и
-typescript. Для этого создайте файл `.prettierignore`:
+If you want to use Prettier for formatting files without source code (json, md,
+html, ...), disable Prettier for JavaScript and TypeScript files. For this,
+create a file `.prettierignore`:
 
 ```ignore
 # javascript
@@ -48,34 +57,124 @@ typescript. Для этого создайте файл `.prettierignore`:
 *.cts
 ```
 
-Запуск eslint в режиме проверки:
+Run ESLint in check mode:
 
 ```shell
 eslint .
 ```
 
-Запуск eslint в режиме исправления:
+Run ESLint in fix mode:
 
 ```shell
 eslint --fix .
 ```
 
-## Опции конфигурации
+## Options
 
-- `filesJs`, `filesTs` - переопределить или добавить паттерны для js и ts.
-  Например, можно добавить любое расширение файла:
+Overview:
 
-```javascript
-import vladpuz, { GLOBS_JS, GLOBS_TS } from 'eslint-config-vladpuz'
-
-export default [
-  ...vladpuz({
-    filesJs: [...GLOBS_JS, '*.EXTJS'],
-    filesTs: [...GLOBS_TS, '*.EXTTS'],
-  }),
-]
+```typescript
+interface Options {
+  filesJs?: string[] // Default - ['**/*.js', '**/*.jsx', '**/*.mjs', '**/*.cjs']
+  filesTs?: string[] // Default - ['**/*.ts', '**/*.tsx', '**/*.mts', '**/*.cts']
+  env?: (keyof typeof globals)[] // Default - ['node', 'browser']
+  stylistic?: boolean | StylisticOptions // Default - true
+  typescript?: boolean | string // Default - true
+  jsx?: boolean // Default - true
+}
 ```
 
-## Смотрите так же
+### filesJs, filesTs
+
+Type: `string[]`
+
+Default for js: `FILES_JS`
+
+Default for ts: `FILES_TS`
+
+Override patterns for js and ts files:
+
+```javascript
+import vladpuz, { FILES_JS, FILES_TS } from 'eslint-config-vladpuz'
+
+// For example any additional extensions
+export default vlad
+```
+
+### env
+
+Type: `string[]`
+
+Default: `['node', 'browser']`
+
+Overrides environments providing predefined global variables:
+
+```javascript
+import vladpuz from 'eslint-config-vladpuz'
+
+export default vladpuz({
+  env: ['node'], // For example only node
+})
+```
+
+### stylistic
+
+Type: `boolean | StylisticOptions`
+
+Default: `true`
+
+Enables/disables Stylistic or configures your own stylistic preferences:
+
+```javascript
+import vladpuz from 'eslint-config-vladpuz'
+
+export default vladpuz({
+  // Default stylistic config is:
+  stylistic: {
+    indent: 2,
+    quotes: 'single',
+    semi: false,
+  },
+  // You can disable stylistic:
+  // stylistic: false,
+})
+```
+
+### typescript
+
+Type: `boolean | string`
+
+Default: `true`
+
+Enables/disables TypeScript or specifies the tsconfig.json file directory to
+avoid depending on cwd:
+
+```javascript
+import vladpuz from 'eslint-config-vladpuz'
+
+export default vladpuz({
+  typescript: false,
+  // In the same folder as eslint.config.js (default is process.cwd())
+  // typescript: import.meta.dirname
+})
+```
+
+### jsx
+
+Type: `boolean`
+
+Default: `true`
+
+Enables/disables JSX:
+
+```javascript
+import vladpuz from 'eslint-config-vladpuz'
+
+export default vladpuz({
+  jsx: false,
+})
+```
+
+## See also
 
 - [prettier-config-vladpuz](https://github.com/vladpuz/prettier-config-vladpuz)

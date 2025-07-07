@@ -1,8 +1,21 @@
 import vladpuz from './build/index.js'
 
-export default [
-  ...vladpuz(),
-  {
-    ignores: ['build'],
+const config = vladpuz()
+
+config.push({
+  ignores: ['build'],
+})
+
+config.push({
+  files: ['src/configs/*.ts'],
+  rules: {
+    'perfectionist/sort-objects': ['error', {
+      type: 'unsorted',
+      useConfigurationIf: {
+        allNamesMatchPattern: '^name|basePath|files|ignores|extends|languageOptions|linterOptions|processor|plugins|rules|settings$',
+      },
+    }],
   },
-]
+})
+
+export default config
