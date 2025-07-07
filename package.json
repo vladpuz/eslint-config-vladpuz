@@ -1,6 +1,6 @@
 {
   "name": "eslint-config-vladpuz",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "type": "module",
   "description": "My ESLint config",
   "repository": {
@@ -48,7 +48,7 @@
     "@types/react": "^19.1.8",
     "husky": "^9.1.7",
     "prettier": "^3.6.2",
-    "prettier-config-vladpuz": "^1.0.1",
+    "prettier-config-vladpuz": "^1.0.2",
     "rimraf": "^6.0.1",
     "typescript": "^5.8.3"
   }

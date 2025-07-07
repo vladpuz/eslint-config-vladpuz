@@ -4,20 +4,20 @@
 
 Features:
 
-- Supports JavaScript, TypeScript, mixed codebases and framework-agnostic JSX
-  (pure base for using with any framework!)
+- Supports JavaScript, TypeScript, mixed codebases, and framework-agnostic JSX
+  (pure base for use with any framework!)
 - Auto fix for formatting via
   [eslint-stylistic](https://github.com/eslint-stylistic/eslint-stylistic)
-  (targeted at using without Prettier!)
-- Does not conflict with TypeScript at any tsconfig.json settings (TypeScript
-  completely replaces some rules)
+  (targeted for use without Prettier!)
+- Does not conflict with TypeScript regardless of tsconfig.json settings
+  (TypeScript fully replaces some rules)
 - Ability to customize your own stylistic preferences
-- Ability to disable TypeScript, Stylistic and JSX
+- Ability to disable TypeScript, Stylistic, and JSX
 
 Principles:
 
 - Safety
-- Minimalism for readability
+- Minimal for readability
 - Stability for diff
 - Consistency
 - No deprecated rules
@@ -39,9 +39,9 @@ import vladpuz from 'eslint-config-vladpuz'
 export default vladpuz()
 ```
 
-If you want to use Prettier for formatting files without source code (json, md,
-html, ...), disable Prettier for JavaScript and TypeScript files. For this,
-create a file `.prettierignore`:
+If you want to use Prettier for formatting files that don't contain source code
+(json, md, html, ...), disable Prettier for JavaScript and TypeScript files. For
+this, create a file `.prettierignore`:
 
 ```ignore
 # javascript
@@ -98,7 +98,10 @@ Override patterns for js and ts files:
 import vladpuz, { FILES_JS, FILES_TS } from 'eslint-config-vladpuz'
 
 // For example any additional extensions
-export default vlad
+export default vladpuz({
+  filesJs: [...FILES_JS, '**/*.extension'],
+  filesTs: [...FILES_TS, '**/*.extension'],
+})
 ```
 
 ### env
@@ -123,7 +126,7 @@ Type: `boolean | StylisticOptions`
 
 Default: `true`
 
-Enables/disables Stylistic or configures your own stylistic preferences:
+Enables/disables Stylistic or customizes your own stylistic preferences:
 
 ```javascript
 import vladpuz from 'eslint-config-vladpuz'
