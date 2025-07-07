@@ -4,7 +4,7 @@ import type { ESLintRules } from 'eslint/rules'
 export function getJsConfig(files: string[]): Linter.Config {
   return {
     name: 'vladpuz/js',
-    files: files,
+    files,
     rules: {
       'accessor-pairs': 'error',
       'array-callback-return': 'error',
@@ -191,7 +191,7 @@ export function getJsConfig(files: string[]): Linter.Config {
       }],
       'no-warning-comments': 'off',
       'no-with': 'error',
-      'object-shorthand': ['error', 'consistent-as-needed'],
+      'object-shorthand': ['error', 'properties'],
       'one-var': ['error', {
         initialized: 'never',
       }],
@@ -200,15 +200,17 @@ export function getJsConfig(files: string[]): Linter.Config {
       'prefer-const': 'error',
       'prefer-destructuring': 'off',
       'prefer-exponentiation-operator': 'error',
-      'prefer-named-capture-group': 'error',
+      'prefer-named-capture-group': 'off',
       'prefer-numeric-literals': 'off',
       'prefer-object-has-own': 'error',
       'prefer-object-spread': 'error',
       'prefer-promise-reject-errors': 'error',
-      'prefer-regex-literals': 'error',
+      'prefer-regex-literals': ['error', {
+        disallowRedundantWrapping: true,
+      }],
       'prefer-rest-params': 'error',
       'prefer-spread': 'error',
-      'prefer-template': 'error',
+      'prefer-template': 'off',
       'radix': ['error', 'as-needed'],
       'require-atomic-updates': 'off',
       'require-await': 'error',

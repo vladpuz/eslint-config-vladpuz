@@ -5,7 +5,7 @@ import n from 'eslint-plugin-n'
 export function getNodeConfig(files: string[]): Linter.Config {
   return {
     name: 'vladpuz/node',
-    files: files,
+    files,
     plugins: {
       n,
     },

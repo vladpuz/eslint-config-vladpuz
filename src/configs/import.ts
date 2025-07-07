@@ -5,7 +5,7 @@ import importLite from 'eslint-plugin-import-lite'
 export function getImportConfig(files: string[]): Linter.Config {
   return {
     name: 'vladpuz/import',
-    files: files,
+    files,
     plugins: {
       'import-lite': importLite,
     },

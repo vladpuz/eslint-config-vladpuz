@@ -94,7 +94,7 @@ function vladpuz(options: Options = {}): Linter.Config[] {
       parser: tseslint.parser,
       parserOptions: {
         projectService: true,
-        tsconfigRootDir: tsconfigRootDir,
+        tsconfigRootDir,
         ecmaFeatures: {
           jsx: enableJsx,
         },

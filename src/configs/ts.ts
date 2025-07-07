@@ -9,7 +9,7 @@ export function getTsConfig(
 ): Linter.Config {
   return {
     name: 'vladpuz/ts',
-    files: files,
+    files,
     plugins: {
       // @ts-expect-error: plugin
       '@typescript-eslint': tseslint.plugin,

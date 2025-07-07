@@ -5,7 +5,7 @@ import promise from 'eslint-plugin-promise'
 export function getPromiseConfig(files: string[]): Linter.Config {
   return {
     name: 'vladpuz/promise',
-    files: files,
+    files,
     plugins: {
       promise,
     },

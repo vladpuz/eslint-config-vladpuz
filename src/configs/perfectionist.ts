@@ -5,7 +5,7 @@ import perfectionist from 'eslint-plugin-perfectionist'
 export function getPerfectionistConfig(files: string[]): Linter.Config {
   return {
     name: 'vladpuz/perfectionist',
-    files: files,
+    files,
     plugins: {
       perfectionist,
     },
