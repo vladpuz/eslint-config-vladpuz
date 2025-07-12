@@ -1,10 +1,4 @@
-import {
-  type CompilerOptions,
-  findConfigFile,
-  parseJsonConfigFileContent,
-  readConfigFile,
-  sys,
-} from 'typescript'
+import { type CompilerOptions, findConfigFile, parseJsonConfigFileContent, readConfigFile, sys } from 'typescript'
 
 /*
  * Source:

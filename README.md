@@ -8,8 +8,8 @@ Features:
   (pure base for use with any framework!)
 - Auto fix for formatting via
   [eslint-stylistic](https://github.com/eslint-stylistic/eslint-stylistic)
-  (targeted for use without Prettier!)
-- Does not conflict with TypeScript regardless of tsconfig.json settings
+  (targeted for use without Prettier)
+- Does not conflict with TypeScript regardless of tsconfig.json options
   (TypeScript fully replaces some rules)
 - Ability to customize your own stylistic preferences
 - Ability to disable TypeScript, Stylistic, and JSX

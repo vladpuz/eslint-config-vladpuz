@@ -8,8 +8,8 @@
   фреймворка JSX (чистая основа для использования с любым фреймворком!)
 - Авто исправление для форматирования через
   [eslint-stylistic](https://github.com/eslint-stylistic/eslint-stylistic)
-  (нацелен на использование без Prettier!)
-- Не конфликтует с TypeScript при любых настройках tsconfig.json (TypeScript
+  (нацелен на использование без Prettier)
+- Не конфликтует с TypeScript при любых опциях tsconfig.json (TypeScript
   полностью заменяет некоторые правила)
 - Возможность настроить собственные стилистические предпочтения
 - Возможность отключить TypeScript, Stylistic и JSX

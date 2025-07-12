@@ -1,8 +1,6 @@
 import type { Linter } from 'eslint'
 
-import stylistic, {
-  type StylisticCustomizeOptions,
-} from '@stylistic/eslint-plugin'
+import stylistic, { type StylisticCustomizeOptions } from '@stylistic/eslint-plugin'
 import globals from 'globals'
 import tseslint from 'typescript-eslint'
 
