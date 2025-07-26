@@ -9,3 +9,6 @@
 *.tsx
 *.mts
 *.cts
+
+# husky
+/.husky/_

@@ -1,3 +1,4 @@
+import type { ParserOptions } from '@typescript-eslint/types'
 import type { Linter } from 'eslint'
 
 import stylistic, { type StylisticCustomizeOptions } from '@stylistic/eslint-plugin'
@@ -12,11 +13,6 @@ import { getPromiseConfig } from './configs/promise.js'
 import { getTsConfig } from './configs/ts.js'
 import { getTsConfigJson } from './getTsConfigJson.js'
 
-export type StylisticOptions = Pick<
-  StylisticCustomizeOptions,
-  'indent' | 'quotes' | 'semi'
->
-
 export const FILES_JS = ['**/*.js', '**/*.jsx', '**/*.mjs', '**/*.cjs']
 export const FILES_TS = ['**/*.ts', '**/*.tsx', '**/*.mts', '**/*.cts']
 
@@ -25,9 +21,14 @@ export interface Options {
   filesTs?: string[]
   env?: (keyof typeof globals)[]
   stylistic?: boolean | StylisticOptions
-  typescript?: boolean | string
+  typescript?: boolean | ParserOptions
   jsx?: boolean
 }
+
+export type StylisticOptions = Pick<
+  StylisticCustomizeOptions,
+  'indent' | 'quotes' | 'semi'
+>
 
 function vladpuz(options: Options = {}): Linter.Config[] {
   const {
@@ -47,11 +48,9 @@ function vladpuz(options: Options = {}): Linter.Config[] {
   env.forEach((env) => {
     const envGlobals: Linter.Globals = globals[env]
 
-    for (const key in envGlobals) {
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      const value = envGlobals[key]!
+    Object.entries(envGlobals).forEach(([key, value]) => {
       resolvedGlobals[key] = value
-    }
+    })
   })
 
   const config: Linter.Config[] = []
@@ -79,10 +78,15 @@ function vladpuz(options: Options = {}): Linter.Config[] {
   config.push(jsConfig)
 
   if (enableTypescript !== false) {
-    const tsconfigRootDir = (typeof enableTypescript === 'string')
+    const parserOptions = (typeof enableTypescript === 'object')
       ? enableTypescript
-      : process.cwd()
+      : {}
 
+    if (parserOptions.ecmaFeatures?.jsx != null) {
+      throw new Error('Use "options.jsx" instead of "options.typescript.ecmaFeatures.jsx"')
+    }
+
+    const tsconfigRootDir = parserOptions.tsconfigRootDir ?? process.cwd()
     const tsConfigJson = getTsConfigJson(tsconfigRootDir)
     const tsConfig = getTsConfig(filesTs, tsConfigJson)
 
@@ -92,8 +96,9 @@ function vladpuz(options: Options = {}): Linter.Config[] {
       parser: tseslint.parser,
       parserOptions: {
         projectService: true,
-        tsconfigRootDir,
+        ...parserOptions,
         ecmaFeatures: {
+          ...parserOptions.ecmaFeatures,
           jsx: enableJsx,
         },
       },
@@ -102,7 +107,7 @@ function vladpuz(options: Options = {}): Linter.Config[] {
     const tsRules = tsConfig.rules ?? {}
 
     // Disable equivalent js rules
-    for (const ruleName in tsRules) {
+    Object.keys(tsRules).forEach((ruleName) => {
       const [, ...ruleNameRest] = ruleName.split('/')
       const rule = ruleNameRest.join('/')
 
@@ -111,21 +116,18 @@ function vladpuz(options: Options = {}): Linter.Config[] {
       if (hasJsRule) {
         tsRules[rule] = 'off'
       }
-    }
+    })
 
     const tsHandledRules = tseslint.configs.eslintRecommended.rules ?? {}
 
     // Disable ts handled js rules
-    for (const ruleName in tsHandledRules) {
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      const ruleEntry = tsHandledRules[ruleName]!
-
+    Object.entries(tsHandledRules).forEach(([ruleName, ruleEntry]) => {
       const ruleSeverity = Array.isArray(ruleEntry) ? ruleEntry[0] : ruleEntry
 
       if (ruleSeverity === 'off') {
         tsRules[ruleName] = 'off'
       }
-    }
+    })
 
     config.push(tsConfig)
   }
@@ -147,6 +149,10 @@ function vladpuz(options: Options = {}): Linter.Config[] {
   )
 
   if (enableStylistic !== false) {
+    const stylisticUserOptions = (typeof enableStylistic === 'object')
+      ? enableStylistic
+      : {}
+
     const stylisticOptions: StylisticCustomizeOptions = {
       indent: 2,
       quotes: 'single',
@@ -157,7 +163,7 @@ function vladpuz(options: Options = {}): Linter.Config[] {
       blockSpacing: true,
       quoteProps: 'consistent-as-needed',
       commaDangle: 'always-multiline',
-      ...((typeof enableStylistic === 'object') ? enableStylistic : {}),
+      ...stylisticUserOptions,
     }
 
     const styleConfig = stylistic.configs.customize(stylisticOptions)

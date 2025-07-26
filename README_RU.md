@@ -79,7 +79,7 @@ interface Options {
   filesTs?: string[] // Default - ['**/*.ts', '**/*.tsx', '**/*.mts', '**/*.cts']
   env?: (keyof typeof globals)[] // Default - ['node', 'browser']
   stylistic?: boolean | StylisticOptions // Default - true
-  typescript?: boolean | string // Default - true
+  typescript?: boolean | ParserOptions // Default - true
   jsx?: boolean // Default - true
 }
 ```
@@ -146,20 +146,25 @@ export default vladpuz({
 
 ### typescript
 
-Type: `boolean | string`
+Type: `boolean | ParserOptions`
 
 Default: `true`
 
-Включает/отключает TypeScript или указывает директорию файла tsconfig.json,
-чтобы не зависеть от cwd:
+Включает/отключает TypeScript или настраивает опции его парсера.
 
 ```javascript
 import vladpuz from 'eslint-config-vladpuz'
 
 export default vladpuz({
-  typescript: false,
-  // In the same folder as eslint.config.js (default is process.cwd())
-  // typescript: import.meta.dirname
+  // Default typescript config is:
+  typescript: {
+    projectService: true,
+    ecmaFeatures: {
+      jsx: options.jsx,
+    },
+  },
+  // You can disable typescript:
+  // typescript: false,
 })
 ```
 

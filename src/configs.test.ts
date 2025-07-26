@@ -33,10 +33,7 @@ function testConfigRules(
 
   const invalidNameRules: string[] = []
 
-  for (const pluginRuleName in pluginRules) {
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    const pluginRule = pluginRules[pluginRuleName]!
-
+  Object.entries(pluginRules).forEach(([pluginRuleName, pluginRule]) => {
     const pluginRuleNameWithPrefix = (pluginName !== null)
       ? `${pluginName}/${pluginRuleName}`
       : pluginRuleName
@@ -46,11 +43,11 @@ function testConfigRules(
 
     if (ruleEntry == null) {
       if (isDeprecated) {
-        continue
+        return
       }
 
       notConsideredRules.push(pluginRuleNameWithPrefix)
-      continue
+      return
     }
 
     if (isDeprecated) {
@@ -70,9 +67,9 @@ function testConfigRules(
     if (isInvalidRuleSeverity) {
       invalidSeverityRules.push(pluginRuleNameWithPrefix)
     }
-  }
+  })
 
-  for (const rule in configRules) {
+  Object.keys(configRules).forEach((rule) => {
     const split = rule.split('/')
     const ruleNameRest = (split.length > 1) ? split.slice(1) : split
     const ruleName = ruleNameRest.join('/')
@@ -82,7 +79,7 @@ function testConfigRules(
     if (pluginRule == null) {
       invalidNameRules.push(rule)
     }
-  }
+  })
 
   const describeName = (pluginName !== null)
     ? `Plugin "${pluginName}" config rules`

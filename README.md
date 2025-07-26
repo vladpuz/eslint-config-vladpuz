@@ -9,7 +9,7 @@ Features:
 - Auto fix for formatting via
   [eslint-stylistic](https://github.com/eslint-stylistic/eslint-stylistic)
   (targeted for use without Prettier)
-- Does not conflict with TypeScript regardless of tsconfig.json options
+- Doesn't conflict with TypeScript regardless of tsconfig.json options
   (TypeScript fully replaces some rules)
 - Ability to customize your own stylistic preferences
 - Ability to disable TypeScript, Stylistic, and JSX
@@ -79,7 +79,7 @@ interface Options {
   filesTs?: string[] // Default - ['**/*.ts', '**/*.tsx', '**/*.mts', '**/*.cts']
   env?: (keyof typeof globals)[] // Default - ['node', 'browser']
   stylistic?: boolean | StylisticOptions // Default - true
-  typescript?: boolean | string // Default - true
+  typescript?: boolean | ParserOptions // Default - true
   jsx?: boolean // Default - true
 }
 ```
@@ -145,20 +145,25 @@ export default vladpuz({
 
 ### typescript
 
-Type: `boolean | string`
+Type: `boolean | ParserOptions`
 
 Default: `true`
 
-Enables/disables TypeScript or specifies the tsconfig.json file directory to
-avoid depending on cwd:
+Enables/disables TypeScript or customizes its parser options.
 
 ```javascript
 import vladpuz from 'eslint-config-vladpuz'
 
 export default vladpuz({
-  typescript: false,
-  // In the same folder as eslint.config.js (default is process.cwd())
-  // typescript: import.meta.dirname
+  // Default typescript config is:
+  typescript: {
+    projectService: true,
+    ecmaFeatures: {
+      jsx: options.jsx,
+    },
+  },
+  // You can disable typescript:
+  // typescript: false,
 })
 ```
 

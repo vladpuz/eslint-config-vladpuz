@@ -6,7 +6,9 @@ export function getJsConfig(files: string[]): Linter.Config {
     name: 'vladpuz/js',
     files,
     rules: {
-      'accessor-pairs': 'error',
+      'accessor-pairs': ['error', {
+        enforceForTSTypes: true,
+      }],
       'array-callback-return': 'error',
       'arrow-body-style': ['error', 'always'],
       'block-scoped-var': 'error',
@@ -30,8 +32,10 @@ export function getJsConfig(files: string[]): Linter.Config {
       'func-names': 'off',
       'func-style': 'off',
       'getter-return': 'error',
-      'grouped-accessor-pairs': ['error', 'getBeforeSet'],
-      'guard-for-in': 'off',
+      'grouped-accessor-pairs': ['error', 'getBeforeSet', {
+        enforceForTSTypes: true,
+      }],
+      'guard-for-in': 'error',
       'id-denylist': 'off',
       'id-length': 'off',
       'id-match': 'off',
@@ -100,7 +104,10 @@ export function getJsConfig(files: string[]): Linter.Config {
       'no-irregular-whitespace': 'error',
       'no-iterator': 'error',
       'no-label-var': 'error',
-      'no-labels': 'off',
+      'no-labels': ['error', {
+        allowLoop: true,
+        allowSwitch: true,
+      }],
       'no-lone-blocks': 'error',
       'no-lonely-if': 'error',
       'no-loop-func': 'off',

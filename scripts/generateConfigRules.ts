@@ -11,14 +11,11 @@ function generateConfigRules(
 ): void {
   const rules: Record<string, 'off'> = {}
 
-  for (const pluginRuleName in pluginRules) {
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    const pluginRule = pluginRules[pluginRuleName]!
-
+  Object.entries(pluginRules).forEach(([pluginRuleName, pluginRule]) => {
     const isDeprecated = Boolean(pluginRule.meta?.deprecated)
 
     if (isDeprecated) {
-      continue
+      return
     }
 
     const ruleName = (pluginName !== null)
@@ -26,7 +23,7 @@ function generateConfigRules(
       : pluginRuleName
 
     rules[ruleName] = 'off'
-  }
+  })
 
   console.log(rules)
 }

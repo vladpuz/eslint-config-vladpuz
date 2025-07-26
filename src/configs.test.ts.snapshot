@@ -12,6 +12,9 @@ exports[`ESLint config rules > Snapshot of the schema has not been changed 1`] =
         },
         "enforceForClassMembers": {
           "type": "boolean"
+        },
+        "enforceForTSTypes": {
+          "type": "boolean"
         }
       },
       "additionalProperties": false
@@ -938,6 +941,15 @@ exports[`ESLint config rules > Snapshot of the schema has not been changed 1`] =
         "getBeforeSet",
         "setBeforeGet"
       ]
+    },
+    {
+      "type": "object",
+      "properties": {
+        "enforceForTSTypes": {
+          "type": "boolean"
+        }
+      },
+      "additionalProperties": false
     }
   ],
   "guard-for-in": [],
@@ -4775,6 +4787,9 @@ exports[`ESLint config rules > Snapshot of the schema has not been changed 1`] =
               "type": "string"
             },
             "ignoreClassWithStaticInitBlock": {
+              "type": "boolean"
+            },
+            "ignoreUsingDeclarations": {
               "type": "boolean"
             },
             "reportUsedIgnorePattern": {
@@ -10738,6 +10753,7 @@ exports[`Plugin \"@typescript-eslint\" config rules > Snapshot of the schema has
     },
     {
       "type": "object",
+      "additionalProperties": false,
       "properties": {
         "enforceForDeclarationWithTypeAnnotation": {
           "type": "boolean",
@@ -10798,6 +10814,7 @@ exports[`Plugin \"@typescript-eslint\" config rules > Snapshot of the schema has
           "oneOf": [
             {
               "type": "object",
+              "additionalProperties": false,
               "description": "Which primitives types may be ignored.",
               "properties": {
                 "bigint": {
