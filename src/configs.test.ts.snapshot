@@ -4077,31 +4077,87 @@ exports[`ESLint config rules > Snapshot of the schema has not been changed 1`] =
     }
   ],
   "no-restricted-globals": {
-    "type": "array",
-    "items": {
-      "oneOf": [
-        {
-          "type": "string"
-        },
-        {
-          "type": "object",
-          "properties": {
-            "name": {
+    "anyOf": [
+      {
+        "type": "array",
+        "items": {
+          "oneOf": [
+            {
               "type": "string"
             },
-            "message": {
-              "type": "string"
+            {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string"
+                },
+                "message": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "name"
+              ],
+              "additionalProperties": false
             }
-          },
-          "required": [
-            "name"
-          ],
-          "additionalProperties": false
-        }
-      ]
-    },
-    "uniqueItems": true,
-    "minItems": 0
+          ]
+        },
+        "uniqueItems": true,
+        "minItems": 0
+      },
+      {
+        "type": "array",
+        "items": [
+          {
+            "type": "object",
+            "properties": {
+              "globals": {
+                "type": "array",
+                "items": {
+                  "oneOf": [
+                    {
+                      "type": "string"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "name": {
+                          "type": "string"
+                        },
+                        "message": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "name"
+                      ],
+                      "additionalProperties": false
+                    }
+                  ]
+                },
+                "uniqueItems": true,
+                "minItems": 0
+              },
+              "checkGlobalObject": {
+                "type": "boolean"
+              },
+              "globalObjects": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "uniqueItems": true
+              }
+            },
+            "required": [
+              "globals"
+            ],
+            "additionalProperties": false
+          }
+        ],
+        "additionalItems": false
+      }
+    ]
   },
   "no-restricted-imports": {
     "anyOf": [
@@ -5276,6 +5332,20 @@ exports[`ESLint config rules > Snapshot of the schema has not been changed 1`] =
               ]
             },
             "const": {
+              "enum": [
+                "always",
+                "never",
+                "consecutive"
+              ]
+            },
+            "using": {
+              "enum": [
+                "always",
+                "never",
+                "consecutive"
+              ]
+            },
+            "awaitUsing": {
               "enum": [
                 "always",
                 "never",
