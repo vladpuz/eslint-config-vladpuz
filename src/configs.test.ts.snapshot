@@ -6422,7 +6422,6 @@ exports[`Plugin \"@typescript-eslint\" config rules > Snapshot of the schema has
       "properties": {
         "minimumDescriptionLength": {
           "type": "number",
-          "default": 3,
           "description": "A minimum character length for descriptions when \`allow-with-description\` is enabled."
         },
         "ts-check": {
@@ -6458,7 +6457,6 @@ exports[`Plugin \"@typescript-eslint\" config rules > Snapshot of the schema has
       "properties": {
         "enforceForClassFields": {
           "type": "boolean",
-          "default": true,
           "description": "Enforces that functions used as instance field initializers utilize \`this\`."
         },
         "exceptMethods": {
@@ -6634,27 +6632,22 @@ exports[`Plugin \"@typescript-eslint\" config rules > Snapshot of the schema has
       "properties": {
         "allowIndexSignaturePropertyAccess": {
           "type": "boolean",
-          "default": false,
           "description": "Whether to allow accessing properties matching an index signature with array notation."
         },
         "allowKeywords": {
           "type": "boolean",
-          "default": true,
           "description": "Whether to allow keywords such as [\\"class\\"]\`."
         },
         "allowPattern": {
           "type": "string",
-          "default": "",
           "description": "Regular expression of names to allow."
         },
         "allowPrivateClassPropertyAccess": {
           "type": "boolean",
-          "default": false,
           "description": "Whether to allow accessing class members marked as \`private\` with array notation."
         },
         "allowProtectedClassPropertyAccess": {
           "type": "boolean",
-          "default": false,
           "description": "Whether to allow accessing class members marked as \`protected\` with array notation."
         }
       }
@@ -9778,7 +9771,6 @@ exports[`Plugin \"@typescript-eslint\" config rules > Snapshot of the schema has
       "properties": {
         "checkNever": {
           "type": "boolean",
-          "default": false,
           "description": "Whether to suggest removing \`void\` when the argument has type \`never\`."
         }
       }
