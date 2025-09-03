@@ -11,12 +11,13 @@ export function getTsConfig(
     name: 'vladpuz/ts',
     files,
     plugins: {
-      // @ts-expect-error: plugin
       '@typescript-eslint': tseslint.plugin,
     },
     rules: {
       '@typescript-eslint/adjacent-overload-signatures': 'error',
-      '@typescript-eslint/array-type': 'error',
+      '@typescript-eslint/array-type': ['error', {
+        default: 'array-simple',
+      }],
       '@typescript-eslint/await-thenable': 'error',
       '@typescript-eslint/ban-ts-comment': 'error',
       '@typescript-eslint/ban-tslint-comment': 'error',

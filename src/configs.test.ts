@@ -1,4 +1,4 @@
-import { Linter, type Rule } from 'eslint'
+import { type ESLint, Linter, type Rule } from 'eslint'
 import importLite from 'eslint-plugin-import-lite'
 import n from 'eslint-plugin-n'
 import perfectionist from 'eslint-plugin-perfectionist'
@@ -13,7 +13,7 @@ import { getNodeConfig } from './configs/node.ts'
 import { getPerfectionistConfig } from './configs/perfectionist.ts'
 import { getPromiseConfig } from './configs/promise.ts'
 import { getTsConfig } from './configs/ts.ts'
-import { getTsConfigJson } from './getTsConfigJson.ts'
+import { getTsCompilerOptions } from './getTsCompilerOptions.ts'
 
 /* eslint @typescript-eslint/no-floating-promises: off */
 
@@ -139,9 +139,8 @@ testConfigRules(
 
 testConfigRules(
   '@typescript-eslint',
-  // @ts-expect-error: incompatible typing
-  tseslint.plugin.rules ?? {},
-  getTsConfig([], getTsConfigJson(process.cwd())),
+  ((tseslint.plugin as ESLint.Plugin).rules ?? {}),
+  getTsConfig([], getTsCompilerOptions(process.cwd())),
 )
 
 testConfigRules(

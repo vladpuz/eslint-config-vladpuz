@@ -77,7 +77,7 @@ eslint --fix .
 interface Options {
   filesJs?: string[] // Default - ['**/*.js', '**/*.jsx', '**/*.mjs', '**/*.cjs']
   filesTs?: string[] // Default - ['**/*.ts', '**/*.tsx', '**/*.mts', '**/*.cts']
-  env?: (keyof typeof globals)[] // Default - ['node', 'browser']
+  env?: Array<keyof typeof globals> // Default - ['node', 'browser']
   stylistic?: boolean | StylisticOptions // Default - true
   typescript?: boolean | ParserOptions // Default - true
   jsx?: boolean // Default - true

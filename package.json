@@ -1,21 +1,21 @@
 {
   "name": "eslint-config-vladpuz",
-  "version": "2.1.0",
-  "type": "module",
+  "version": "2.1.1",
   "description": "My ESLint config",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/vladpuz/eslint-config-vladpuz.git"
-  },
-  "author": "Vladislav Puzyrev",
-  "license": "MIT",
-  "main": "build/index.js",
-  "types": "build/index.d.ts",
   "keywords": [
     "vladpuz",
     "eslint",
     "eslintconfig"
   ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vladpuz/eslint-config-vladpuz.git"
+  },
+  "license": "MIT",
+  "author": "Vladislav Puzyrev",
+  "type": "module",
+  "main": "build/index.js",
+  "types": "build/index.d.ts",
   "scripts": {
     "build": "tsc --project tsconfig.build.json",
     "check": "npm run typecheck && npm run lint && npm run format",
@@ -28,28 +28,28 @@
     "test-update-snapshots": "node --test --test-update-snapshots --experimental-transform-types",
     "typecheck": "tsc --noEmit"
   },
-  "peerDependencies": {
-    "eslint": "^9.0.0"
-  },
   "dependencies": {
-    "@stylistic/eslint-plugin": "^5.2.2",
+    "@stylistic/eslint-plugin": "^5.3.1",
     "eslint-plugin-import-lite": "^0.3.0",
-    "eslint-plugin-n": "^17.21.0",
+    "eslint-plugin-n": "^17.21.3",
     "eslint-plugin-perfectionist": "^4.15.0",
     "eslint-plugin-promise": "^7.2.1",
     "globals": "^16.3.0",
-    "typescript-eslint": "^8.38.0"
+    "typescript-eslint": "^8.42.0"
   },
   "devDependencies": {
     "@tsconfig/node-lts": "^22.0.2",
     "@tsconfig/node-ts": "^23.6.1",
     "@tsconfig/strictest": "^2.0.5",
-    "@types/node": "^24.1.0",
-    "@types/react": "^19.1.8",
+    "@types/node": "^24.3.0",
+    "@types/react": "^19.1.12",
     "husky": "^9.1.7",
     "prettier": "^3.6.2",
-    "prettier-config-vladpuz": "^1.0.2",
+    "prettier-config-vladpuz": "^2.0.0",
     "rimraf": "^6.0.1",
-    "typescript": "^5.8.3"
+    "typescript": "^5.9.2"
+  },
+  "peerDependencies": {
+    "eslint": "^9.0.0"
   }
 }

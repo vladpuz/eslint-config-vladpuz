@@ -11,7 +11,7 @@ import { getNodeConfig } from './configs/node.js'
 import { getPerfectionistConfig } from './configs/perfectionist.js'
 import { getPromiseConfig } from './configs/promise.js'
 import { getTsConfig } from './configs/ts.js'
-import { getTsConfigJson } from './getTsConfigJson.js'
+import { getTsCompilerOptions } from './getTsCompilerOptions.js'
 
 export const FILES_JS = ['**/*.js', '**/*.jsx', '**/*.mjs', '**/*.cjs']
 export const FILES_TS = ['**/*.ts', '**/*.tsx', '**/*.mts', '**/*.cts']
@@ -19,7 +19,7 @@ export const FILES_TS = ['**/*.ts', '**/*.tsx', '**/*.mts', '**/*.cts']
 export interface Options {
   filesJs?: string[]
   filesTs?: string[]
-  env?: (keyof typeof globals)[]
+  env?: Array<keyof typeof globals>
   stylistic?: boolean | StylisticOptions
   typescript?: boolean | ParserOptions
   jsx?: boolean
@@ -87,12 +87,11 @@ function vladpuz(options: Options = {}): Linter.Config[] {
     }
 
     const tsconfigRootDir = parserOptions.tsconfigRootDir ?? process.cwd()
-    const tsConfigJson = getTsConfigJson(tsconfigRootDir)
-    const tsConfig = getTsConfig(filesTs, tsConfigJson)
+    const tsCompilerOptions = getTsCompilerOptions(tsconfigRootDir)
+    const tsConfig = getTsConfig(filesTs, tsCompilerOptions)
 
     // Setup parser
     tsConfig.languageOptions = {
-      // @ts-expect-error: parser
       parser: tseslint.parser,
       parserOptions: {
         projectService: true,
@@ -118,7 +117,10 @@ function vladpuz(options: Options = {}): Linter.Config[] {
       }
     })
 
-    const tsHandledRules = tseslint.configs.eslintRecommended.rules ?? {}
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-type-assertion
+    const tsHandledRules = (
+      tseslint.configs.eslintRecommended.rules ?? {}
+    ) as Linter.RulesRecord
 
     // Disable ts handled js rules
     Object.entries(tsHandledRules).forEach(([ruleName, ruleEntry]) => {

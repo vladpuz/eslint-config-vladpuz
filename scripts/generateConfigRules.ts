@@ -1,4 +1,4 @@
-import { Linter, type Rule } from 'eslint'
+import { type ESLint, Linter, type Rule } from 'eslint'
 import importLite from 'eslint-plugin-import-lite'
 import n from 'eslint-plugin-n'
 import perfectionist from 'eslint-plugin-perfectionist'
@@ -41,8 +41,7 @@ generateConfigRules(
 console.log('ts')
 generateConfigRules(
   '@typescript-eslint',
-  // @ts-expect-error: incompatible typing
-  tseslint.plugin.rules ?? {},
+  ((tseslint.plugin as ESLint.Plugin).rules ?? {}),
 )
 
 console.log('import')

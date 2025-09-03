@@ -1,4 +1,4 @@
-## Version 2.0.0
+## 2.0.0
 
 - Config [eslint-config-love](https://www.npmjs.com/package/eslint-config-love)
   has been removed. All its rules were revised anew.
