@@ -5736,6 +5736,19 @@ exports[`ESLint config rules > Snapshot of the schema has not been changed 1`] =
   "prefer-rest-params": [],
   "prefer-spread": [],
   "prefer-template": [],
+  "preserve-caught-error": [
+    {
+      "type": "object",
+      "properties": {
+        "requireCatchParameter": {
+          "type": "boolean",
+          "default": false,
+          "description": "Requires the catch blocks to always have the caught error parameter so it is not discarded."
+        }
+      },
+      "additionalProperties": false
+    }
+  ],
   "quote-props": {
     "anyOf": [
       {

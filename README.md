@@ -4,15 +4,15 @@
 
 Features:
 
-- Supports JavaScript, TypeScript, mixed codebases, and framework-agnostic JSX
+- Supports JavaScript, TypeScript, mixed codebases and framework-agnostic JSX
   (pure base for use with any framework!)
 - Auto fix for formatting via
   [eslint-stylistic](https://github.com/eslint-stylistic/eslint-stylistic)
   (targeted for use without Prettier)
-- Doesn't conflict with TypeScript regardless of tsconfig.json options
-  (TypeScript fully replaces some rules)
+- Doesn't conflict with TypeScript at any tsconfig.json options (TypeScript
+  fully replaces some rules)
 - Ability to customize your own stylistic preferences
-- Ability to disable TypeScript, Stylistic, and JSX
+- Ability to disable TypeScript, Stylistic and JSX
 
 Principles:
 
@@ -182,6 +182,12 @@ export default vladpuz({
   jsx: false,
 })
 ```
+
+## Versioning Policy
+
+This project follows [Semantic Versioning](https://semver.org). However, since
+this is just a configuration requiring opinions and many changeable components,
+we don't consider rule changes critical.
 
 ## See also
 

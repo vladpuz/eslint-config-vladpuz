@@ -184,6 +184,12 @@ export default vladpuz({
 })
 ```
 
+## Политика версионирования
+
+Этот проект следует [Semantic Versioning](https://semver.org). Однако, поскольку
+это всего лишь конфигурация, требующая мнений и множества изменяемых
+компонентов, мы не считаем изменения правил критическими.
+
 ## Смотрите так же
 
 - [prettier-config-vladpuz](https://github.com/vladpuz/prettier-config-vladpuz)

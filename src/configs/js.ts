@@ -218,6 +218,9 @@ export function getJsConfig(files: string[]): Linter.Config {
       'prefer-rest-params': 'error',
       'prefer-spread': 'error',
       'prefer-template': 'off',
+      'preserve-caught-error': ['error', {
+        requireCatchParameter: true,
+      }],
       'radix': ['error', 'as-needed'],
       'require-atomic-updates': 'off',
       'require-await': 'error',
