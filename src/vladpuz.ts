@@ -11,7 +11,7 @@ import { getNodeConfig } from './configs/node.js'
 import { getPerfectionistConfig } from './configs/perfectionist.js'
 import { getPromiseConfig } from './configs/promise.js'
 import { getTsConfig } from './configs/ts.js'
-import { getTsCompilerOptions } from './getTsCompilerOptions.js'
+import { getCompilerOptions } from './getCompilerOptions.js'
 
 export const FILES_JS = ['**/*.js', '**/*.jsx', '**/*.mjs', '**/*.cjs']
 export const FILES_TS = ['**/*.ts', '**/*.tsx', '**/*.mts', '**/*.cts']
@@ -87,8 +87,8 @@ function vladpuz(options: Options = {}): Linter.Config[] {
     }
 
     const tsconfigRootDir = parserOptions.tsconfigRootDir ?? process.cwd()
-    const tsCompilerOptions = getTsCompilerOptions(tsconfigRootDir)
-    const tsConfig = getTsConfig(filesTs, tsCompilerOptions)
+    const compilerOptions = getCompilerOptions(tsconfigRootDir)
+    const tsConfig = getTsConfig(filesTs, compilerOptions)
 
     // Setup parser
     tsConfig.languageOptions = {

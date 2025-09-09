@@ -13,7 +13,7 @@ import { getNodeConfig } from './configs/node.ts'
 import { getPerfectionistConfig } from './configs/perfectionist.ts'
 import { getPromiseConfig } from './configs/promise.ts'
 import { getTsConfig } from './configs/ts.ts'
-import { getTsCompilerOptions } from './getTsCompilerOptions.ts'
+import { getCompilerOptions } from './getCompilerOptions.ts'
 
 /* eslint @typescript-eslint/no-floating-promises: off */
 
@@ -140,7 +140,7 @@ testConfigRules(
 testConfigRules(
   '@typescript-eslint',
   ((tseslint.plugin as ESLint.Plugin).rules ?? {}),
-  getTsConfig([], getTsCompilerOptions(process.cwd())),
+  getTsConfig([], getCompilerOptions(process.cwd())),
 )
 
 testConfigRules(

@@ -15,9 +15,7 @@ export function getTsConfig(
     },
     rules: {
       '@typescript-eslint/adjacent-overload-signatures': 'error',
-      '@typescript-eslint/array-type': ['error', {
-        default: 'array-simple',
-      }],
+      '@typescript-eslint/array-type': ['error', { default: 'array-simple' }],
       '@typescript-eslint/await-thenable': 'error',
       '@typescript-eslint/ban-ts-comment': 'error',
       '@typescript-eslint/ban-tslint-comment': 'error',
@@ -31,15 +29,20 @@ export function getTsConfig(
       '@typescript-eslint/consistent-type-assertions': 'error',
       '@typescript-eslint/consistent-type-definitions': 'error',
       '@typescript-eslint/consistent-type-exports': 'error',
-      '@typescript-eslint/consistent-type-imports': ['error', {
-        fixStyle: 'inline-type-imports',
-      }],
+      '@typescript-eslint/consistent-type-imports': [
+        'error',
+        { fixStyle: 'inline-type-imports' },
+      ],
       '@typescript-eslint/default-param-last': 'error',
       '@typescript-eslint/dot-notation': 'error',
-      '@typescript-eslint/explicit-function-return-type': ['error', {
-        allowExpressions: true,
-      }],
-      '@typescript-eslint/explicit-member-accessibility': 'error',
+      '@typescript-eslint/explicit-function-return-type': [
+        'error',
+        { allowExpressions: true },
+      ],
+      '@typescript-eslint/explicit-member-accessibility': [
+        'error',
+        { accessibility: 'no-public' },
+      ],
       '@typescript-eslint/explicit-module-boundary-types': 'off',
       '@typescript-eslint/init-declarations': 'error',
       '@typescript-eslint/max-params': 'off',
@@ -57,7 +60,13 @@ export function getTsConfig(
       '@typescript-eslint/no-duplicate-type-constituents': 'error',
       '@typescript-eslint/no-dynamic-delete': 'error',
       '@typescript-eslint/no-empty-function': 'error',
-      '@typescript-eslint/no-empty-object-type': 'error',
+      '@typescript-eslint/no-empty-object-type': [
+        'error',
+        {
+          allowInterfaces: 'with-single-extends',
+          allowObjectTypes: 'never',
+        },
+      ],
       '@typescript-eslint/no-explicit-any': 'error',
       '@typescript-eslint/no-extra-non-null-assertion': 'error',
       '@typescript-eslint/no-extraneous-class': 'error',
@@ -66,7 +75,10 @@ export function getTsConfig(
       '@typescript-eslint/no-implied-eval': 'error',
       '@typescript-eslint/no-import-type-side-effects': 'error',
       '@typescript-eslint/no-inferrable-types': 'error',
-      '@typescript-eslint/no-invalid-this': (tsconfig.strict === true || tsconfig.noImplicitThis === true)
+      '@typescript-eslint/no-invalid-this': (
+        tsconfig.strict === true
+        || tsconfig.noImplicitThis === true
+      )
         ? 'off'
         : 'error',
       '@typescript-eslint/no-invalid-void-type': 'error',
@@ -109,20 +121,29 @@ export function getTsConfig(
       '@typescript-eslint/no-unsafe-type-assertion': 'error',
       '@typescript-eslint/no-unsafe-unary-minus': 'error',
       '@typescript-eslint/no-unused-expressions': 'error',
-      '@typescript-eslint/no-unused-vars': (tsconfig.noUnusedLocals === true || tsconfig.noUnusedParameters === true)
+      '@typescript-eslint/no-unused-vars': (
+        tsconfig.noUnusedLocals === true
+        || tsconfig.noUnusedParameters === true
+      )
         ? 'off'
-        : ['error', {
-            args: 'none',
-            caughtErrors: 'none',
-            ignoreRestSiblings: true,
-          }],
-      '@typescript-eslint/no-use-before-define': ['error', {
-        classes: false,
-        enums: false,
-        functions: false,
-        typedefs: false,
-        variables: false,
-      }],
+        : [
+            'error',
+            {
+              args: 'none',
+              caughtErrors: 'none',
+              ignoreRestSiblings: true,
+            },
+          ],
+      '@typescript-eslint/no-use-before-define': [
+        'error',
+        {
+          classes: false,
+          enums: false,
+          functions: false,
+          typedefs: false,
+          variables: false,
+        },
+      ],
       '@typescript-eslint/no-useless-constructor': 'error',
       '@typescript-eslint/no-useless-empty-export': 'error',
       '@typescript-eslint/no-wrapper-object-types': 'error',
@@ -154,16 +175,19 @@ export function getTsConfig(
       '@typescript-eslint/restrict-plus-operands': 'error',
       '@typescript-eslint/restrict-template-expressions': 'error',
       '@typescript-eslint/return-await': ['error', 'always'],
-      '@typescript-eslint/strict-boolean-expressions': ['error', {
-        allowAny: false,
-        allowNullableBoolean: false,
-        allowNullableEnum: false,
-        allowNullableNumber: false,
-        allowNullableObject: false,
-        allowNullableString: false,
-        allowNumber: false,
-        allowString: false,
-      }],
+      '@typescript-eslint/strict-boolean-expressions': [
+        'error',
+        {
+          allowAny: false,
+          allowNullableBoolean: false,
+          allowNullableEnum: false,
+          allowNullableNumber: false,
+          allowNullableObject: false,
+          allowNullableString: false,
+          allowNumber: false,
+          allowString: false,
+        },
+      ],
       '@typescript-eslint/switch-exhaustiveness-check': 'error',
       '@typescript-eslint/triple-slash-reference': 'error',
       '@typescript-eslint/unbound-method': 'error',

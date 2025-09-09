@@ -23,9 +23,7 @@ export function getPromiseConfig(files: string[]): Linter.Config {
       'promise/no-return-wrap': 'off',
       'promise/param-names': 'off',
       'promise/prefer-await-to-callbacks': 'off',
-      'promise/prefer-await-to-then': ['error', {
-        strict: true,
-      }],
+      'promise/prefer-await-to-then': ['error', { strict: true }],
       'promise/prefer-catch': 'off',
       'promise/spec-only': 'off',
       'promise/valid-params': 'off',

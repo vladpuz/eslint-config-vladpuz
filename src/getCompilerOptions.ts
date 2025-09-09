@@ -4,7 +4,7 @@ import { type CompilerOptions, findConfigFile, parseJsonConfigFileContent, readC
  * Source:
  * https://github.com/privatenumber/get-tsconfig?tab=readme-ov-file#how-can-i-use-typescript-to-parse-tsconfigjson
  */
-export function getTsCompilerOptions(tsconfigRootDir: string): CompilerOptions {
+export function getCompilerOptions(tsconfigRootDir: string): CompilerOptions {
   const tsconfigPath = findConfigFile(tsconfigRootDir, (fileName) => {
     return sys.fileExists(fileName)
   })
