@@ -3760,8 +3760,7 @@ exports[`ESLint config rules > Snapshot of the schema has not been changed 1`] =
       "type": "object",
       "properties": {
         "allowEscape": {
-          "type": "boolean",
-          "default": false
+          "type": "boolean"
         }
       },
       "additionalProperties": false
@@ -5742,7 +5741,6 @@ exports[`ESLint config rules > Snapshot of the schema has not been changed 1`] =
       "properties": {
         "requireCatchParameter": {
           "type": "boolean",
-          "default": false,
           "description": "Requires the catch blocks to always have the caught error parameter so it is not discarded."
         }
       },
