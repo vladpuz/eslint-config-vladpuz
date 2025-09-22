@@ -1,9 +1,9 @@
 import type { Linter } from 'eslint'
 import type { ESLintRules } from 'eslint/rules'
 
-export function getJsConfig(files: string[]): Linter.Config {
+export function getJavascriptConfig(files: string[]): Linter.Config {
   return {
-    name: 'vladpuz/js',
+    name: 'vladpuz/javascript',
     files,
     rules: {
       'accessor-pairs': ['error', { enforceForTSTypes: true }],
@@ -28,11 +28,7 @@ export function getJsConfig(files: string[]): Linter.Config {
       'func-names': 'off',
       'func-style': 'off',
       'getter-return': 'error',
-      'grouped-accessor-pairs': [
-        'error',
-        'getBeforeSet',
-        { enforceForTSTypes: true },
-      ],
+      'grouped-accessor-pairs': ['error', 'getBeforeSet', { enforceForTSTypes: true }],
       'guard-for-in': 'error',
       'id-denylist': 'off',
       'id-length': 'off',
@@ -161,24 +157,18 @@ export function getJsConfig(files: string[]): Linter.Config {
       'no-unused-expressions': 'error',
       'no-unused-labels': 'error',
       'no-unused-private-class-members': 'error',
-      'no-unused-vars': [
-        'error',
-        {
-          args: 'none',
-          caughtErrors: 'none',
-          ignoreRestSiblings: true,
-        },
-      ],
-      'no-use-before-define': [
-        'error',
-        {
-          classes: false,
-          enums: false,
-          functions: false,
-          typedefs: false,
-          variables: false,
-        },
-      ],
+      'no-unused-vars': ['error', {
+        args: 'none',
+        caughtErrors: 'none',
+        ignoreRestSiblings: true,
+      }],
+      'no-use-before-define': ['error', {
+        classes: false,
+        enums: false,
+        functions: false,
+        typedefs: false,
+        variables: false,
+      }],
       'no-useless-assignment': 'off',
       'no-useless-backreference': 'error',
       'no-useless-call': 'error',

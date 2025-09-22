@@ -6,11 +6,11 @@ import globals from 'globals'
 import tseslint from 'typescript-eslint'
 
 import { getImportConfig } from './configs/import.js'
-import { getJsConfig } from './configs/js.js'
+import { getJavascriptConfig } from './configs/javascript.js'
 import { getNodeConfig } from './configs/node.js'
 import { getPerfectionistConfig } from './configs/perfectionist.js'
 import { getPromiseConfig } from './configs/promise.js'
-import { getTsConfig } from './configs/ts.js'
+import { getTypescriptConfig } from './configs/typescript.js'
 import { getCompilerOptions } from './getCompilerOptions.js'
 
 export const FILES_JS = ['**/*.js', '**/*.jsx', '**/*.mjs', '**/*.cjs']
@@ -45,13 +45,12 @@ function vladpuz(options: Options = {}): Linter.Config[] {
     : filesJs
 
   const resolvedGlobals: Linter.Globals = {}
-  env.forEach((env) => {
-    const envGlobals: Linter.Globals = globals[env]
 
-    Object.entries(envGlobals).forEach(([key, value]) => {
+  for (const envItem of env) {
+    for (const [key, value] of Object.entries(globals[envItem])) {
       resolvedGlobals[key] = value
-    })
-  })
+    }
+  }
 
   const config: Linter.Config[] = []
 
@@ -72,10 +71,10 @@ function vladpuz(options: Options = {}): Linter.Config[] {
     },
   })
 
-  const jsConfig = getJsConfig(filesJsAndTs)
-  const jsRules = jsConfig.rules ?? {}
+  const configJs = getJavascriptConfig(filesJsAndTs)
+  const rulesJs = configJs.rules ?? {}
 
-  config.push(jsConfig)
+  config.push(configJs)
 
   if (enableTypescript !== false) {
     const parserOptions = (typeof enableTypescript === 'object')
@@ -83,15 +82,17 @@ function vladpuz(options: Options = {}): Linter.Config[] {
       : {}
 
     if (parserOptions.ecmaFeatures?.jsx != null) {
-      throw new Error('Use "options.jsx" instead of "options.typescript.ecmaFeatures.jsx"')
+      throw new Error(
+        'Use "options.jsx" instead of "options.typescript.ecmaFeatures.jsx"',
+      )
     }
 
     const tsconfigRootDir = parserOptions.tsconfigRootDir ?? process.cwd()
     const compilerOptions = getCompilerOptions(tsconfigRootDir)
-    const tsConfig = getTsConfig(filesTs, compilerOptions)
+    const configTs = getTypescriptConfig(filesTs, compilerOptions)
 
     // Setup parser
-    tsConfig.languageOptions = {
+    configTs.languageOptions = {
       parser: tseslint.parser,
       parserOptions: {
         projectService: true,
@@ -103,19 +104,19 @@ function vladpuz(options: Options = {}): Linter.Config[] {
       },
     }
 
-    const tsRules = tsConfig.rules ?? {}
+    const rulesTs = configTs.rules ?? {}
 
     // Disable equivalent js rules
-    Object.keys(tsRules).forEach((ruleName) => {
+    for (const ruleName of Object.keys(rulesTs)) {
       const [, ...ruleNameRest] = ruleName.split('/')
       const rule = ruleNameRest.join('/')
 
-      const hasJsRule = rule in jsRules
+      const hasJsRule = rule in rulesJs
 
       if (hasJsRule) {
-        tsRules[rule] = 'off'
+        rulesTs[rule] = 'off'
       }
-    })
+    }
 
     // eslint-disable-next-line @typescript-eslint/no-unsafe-type-assertion
     const tsHandledRules = (
@@ -123,15 +124,15 @@ function vladpuz(options: Options = {}): Linter.Config[] {
     ) as Linter.RulesRecord
 
     // Disable ts handled js rules
-    Object.entries(tsHandledRules).forEach(([ruleName, ruleEntry]) => {
+    for (const [ruleName, ruleEntry] of Object.entries(tsHandledRules)) {
       const ruleSeverity = Array.isArray(ruleEntry) ? ruleEntry[0] : ruleEntry
 
       if (ruleSeverity === 'off') {
-        tsRules[ruleName] = 'off'
+        rulesTs[ruleName] = 'off'
       }
-    })
+    }
 
-    config.push(tsConfig)
+    config.push(configTs)
   }
 
   config.push(
@@ -168,13 +169,12 @@ function vladpuz(options: Options = {}): Linter.Config[] {
       ...stylisticUserOptions,
     }
 
-    const styleConfig = stylistic.configs.customize(stylisticOptions)
-    const styleConfigPlugins = styleConfig.plugins ?? {}
-    const styleConfigRules = styleConfig.rules ?? {}
-
+    const configStylistic = stylistic.configs.customize(stylisticOptions)
+    const pluginsStylistic = configStylistic.plugins ?? {}
+    const rulesStylistic = configStylistic.rules ?? {}
     const indent = stylisticOptions.indent
 
-    styleConfigRules['@stylistic/max-len'] = ['error', {
+    rulesStylistic['@stylistic/max-len'] = ['error', {
       code: 80,
       tabWidth: (indent === 'tab') ? 4 : indent,
       ignoreComments: true,
@@ -186,10 +186,10 @@ function vladpuz(options: Options = {}): Linter.Config[] {
     }]
 
     config.push({
-      name: 'vladpuz/style',
+      name: 'vladpuz/stylistic',
       files: filesJsAndTs,
-      plugins: styleConfigPlugins,
-      rules: styleConfigRules,
+      plugins: pluginsStylistic,
+      rules: rulesStylistic,
     })
   }
 

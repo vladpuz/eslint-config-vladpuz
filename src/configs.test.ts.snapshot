@@ -1,4 +1,4 @@
-exports[`ESLint config rules > Snapshot of the schema has not been changed 1`] = `
+exports[`ESLint config > Snapshot of the schema has not been changed 1`] = `
 {
   "accessor-pairs": [
     {
@@ -6371,7 +6371,7 @@ exports[`ESLint config rules > Snapshot of the schema has not been changed 1`] =
 }
 `;
 
-exports[`Plugin \"@typescript-eslint\" config rules > Snapshot of the schema has not been changed 1`] = `
+exports[`Plugin \"@typescript-eslint\" config > Snapshot of the schema has not been changed 1`] = `
 {
   "@typescript-eslint/adjacent-overload-signatures": [],
   "@typescript-eslint/array-type": [
@@ -11624,7 +11624,7 @@ exports[`Plugin \"@typescript-eslint\" config rules > Snapshot of the schema has
 }
 `;
 
-exports[`Plugin \"import-lite\" config rules > Snapshot of the schema has not been changed 1`] = `
+exports[`Plugin \"import-lite\" config > Snapshot of the schema has not been changed 1`] = `
 {
   "import-lite/consistent-type-specifier-style": [
     {
@@ -11681,7 +11681,7 @@ exports[`Plugin \"import-lite\" config rules > Snapshot of the schema has not be
 }
 `;
 
-exports[`Plugin \"n\" config rules > Snapshot of the schema has not been changed 1`] = `
+exports[`Plugin \"n\" config > Snapshot of the schema has not been changed 1`] = `
 {
   "n/callback-return": [
     {
@@ -15559,7 +15559,7 @@ exports[`Plugin \"n\" config rules > Snapshot of the schema has not been changed
 }
 `;
 
-exports[`Plugin \"perfectionist\" config rules > Snapshot of the schema has not been changed 1`] = `
+exports[`Plugin \"perfectionist\" config > Snapshot of the schema has not been changed 1`] = `
 {
   "perfectionist/sort-array-includes": {
     "items": {
@@ -29960,7 +29960,7 @@ exports[`Plugin \"perfectionist\" config rules > Snapshot of the schema has not 
 }
 `;
 
-exports[`Plugin \"promise\" config rules > Snapshot of the schema has not been changed 1`] = `
+exports[`Plugin \"promise\" config > Snapshot of the schema has not been changed 1`] = `
 {
   "promise/always-return": [
     {

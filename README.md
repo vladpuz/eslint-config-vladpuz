@@ -12,7 +12,7 @@ Features:
 - Doesn't conflict with TypeScript at any tsconfig.json options (TypeScript
   fully replaces some rules)
 - Ability to customize your own stylistic preferences
-- Ability to disable TypeScript, Stylistic and JSX
+- No warn severity
 
 Principles:
 
@@ -20,8 +20,9 @@ Principles:
 - Minimal for readability
 - Stability for diff
 - Consistency
-- No deprecated rules
-- No warn severity rules
+
+If you need React, use
+[eslint-config-vladpuz-react](https://github.com/vladpuz/eslint-config-vladpuz-react).
 
 ## Installation
 
@@ -39,9 +40,9 @@ import vladpuz from 'eslint-config-vladpuz'
 export default vladpuz()
 ```
 
-If you want to use Prettier for formatting files that don't contain source code
-(json, md, html, ...), disable Prettier for JavaScript and TypeScript files. For
-this, create a file `.prettierignore`:
+If you want to use Prettier for formatting other file types (json, md, html,
+css, ...), disable Prettier for JavaScript and TypeScript files. For this,
+create a file `.prettierignore`:
 
 ```ignore
 # javascript
@@ -182,6 +183,20 @@ export default vladpuz({
   jsx: false,
 })
 ```
+
+## FAQ
+
+### Prettier?
+
+[Why I don't use Prettier](https://antfu.me/posts/why-not-prettier)
+
+### Why no warn severity?
+
+[ESLint Warnings Are an Anti-Pattern](https://dev.to/thawkin3/eslint-warnings-are-an-anti-pattern-33np)
+
+### Where is the rule list?
+
+[src/configs](https://github.com/vladpuz/eslint-config-vladpuz/tree/main/src/configs)
 
 ## Versioning Policy
 
