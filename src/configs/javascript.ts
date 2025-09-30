@@ -116,7 +116,7 @@ export function getJavascriptConfig(files: string[]): Linter.Config {
       'no-object-constructor': 'error',
       'no-octal': 'error',
       'no-octal-escape': 'error',
-      'no-param-reassign': ['error', { props: true }],
+      'no-param-reassign': 'error',
       'no-plusplus': 'off',
       'no-promise-executor-return': 'error',
       'no-proto': 'error',
