@@ -12,7 +12,7 @@ config.push({
     'perfectionist/sort-objects': ['error', {
       type: 'unsorted',
       useConfigurationIf: {
-        allNamesMatchPattern: '^name|basePath|files|ignores|extends|languageOptions|linterOptions|processor|plugins|rules|settings$',
+        allNamesMatchPattern: '^name|basePath|files|ignores|extends|language|languageOptions|linterOptions|processor|plugins|rules|settings$',
       },
     }],
   },

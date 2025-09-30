@@ -27,7 +27,7 @@ testPluginConfig(
 testPluginConfig(
   '@typescript-eslint',
   ((tseslint.plugin as ESLint.Plugin).rules ?? {}),
-  getTypescriptConfig([], getCompilerOptions(process.cwd())),
+  getTypescriptConfig([], getCompilerOptions()),
 )
 
 testPluginConfig(

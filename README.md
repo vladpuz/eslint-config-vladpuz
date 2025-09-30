@@ -10,16 +10,16 @@ Features:
   [eslint-stylistic](https://github.com/eslint-stylistic/eslint-stylistic)
   (targeted for use without Prettier)
 - Doesn't conflict with TypeScript at any tsconfig.json options (TypeScript
-  fully replaces some rules)
+  completely replaces some rules)
 - Ability to customize your own stylistic preferences
 - No warn severity
 
 Principles:
 
 - Safety
+- Consistency
 - Minimal for readability
 - Stability for diff
-- Consistency
 
 If you need React, use
 [eslint-config-vladpuz-react](https://github.com/vladpuz/eslint-config-vladpuz-react).
@@ -184,6 +184,76 @@ export default vladpuz({
 })
 ```
 
+## Additional
+
+### errorify(target)
+
+Converts severity of rules `warn`/`1` to `error`/`2`.
+
+- target (`Linter.Config[] | Linter.Config | Linter.RulesRecord`)
+
+Return: `Linter.Config[] | Linter.Config | Linter.RulesRecord`
+
+Intended for adding external configs while preserving the overall severity style
+(without warn):
+
+```javascript
+import vladpuz, { errorify } from 'eslint-config-vladpuz'
+import x from 'eslint-plugin-x'
+
+export default [...vladpuz(), errorify(x.configs.recommended)]
+```
+
+### getCompilerOptions(parserOptions?, force?)
+
+Gets compiler options from tsconfig.json.
+
+- parserOptions (`ParserOptions = {}`) - Parser options for searching
+  tsconfig.json.
+- force (`boolean = false`) - Disables cache.
+
+Return: `CompilerOptions`
+
+Intended for dynamic management of rules depending on compiler options from
+tsconfig.json:
+
+```javascript
+import { getCompilerOptions } from 'eslint-config-vladpuz'
+
+const compilerOptions = getCompilerOptions()
+
+console.log(compilerOptions.strict)
+console.log(compilerOptions.noEmit)
+```
+
+### testPluginConfig(pluginName, pluginRules, config)
+
+Tests plugin config via node:test.
+
+- pluginName (`string | null`) - Plugin name.
+- pluginRules (`Record<string, Rule.RuleModule>`) - Plugin rules.
+- config (`Linter.Config`) - Tested config.
+
+Return: `void`
+
+Intended for testing plugin configs inside eslint-config-vladpuz and extended
+configs (e.g.
+[eslint-config-vladpuz-react/src/configs.test.ts](https://github.com/vladpuz/eslint-config-vladpuz-react/tree/main/src/configs.test.ts)):
+
+```javascript
+import { testPluginConfig } from 'eslint-config-vladpuz'
+import tseslint from 'typescript-eslint'
+
+testPluginConfig('@typescript-eslint', tseslint.plugin.rules, {
+  name: 'vladpuz/typescript',
+  files: [],
+  plugins: {
+    '@typescript-eslint': tseslint.plugin,
+  },
+  rules: {},
+})
+```
+
 ## FAQ
 
 ### Prettier?
@@ -194,7 +264,7 @@ export default vladpuz({
 
 [ESLint Warnings Are an Anti-Pattern](https://dev.to/thawkin3/eslint-warnings-are-an-anti-pattern-33np)
 
-### Where is the rule list?
+### Where is the list of rules?
 
 [src/configs](https://github.com/vladpuz/eslint-config-vladpuz/tree/main/src/configs)
 

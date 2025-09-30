@@ -1,5 +1,6 @@
 import vladpuz from './vladpuz.js'
 
+export * from './errorify.js'
 export * from './getCompilerOptions.js'
 export * from './testPluginConfig.js'
 export * from './vladpuz.js'

@@ -5,7 +5,7 @@ import { describe, test } from 'node:test'
 
 /* eslint @typescript-eslint/no-floating-promises: off */
 
-const VALID_RULE_SEVERITY = new Set<Linter.RuleSeverity>(['error', 'off'])
+const VALID_RULE_SEVERITIES = new Set<Linter.RuleSeverity>(['error', 'off'])
 
 export function testPluginConfig(
   pluginName: string | null,
@@ -14,58 +14,60 @@ export function testPluginConfig(
 ): void {
   const configRules = config.rules ?? {}
 
-  const notConsideredRules: string[] = []
+  const missingRules: string[] = []
   const deprecatedRules: string[] = []
   const invalidEntryRules: string[] = []
   const invalidSeverityRules: string[] = []
-
   const invalidNameRules: string[] = []
 
-  for (const [pluginRuleName, pluginRule] of Object.entries(pluginRules)) {
-    const pluginRuleNameWithPrefix = (pluginName !== null)
-      ? `${pluginName}/${pluginRuleName}`
-      : pluginRuleName
+  const pluginRulesEntries = Object.entries(pluginRules)
 
-    const ruleEntry = configRules[pluginRuleNameWithPrefix]
-    const isDeprecated = Boolean(pluginRule.meta?.deprecated)
+  for (const [ruleName, ruleModule] of pluginRulesEntries) {
+    const pluginRuleName = (pluginName !== null)
+      ? `${pluginName}/${ruleName}`
+      : ruleName
+
+    const ruleEntry = configRules[pluginRuleName]
+    const isDeprecated = Boolean(ruleModule.meta?.deprecated)
 
     if (ruleEntry == null) {
       if (isDeprecated) {
         continue
       }
 
-      notConsideredRules.push(pluginRuleNameWithPrefix)
+      missingRules.push(pluginRuleName)
       continue
     }
 
     if (isDeprecated) {
-      deprecatedRules.push(pluginRuleNameWithPrefix)
+      deprecatedRules.push(pluginRuleName)
     }
 
     const isArrayRuleEntry = Array.isArray(ruleEntry)
     const ruleSeverity = isArrayRuleEntry ? ruleEntry[0] : ruleEntry
 
     const isInvalidRuleEntry = isArrayRuleEntry && ruleEntry[1] == null
-    const isInvalidRuleSeverity = !VALID_RULE_SEVERITY.has(ruleSeverity)
+    const isInvalidRuleSeverity = !VALID_RULE_SEVERITIES.has(ruleSeverity)
 
     if (isInvalidRuleEntry) {
-      invalidEntryRules.push(pluginRuleNameWithPrefix)
+      invalidEntryRules.push(pluginRuleName)
     }
 
     if (isInvalidRuleSeverity) {
-      invalidSeverityRules.push(pluginRuleNameWithPrefix)
+      invalidSeverityRules.push(pluginRuleName)
     }
   }
 
-  for (const rule of Object.keys(configRules)) {
-    const split = rule.split('/')
-    const ruleNameRest = (split.length > 1) ? split.slice(1) : split
-    const ruleName = ruleNameRest.join('/')
+  for (const ruleName of Object.keys(configRules)) {
+    const ruleNameParts = ruleName.split('/')
+    const ruleNameOnly = (ruleNameParts.length > 1)
+      ? ruleNameParts.slice(1).join('/')
+      : ruleNameParts.join('/')
 
-    const pluginRule = pluginRules[ruleName]
+    const pluginRule = pluginRules[ruleNameOnly]
 
     if (pluginRule == null) {
-      invalidNameRules.push(rule)
+      invalidNameRules.push(ruleName)
     }
   }
 
@@ -76,18 +78,17 @@ export function testPluginConfig(
   describe(describeName, () => {
     test('Snapshot of the schema has not been changed', (t) => {
       const snapshot: Record<string, unknown> = {}
-      const pluginRulesEntries = Object.entries(pluginRules)
 
-      pluginRulesEntries.sort(([a], [b]) => {
+      const pluginRulesSorted = pluginRulesEntries.toSorted(([a], [b]) => {
         return a.localeCompare(b)
       })
 
-      for (const [pluginRuleName, pluginRule] of pluginRulesEntries) {
-        const pluginRuleNameWithPrefix = (pluginName !== null)
-          ? `${pluginName}/${pluginRuleName}`
-          : pluginRuleName
+      for (const [ruleName, ruleModule] of pluginRulesSorted) {
+        const pluginRuleName = (pluginName !== null)
+          ? `${pluginName}/${ruleName}`
+          : ruleName
 
-        snapshot[pluginRuleNameWithPrefix] = pluginRule.meta?.schema
+        snapshot[pluginRuleName] = ruleModule.meta?.schema
       }
 
       t.assert.snapshot(snapshot)
@@ -97,14 +98,18 @@ export function testPluginConfig(
       assert.notEqual(config.name, null)
     })
 
+    test('Has files', () => {
+      assert.notEqual(config.files, null)
+    })
+
     if (pluginName !== null) {
       test('Has plugin', () => {
         assert.notEqual(config.plugins?.[pluginName], null)
       })
     }
 
-    test('No not considered rules', () => {
-      assert.deepStrictEqual(notConsideredRules, [])
+    test('No missing rules', () => {
+      assert.deepStrictEqual(missingRules, [])
     })
 
     test('No deprecated rules', () => {

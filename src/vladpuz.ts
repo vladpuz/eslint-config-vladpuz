@@ -73,7 +73,6 @@ function vladpuz(options: Options = {}): Linter.Config[] {
 
   const configJs = getJavascriptConfig(filesJsAndTs)
   const rulesJs = configJs.rules ?? {}
-
   config.push(configJs)
 
   if (enableTypescript !== false) {
@@ -81,17 +80,10 @@ function vladpuz(options: Options = {}): Linter.Config[] {
       ? enableTypescript
       : {}
 
-    if (parserOptions.ecmaFeatures?.jsx != null) {
-      throw new Error(
-        'Use "options.jsx" instead of "options.typescript.ecmaFeatures.jsx"',
-      )
-    }
-
-    const tsconfigRootDir = parserOptions.tsconfigRootDir ?? process.cwd()
-    const compilerOptions = getCompilerOptions(tsconfigRootDir)
+    const compilerOptions = getCompilerOptions(parserOptions)
     const configTs = getTypescriptConfig(filesTs, compilerOptions)
+    const rulesTs = configTs.rules ?? {}
 
-    // Setup parser
     configTs.languageOptions = {
       parser: tseslint.parser,
       parserOptions: {
@@ -104,52 +96,53 @@ function vladpuz(options: Options = {}): Linter.Config[] {
       },
     }
 
-    const rulesTs = configTs.rules ?? {}
-
-    // Disable equivalent js rules
-    for (const ruleName of Object.keys(rulesTs)) {
-      const [, ...ruleNameRest] = ruleName.split('/')
-      const rule = ruleNameRest.join('/')
-
-      const hasJsRule = rule in rulesJs
-
-      if (hasJsRule) {
-        rulesTs[rule] = 'off'
-      }
-    }
-
+    // https://github.com/typescript-eslint/typescript-eslint/blob/main/packages/eslint-plugin/src/configs/eslint-recommended-raw.ts
     // eslint-disable-next-line @typescript-eslint/no-unsafe-type-assertion
-    const tsHandledRules = (
+    const tsCompatibilityRules = (
       tseslint.configs.eslintRecommended.rules ?? {}
     ) as Linter.RulesRecord
 
-    // Disable ts handled js rules
-    for (const [ruleName, ruleEntry] of Object.entries(tsHandledRules)) {
+    for (const [ruleName, ruleEntry] of Object.entries(tsCompatibilityRules)) {
       const ruleSeverity = Array.isArray(ruleEntry) ? ruleEntry[0] : ruleEntry
 
-      if (ruleSeverity === 'off') {
-        rulesTs[ruleName] = 'off'
+      if (ruleSeverity === 'off' || ruleSeverity === 0) {
+        rulesTs[ruleName] = ruleEntry
+      } else {
+        const ruleEntryJs = rulesJs[ruleName]
+        const ruleSeverityJs = Array.isArray(ruleEntryJs)
+          ? ruleEntryJs[0]
+          : ruleEntryJs
+
+        if (ruleSeverityJs === 'off' || ruleSeverityJs === 0) {
+          rulesJs[ruleName] = ruleEntry
+        }
+      }
+    }
+
+    // Disable equivalent js rules (extension rules replace the base rules)
+    for (const ruleName of Object.keys(rulesTs)) {
+      const ruleNameOnly = ruleName.split('/').slice(1).join('/')
+      const hasJsRule = ruleNameOnly in rulesJs
+
+      if (hasJsRule) {
+        rulesTs[ruleNameOnly] = 'off'
       }
     }
 
     config.push(configTs)
   }
 
-  config.push(
-    getImportConfig(filesJsAndTs),
-  )
+  const importConfig = getImportConfig(filesJsAndTs)
+  config.push(importConfig)
 
-  config.push(
-    getNodeConfig(filesJsAndTs),
-  )
+  const nodeConfig = getNodeConfig(filesJsAndTs)
+  config.push(nodeConfig)
 
-  config.push(
-    getPerfectionistConfig(filesJsAndTs),
-  )
+  const perfectionistConfig = getPerfectionistConfig(filesJsAndTs)
+  config.push(perfectionistConfig)
 
-  config.push(
-    getPromiseConfig(filesJsAndTs),
-  )
+  const promiseConfig = getPromiseConfig(filesJsAndTs)
+  config.push(promiseConfig)
 
   if (enableStylistic !== false) {
     const stylisticUserOptions = (typeof enableStylistic === 'object')

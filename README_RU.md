@@ -17,9 +17,9 @@
 Принципы:
 
 - Безопасность
+- Консистентность
 - Минимальность для чтения
 - Стабильность для diff
-- Консистентность
 
 Если вам нужен React, используйте
 [eslint-config-vladpuz-react](https://github.com/vladpuz/eslint-config-vladpuz-react).
@@ -182,6 +182,75 @@ import vladpuz from 'eslint-config-vladpuz'
 
 export default vladpuz({
   jsx: false,
+})
+```
+
+## Дополнительно
+
+### errorify(target)
+
+Преобразует severity правил `warn`/`1` в `error`/`2`.
+
+- target (`Linter.Config[] | Linter.Config | Linter.RulesRecord`)
+
+Return: `Linter.Config[] | Linter.Config | Linter.RulesRecord`
+
+Предназначается для добавления сторонних конфигураций с сохранением общего стиля
+severity (без warn):
+
+```javascript
+import vladpuz, { errorify } from 'eslint-config-vladpuz'
+import x from 'eslint-plugin-x'
+
+export default [...vladpuz(), errorify(x.configs.recommended)]
+```
+
+### getCompilerOptions(parserOptions?, force?)
+
+Получает опции компилятора из tsconfig.json.
+
+- parserOptions (`ParserOptions = {}`) - Опции парсера для поиска tsconfig.json.
+- force (`boolean = false`) - Отключает кеш.
+
+Return: `CompilerOptions`
+
+Предназначается для динамического управления правилами в зависимости от опций
+компилятора из tsconfig.json:
+
+```javascript
+import { getCompilerOptions } from 'eslint-config-vladpuz'
+
+const compilerOptions = getCompilerOptions()
+
+console.log(compilerOptions.strict)
+console.log(compilerOptions.noEmit)
+```
+
+### testPluginConfig(pluginName, pluginRules, config)
+
+Тестирует конфиг плагина через node:test.
+
+- pluginName (`string | null`) - Название плагина.
+- pluginRules (`Record<string, Rule.RuleModule>`) - Правила плагина.
+- config (`Linter.Config`) - Тестируемый конфиг.
+
+Return: `void`
+
+Предназначается для тестирования конфигов плагинов внутри eslint-config-vladpuz
+и расширенных конфигурациях (например
+[eslint-config-vladpuz-react/src/configs.test.ts](https://github.com/vladpuz/eslint-config-vladpuz-react/tree/main/src/configs.test.ts)):
+
+```javascript
+import { testPluginConfig } from 'eslint-config-vladpuz'
+import tseslint from 'typescript-eslint'
+
+testPluginConfig('@typescript-eslint', tseslint.plugin.rules, {
+  name: 'vladpuz/typescript',
+  files: [],
+  plugins: {
+    '@typescript-eslint': tseslint.plugin,
+  },
+  rules: {},
 })
 ```
 
