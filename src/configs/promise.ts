@@ -2,10 +2,9 @@ import type { Linter } from 'eslint'
 
 import promise from 'eslint-plugin-promise'
 
-export function getPromiseConfig(files: string[]): Linter.Config {
+export function getPromiseConfig(): Linter.Config {
   return {
     name: 'vladpuz/promise',
-    files,
     plugins: {
       promise,
     },

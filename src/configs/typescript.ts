@@ -4,12 +4,10 @@ import type { CompilerOptions } from 'typescript'
 import tseslint from 'typescript-eslint'
 
 export function getTypescriptConfig(
-  files: string[],
   compilerOptions: CompilerOptions,
 ): Linter.Config {
   return {
     name: 'vladpuz/typescript',
-    files,
     plugins: {
       '@typescript-eslint': tseslint.plugin,
     },

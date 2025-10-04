@@ -11,7 +11,6 @@ import { getNodeConfig } from './configs/node.ts'
 import { getPerfectionistConfig } from './configs/perfectionist.ts'
 import { getPromiseConfig } from './configs/promise.ts'
 import { getTypescriptConfig } from './configs/typescript.ts'
-import { getCompilerOptions } from './getCompilerOptions.ts'
 import { testPluginConfig } from './testPluginConfig.ts'
 
 const linter = new Linter({
@@ -21,35 +20,35 @@ const linter = new Linter({
 testPluginConfig(
   null,
   Object.fromEntries(linter.getRules()),
-  getJavascriptConfig([]),
+  getJavascriptConfig(),
 )
 
 testPluginConfig(
   '@typescript-eslint',
   ((tseslint.plugin as ESLint.Plugin).rules ?? {}),
-  getTypescriptConfig([], getCompilerOptions()),
+  getTypescriptConfig({}),
 )
 
 testPluginConfig(
   'import-lite',
   importLite.rules,
-  getImportConfig([]),
+  getImportConfig(),
 )
 
 testPluginConfig(
   'n',
   n.rules ?? {},
-  getNodeConfig([]),
+  getNodeConfig(),
 )
 
 testPluginConfig(
   'perfectionist',
   perfectionist.rules,
-  getPerfectionistConfig([]),
+  getPerfectionistConfig(),
 )
 
 testPluginConfig(
   'promise',
   promise.rules ?? {},
-  getPromiseConfig([]),
+  getPromiseConfig(),
 )

@@ -1,10 +1,9 @@
 import type { Linter } from 'eslint'
 import type { ESLintRules } from 'eslint/rules'
 
-export function getJavascriptConfig(files: string[]): Linter.Config {
+export function getJavascriptConfig(): Linter.Config {
   return {
     name: 'vladpuz/javascript',
-    files,
     rules: {
       'accessor-pairs': ['error', { enforceForTSTypes: true }],
       'array-callback-return': 'error',

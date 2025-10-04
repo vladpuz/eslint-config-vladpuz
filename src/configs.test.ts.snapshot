@@ -4188,6 +4188,10 @@ exports[`ESLint config > Snapshot of the schema has not been changed 1`] = `
                   "items": {
                     "type": "string"
                   }
+                },
+                "allowTypeImports": {
+                  "type": "boolean",
+                  "description": "Whether to allow type-only imports for a path."
                 }
               },
               "additionalProperties": false,
@@ -4239,6 +4243,10 @@ exports[`ESLint config > Snapshot of the schema has not been changed 1`] = `
                           "items": {
                             "type": "string"
                           }
+                        },
+                        "allowTypeImports": {
+                          "type": "boolean",
+                          "description": "Whether to allow type-only imports for a path."
                         }
                       },
                       "additionalProperties": false,
@@ -4309,6 +4317,10 @@ exports[`ESLint config > Snapshot of the schema has not been changed 1`] = `
                         },
                         "caseSensitive": {
                           "type": "boolean"
+                        },
+                        "allowTypeImports": {
+                          "type": "boolean",
+                          "description": "Whether to allow type-only imports for a pattern."
                         }
                       },
                       "additionalProperties": false,

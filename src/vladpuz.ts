@@ -2,6 +2,7 @@ import type { ParserOptions } from '@typescript-eslint/types'
 import type { Linter } from 'eslint'
 
 import stylistic, { type StylisticCustomizeOptions } from '@stylistic/eslint-plugin'
+import gitignore, { type FlatGitignoreOptions } from 'eslint-config-flat-gitignore'
 import globals from 'globals'
 import tseslint from 'typescript-eslint'
 
@@ -20,10 +21,13 @@ export interface Options {
   filesJs?: string[]
   filesTs?: string[]
   env?: Array<keyof typeof globals>
-  stylistic?: boolean | StylisticOptions
+  gitignore?: boolean | GitignoreOptions
   typescript?: boolean | ParserOptions
+  stylistic?: boolean | StylisticOptions
   jsx?: boolean
 }
+
+export type GitignoreOptions = Omit<FlatGitignoreOptions, 'name'>
 
 export type StylisticOptions = Pick<
   StylisticCustomizeOptions,
@@ -35,8 +39,9 @@ function vladpuz(options: Options = {}): Linter.Config[] {
     filesJs = FILES_JS,
     filesTs = FILES_TS,
     env = ['node', 'browser'],
-    stylistic: enableStylistic = true,
+    gitignore: enableGitignore = true,
     typescript: enableTypescript = true,
+    stylistic: enableStylistic = true,
     jsx: enableJsx = true,
   } = options
 
@@ -58,12 +63,12 @@ function vladpuz(options: Options = {}): Linter.Config[] {
     name: 'vladpuz/base',
     files: filesJsAndTs,
     languageOptions: {
-      globals: resolvedGlobals,
       parserOptions: {
         ecmaFeatures: {
           jsx: enableJsx,
         },
       },
+      globals: resolvedGlobals,
     },
     linterOptions: {
       reportUnusedDisableDirectives: 'error',
@@ -71,7 +76,21 @@ function vladpuz(options: Options = {}): Linter.Config[] {
     },
   })
 
-  const configJs = getJavascriptConfig(filesJsAndTs)
+  if (enableGitignore !== false) {
+    const gitignoreOptions = (typeof enableGitignore === 'object')
+      ? enableGitignore
+      : {}
+
+    const configGitignore = gitignore({
+      strict: false,
+      ...gitignoreOptions,
+      name: 'vladpuz/gitignore',
+    })
+
+    config.push(configGitignore)
+  }
+
+  const configJs = getJavascriptConfig()
   const rulesJs = configJs.rules ?? {}
   config.push(configJs)
 
@@ -81,18 +100,15 @@ function vladpuz(options: Options = {}): Linter.Config[] {
       : {}
 
     const compilerOptions = getCompilerOptions(parserOptions)
-    const configTs = getTypescriptConfig(filesTs, compilerOptions)
+    const configTs = getTypescriptConfig(compilerOptions)
     const rulesTs = configTs.rules ?? {}
 
+    configTs.files = filesTs
     configTs.languageOptions = {
       parser: tseslint.parser,
       parserOptions: {
         projectService: true,
         ...parserOptions,
-        ecmaFeatures: {
-          ...parserOptions.ecmaFeatures,
-          jsx: enableJsx,
-        },
       },
     }
 
@@ -106,15 +122,24 @@ function vladpuz(options: Options = {}): Linter.Config[] {
       const ruleSeverity = Array.isArray(ruleEntry) ? ruleEntry[0] : ruleEntry
 
       if (ruleSeverity === 'off' || ruleSeverity === 0) {
-        rulesTs[ruleName] = ruleEntry
+        rulesTs[ruleName] = 'off'
       } else {
-        const ruleEntryJs = rulesJs[ruleName]
-        const ruleSeverityJs = Array.isArray(ruleEntryJs)
-          ? ruleEntryJs[0]
-          : ruleEntryJs
+        const ruleEntryJs = rulesJs[ruleName] ?? 'off'
 
-        if (ruleSeverityJs === 'off' || ruleSeverityJs === 0) {
-          rulesJs[ruleName] = ruleEntry
+        let ruleSeverityJs: Linter.RuleSeverity = 'off'
+        let ruleOptionsJs: unknown[] = []
+
+        if (Array.isArray(ruleEntryJs)) {
+          ruleSeverityJs = ruleEntryJs[0]
+          ruleOptionsJs = ruleEntryJs.slice(1)
+        } else {
+          ruleSeverityJs = ruleEntryJs
+        }
+
+        if (ruleSeverityJs === 'off') {
+          rulesJs[ruleName] = (ruleOptionsJs.length > 0)
+            ? ['error', ...ruleOptionsJs]
+            : 'error'
         }
       }
     }
@@ -132,16 +157,16 @@ function vladpuz(options: Options = {}): Linter.Config[] {
     config.push(configTs)
   }
 
-  const importConfig = getImportConfig(filesJsAndTs)
+  const importConfig = getImportConfig()
   config.push(importConfig)
 
-  const nodeConfig = getNodeConfig(filesJsAndTs)
+  const nodeConfig = getNodeConfig()
   config.push(nodeConfig)
 
-  const perfectionistConfig = getPerfectionistConfig(filesJsAndTs)
+  const perfectionistConfig = getPerfectionistConfig()
   config.push(perfectionistConfig)
 
-  const promiseConfig = getPromiseConfig(filesJsAndTs)
+  const promiseConfig = getPromiseConfig()
   config.push(promiseConfig)
 
   if (enableStylistic !== false) {
@@ -180,7 +205,6 @@ function vladpuz(options: Options = {}): Linter.Config[] {
 
     config.push({
       name: 'vladpuz/stylistic',
-      files: filesJsAndTs,
       plugins: pluginsStylistic,
       rules: rulesStylistic,
     })

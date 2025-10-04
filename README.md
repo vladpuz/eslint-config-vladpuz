@@ -9,6 +9,7 @@ Features:
 - Auto fix for formatting via
   [eslint-stylistic](https://github.com/eslint-stylistic/eslint-stylistic)
   (targeted for use without Prettier)
+- Supports `.gitignore` by default
 - Doesn't conflict with TypeScript at any tsconfig.json options (TypeScript
   completely replaces some rules)
 - Ability to customize your own stylistic preferences
@@ -79,8 +80,9 @@ interface Options {
   filesJs?: string[] // Default - ['**/*.js', '**/*.jsx', '**/*.mjs', '**/*.cjs']
   filesTs?: string[] // Default - ['**/*.ts', '**/*.tsx', '**/*.mts', '**/*.cts']
   env?: Array<keyof typeof globals> // Default - ['node', 'browser']
-  stylistic?: boolean | StylisticOptions // Default - true
+  gitignore?: boolean | GitignoreOptions // Default - true
   typescript?: boolean | ParserOptions // Default - true
+  stylistic?: boolean | StylisticOptions // Default - true
   jsx?: boolean // Default - true
 }
 ```
@@ -121,26 +123,24 @@ export default vladpuz({
 })
 ```
 
-### stylistic
+### gitignore
 
-Type: `boolean | StylisticOptions`
+Type: `boolean | GitignoreOptions`
 
 Default: `true`
 
-Enables/disables Stylistic or customizes your own stylistic preferences:
+Enables/disables support for `.gitignore` or configures its search options.
 
 ```javascript
 import vladpuz from 'eslint-config-vladpuz'
 
 export default vladpuz({
-  // Default stylistic config is:
-  stylistic: {
-    indent: 2,
-    quotes: 'single',
-    semi: false,
+  // Default gitignore config is:
+  gitignore: {
+    strict: false,
   },
-  // You can disable stylistic:
-  // stylistic: false,
+  // You can disable gitignore:
+  // gitignore: false,
 })
 ```
 
@@ -165,6 +165,29 @@ export default vladpuz({
   },
   // You can disable typescript:
   // typescript: false,
+})
+```
+
+### stylistic
+
+Type: `boolean | StylisticOptions`
+
+Default: `true`
+
+Enables/disables Stylistic or configures your own stylistic preferences:
+
+```javascript
+import vladpuz from 'eslint-config-vladpuz'
+
+export default vladpuz({
+  // Default stylistic config is:
+  stylistic: {
+    indent: 2,
+    quotes: 'single',
+    semi: false,
+  },
+  // You can disable stylistic:
+  // stylistic: false,
 })
 ```
 
@@ -274,6 +297,6 @@ This project follows [Semantic Versioning](https://semver.org). However, since
 this is just a configuration requiring opinions and many changeable components,
 we don't consider rule changes critical.
 
-## See also
+## See Also
 
 - [prettier-config-vladpuz](https://github.com/vladpuz/prettier-config-vladpuz)

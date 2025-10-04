@@ -2,10 +2,9 @@ import type { Linter } from 'eslint'
 
 import n from 'eslint-plugin-n'
 
-export function getNodeConfig(files: string[]): Linter.Config {
+export function getNodeConfig(): Linter.Config {
   return {
     name: 'vladpuz/node',
-    files,
     plugins: {
       n,
     },

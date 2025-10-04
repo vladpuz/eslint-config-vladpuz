@@ -6,6 +6,7 @@ import { describe, test } from 'node:test'
 /* eslint @typescript-eslint/no-floating-promises: off */
 
 const VALID_RULE_SEVERITIES = new Set<Linter.RuleSeverity>(['error', 'off'])
+const ALLOWED_CONFIG_KEYS = new Set(['name', 'plugins', 'rules'])
 
 export function testPluginConfig(
   pluginName: string | null,
@@ -14,18 +15,25 @@ export function testPluginConfig(
 ): void {
   const configRules = config.rules ?? {}
 
+  const snapshot: Record<string, unknown> = {}
   const missingRules: string[] = []
   const deprecatedRules: string[] = []
   const invalidEntryRules: string[] = []
   const invalidSeverityRules: string[] = []
   const invalidNameRules: string[] = []
 
-  const pluginRulesEntries = Object.entries(pluginRules)
+  const pluginRulesEntries = Object
+    .entries(pluginRules)
+    .toSorted(([a], [b]) => {
+      return a.localeCompare(b)
+    })
 
   for (const [ruleName, ruleModule] of pluginRulesEntries) {
     const pluginRuleName = (pluginName !== null)
       ? `${pluginName}/${ruleName}`
       : ruleName
+
+    snapshot[pluginRuleName] = ruleModule.meta?.schema
 
     const ruleEntry = configRules[pluginRuleName]
     const isDeprecated = Boolean(ruleModule.meta?.deprecated)
@@ -77,20 +85,6 @@ export function testPluginConfig(
 
   describe(describeName, () => {
     test('Snapshot of the schema has not been changed', (t) => {
-      const snapshot: Record<string, unknown> = {}
-
-      const pluginRulesSorted = pluginRulesEntries.toSorted(([a], [b]) => {
-        return a.localeCompare(b)
-      })
-
-      for (const [ruleName, ruleModule] of pluginRulesSorted) {
-        const pluginRuleName = (pluginName !== null)
-          ? `${pluginName}/${ruleName}`
-          : ruleName
-
-        snapshot[pluginRuleName] = ruleModule.meta?.schema
-      }
-
       t.assert.snapshot(snapshot)
     })
 
@@ -98,15 +92,21 @@ export function testPluginConfig(
       assert.notEqual(config.name, null)
     })
 
-    test('Has files', () => {
-      assert.notEqual(config.files, null)
-    })
-
     if (pluginName !== null) {
       test('Has plugin', () => {
         assert.notEqual(config.plugins?.[pluginName], null)
       })
     }
+
+    test('Has only allowed keys', () => {
+      const configKeys = Object.keys(config)
+
+      const disallowedConfigKeys = configKeys.filter((configKey) => {
+        return !ALLOWED_CONFIG_KEYS.has(configKey)
+      })
+
+      assert.deepStrictEqual(disallowedConfigKeys, [])
+    })
 
     test('No missing rules', () => {
       assert.deepStrictEqual(missingRules, [])

@@ -1,3 +1,8 @@
+## 2.5.0
+
+- Added
+  [eslint-config-flat-gitignore](https://github.com/antfu/eslint-config-flat-gitignore).
+
 ## 2.0.0
 
 - Config [eslint-config-love](https://www.npmjs.com/package/eslint-config-love)

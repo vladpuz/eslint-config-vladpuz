@@ -2,10 +2,9 @@ import type { Linter } from 'eslint'
 
 import perfectionist from 'eslint-plugin-perfectionist'
 
-export function getPerfectionistConfig(files: string[]): Linter.Config {
+export function getPerfectionistConfig(): Linter.Config {
   return {
     name: 'vladpuz/perfectionist',
-    files,
     plugins: {
       perfectionist,
     },

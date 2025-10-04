@@ -9,6 +9,7 @@
 - Авто исправление для форматирования через
   [eslint-stylistic](https://github.com/eslint-stylistic/eslint-stylistic)
   (нацелен на использование без Prettier)
+- Поддерживает `.gitignore` по умолчанию
 - Не конфликтует с TypeScript при любых опциях tsconfig.json (TypeScript
   полностью заменяет некоторые правила)
 - Возможность настроить собственные стилистические предпочтения
@@ -79,8 +80,9 @@ interface Options {
   filesJs?: string[] // Default - ['**/*.js', '**/*.jsx', '**/*.mjs', '**/*.cjs']
   filesTs?: string[] // Default - ['**/*.ts', '**/*.tsx', '**/*.mts', '**/*.cts']
   env?: Array<keyof typeof globals> // Default - ['node', 'browser']
-  stylistic?: boolean | StylisticOptions // Default - true
+  gitignore?: boolean | GitignoreOptions // Default - true
   typescript?: boolean | ParserOptions // Default - true
+  stylistic?: boolean | StylisticOptions // Default - true
   jsx?: boolean // Default - true
 }
 ```
@@ -121,27 +123,24 @@ export default vladpuz({
 })
 ```
 
-### stylistic
+### gitignore
 
-Type: `boolean | StylisticOptions`
+Type: `boolean | GitignoreOptions`
 
 Default: `true`
 
-Включает/отключает Stylistic или настраивает ваши собственные стилистические
-предпочтения:
+Включает/отключает поддержку `.gitignore` или настраивает опции его поиска.
 
 ```javascript
 import vladpuz from 'eslint-config-vladpuz'
 
 export default vladpuz({
-  // Default stylistic config is:
-  stylistic: {
-    indent: 2,
-    quotes: 'single',
-    semi: false,
+  // Default gitignore config is:
+  gitignore: {
+    strict: false,
   },
-  // You can disable stylistic:
-  // stylistic: false,
+  // You can disable gitignore:
+  // gitignore: false,
 })
 ```
 
@@ -166,6 +165,30 @@ export default vladpuz({
   },
   // You can disable typescript:
   // typescript: false,
+})
+```
+
+### stylistic
+
+Type: `boolean | StylisticOptions`
+
+Default: `true`
+
+Включает/отключает Stylistic или настраивает ваши собственные стилистические
+предпочтения:
+
+```javascript
+import vladpuz from 'eslint-config-vladpuz'
+
+export default vladpuz({
+  // Default stylistic config is:
+  stylistic: {
+    indent: 2,
+    quotes: 'single',
+    semi: false,
+  },
+  // You can disable stylistic:
+  // stylistic: false,
 })
 ```
 
