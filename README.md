@@ -159,9 +159,6 @@ export default vladpuz({
   // Default typescript config is:
   typescript: {
     projectService: true,
-    ecmaFeatures: {
-      jsx: options.jsx,
-    },
   },
   // You can disable typescript:
   // typescript: false,
