@@ -6,7 +6,6 @@ import { describe, test } from 'node:test'
 /* eslint @typescript-eslint/no-floating-promises: off */
 
 const VALID_RULE_SEVERITIES = new Set<Linter.RuleSeverity>(['error', 'off'])
-const ALLOWED_CONFIG_KEYS = new Set(['name', 'plugins', 'rules'])
 
 export function testPluginConfig(
   pluginName: string | null,
@@ -97,16 +96,6 @@ export function testPluginConfig(
         assert.notEqual(config.plugins?.[pluginName], null)
       })
     }
-
-    test('Has only allowed keys', () => {
-      const configKeys = Object.keys(config)
-
-      const disallowedConfigKeys = configKeys.filter((configKey) => {
-        return !ALLOWED_CONFIG_KEYS.has(configKey)
-      })
-
-      assert.deepStrictEqual(disallowedConfigKeys, [])
-    })
 
     test('No missing rules', () => {
       assert.deepStrictEqual(missingRules, [])

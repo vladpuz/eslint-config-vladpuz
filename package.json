@@ -33,17 +33,17 @@
     "eslint-config-flat-gitignore": "^2.1.0",
     "eslint-plugin-import-lite": "^0.3.0",
     "eslint-plugin-n": "^17.23.1",
-    "eslint-plugin-perfectionist": "^4.15.0",
+    "eslint-plugin-perfectionist": "^4.15.1",
     "eslint-plugin-promise": "^7.2.1",
     "globals": "^16.4.0",
-    "typescript-eslint": "^8.45.0"
+    "typescript-eslint": "^8.46.0"
   },
   "devDependencies": {
     "@tsconfig/node-lts": "^22.0.2",
     "@tsconfig/node-ts": "^23.6.1",
     "@tsconfig/strictest": "^2.0.6",
-    "@types/node": "^24.6.2",
-    "@types/react": "^19.2.0",
+    "@types/node": "^24.7.2",
+    "@types/react": "^19.2.2",
     "husky": "^9.1.7",
     "prettier": "^3.6.2",
     "prettier-config-vladpuz": "^2.0.0",

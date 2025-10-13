@@ -6448,16 +6448,20 @@ exports[`Plugin \"@typescript-eslint\" config > Snapshot of the schema has not b
           "description": "A minimum character length for descriptions when \`allow-with-description\` is enabled."
         },
         "ts-check": {
-          "$ref": "#/items/0/$defs/directiveConfigSchema"
+          "$ref": "#/items/0/$defs/directiveConfigSchema",
+          "description": "Whether allow ts-check directives, and with which restrictions."
         },
         "ts-expect-error": {
-          "$ref": "#/items/0/$defs/directiveConfigSchema"
+          "$ref": "#/items/0/$defs/directiveConfigSchema",
+          "description": "Whether and when expect-error directives, and with which restrictions."
         },
         "ts-ignore": {
-          "$ref": "#/items/0/$defs/directiveConfigSchema"
+          "$ref": "#/items/0/$defs/directiveConfigSchema",
+          "description": "Whether allow ts-ignore directives, and with which restrictions."
         },
         "ts-nocheck": {
-          "$ref": "#/items/0/$defs/directiveConfigSchema"
+          "$ref": "#/items/0/$defs/directiveConfigSchema",
+          "description": "Whether allow ts-nocheck directives, and with which restrictions."
         }
       }
     }
@@ -6768,19 +6772,24 @@ exports[`Plugin \"@typescript-eslint\" config > Snapshot of the schema has not b
           "description": "Changes to required accessibility modifiers for specific kinds of class members.",
           "properties": {
             "accessors": {
-              "$ref": "#/items/0/$defs/accessibilityLevel"
+              "$ref": "#/items/0/$defs/accessibilityLevel",
+              "description": "Which member accessibility modifier requirements to apply for accessors."
             },
             "constructors": {
-              "$ref": "#/items/0/$defs/accessibilityLevel"
+              "$ref": "#/items/0/$defs/accessibilityLevel",
+              "description": "Which member accessibility modifier requirements to apply for constructors."
             },
             "methods": {
-              "$ref": "#/items/0/$defs/accessibilityLevel"
+              "$ref": "#/items/0/$defs/accessibilityLevel",
+              "description": "Which member accessibility modifier requirements to apply for methods."
             },
             "parameterProperties": {
-              "$ref": "#/items/0/$defs/accessibilityLevel"
+              "$ref": "#/items/0/$defs/accessibilityLevel",
+              "description": "Which member accessibility modifier requirements to apply for parameterProperties."
             },
             "properties": {
-              "$ref": "#/items/0/$defs/accessibilityLevel"
+              "$ref": "#/items/0/$defs/accessibilityLevel",
+              "description": "Which member accessibility modifier requirements to apply for properties."
             }
           }
         }
@@ -7203,19 +7212,24 @@ exports[`Plugin \"@typescript-eslint\" config > Snapshot of the schema has not b
       "additionalProperties": false,
       "properties": {
         "classes": {
-          "$ref": "#/items/0/$defs/baseConfig"
+          "$ref": "#/items/0/$defs/baseConfig",
+          "description": "Which ordering to enforce for classes."
         },
         "classExpressions": {
-          "$ref": "#/items/0/$defs/baseConfig"
+          "$ref": "#/items/0/$defs/baseConfig",
+          "description": "Which ordering to enforce for classExpressions."
         },
         "default": {
-          "$ref": "#/items/0/$defs/baseConfig"
+          "$ref": "#/items/0/$defs/baseConfig",
+          "description": "Which ordering to enforce for default."
         },
         "interfaces": {
-          "$ref": "#/items/0/$defs/typesConfig"
+          "$ref": "#/items/0/$defs/typesConfig",
+          "description": "Which ordering to enforce for interfaces."
         },
         "typeLiterals": {
-          "$ref": "#/items/0/$defs/typesConfig"
+          "$ref": "#/items/0/$defs/typesConfig",
+          "description": "Which ordering to enforce for typeLiterals."
         }
       }
     }
@@ -7223,6 +7237,7 @@ exports[`Plugin \"@typescript-eslint\" config > Snapshot of the schema has not b
   "@typescript-eslint/method-signature-style": [
     {
       "type": "string",
+      "description": "The method signature style to enforce using.",
       "enum": [
         "property",
         "method"
@@ -9140,7 +9155,7 @@ exports[`Plugin \"@typescript-eslint\" config > Snapshot of the schema has not b
         },
         "ignoredTypeNames": {
           "type": "array",
-          "description": "Stringified regular expressions of type names to ignore.",
+          "description": "Stringified type names to ignore.",
           "items": {
             "type": "string"
           }
@@ -10401,10 +10416,12 @@ exports[`Plugin \"@typescript-eslint\" config > Snapshot of the schema has not b
           "description": "Whether to ignore constant loop conditions, such as \`while (true)\`.",
           "oneOf": [
             {
-              "type": "boolean"
+              "type": "boolean",
+              "description": "Always ignore or not ignore the loop conditions"
             },
             {
               "type": "string",
+              "description": "Which situations to ignore constant conditions in.",
               "enum": [
                 "always",
                 "never",
@@ -10456,7 +10473,18 @@ exports[`Plugin \"@typescript-eslint\" config > Snapshot of the schema has not b
   "@typescript-eslint/no-unsafe-declaration-merging": [],
   "@typescript-eslint/no-unsafe-enum-comparison": [],
   "@typescript-eslint/no-unsafe-function-type": [],
-  "@typescript-eslint/no-unsafe-member-access": [],
+  "@typescript-eslint/no-unsafe-member-access": [
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "allowOptionalChaining": {
+          "type": "boolean",
+          "description": "Whether to allow \`?.\` optional chains on \`any\` values."
+        }
+      }
+    }
+  ],
   "@typescript-eslint/no-unsafe-return": [],
   "@typescript-eslint/no-unsafe-type-assertion": [],
   "@typescript-eslint/no-unsafe-unary-minus": [],
@@ -10488,6 +10516,7 @@ exports[`Plugin \"@typescript-eslint\" config > Snapshot of the schema has not b
       "oneOf": [
         {
           "type": "string",
+          "description": "Broad setting for unused variables to target.",
           "enum": [
             "all",
             "local"
@@ -10534,6 +10563,10 @@ exports[`Plugin \"@typescript-eslint\" config > Snapshot of the schema has not b
               "type": "boolean",
               "description": "Whether to ignore sibling properties in \`...\` destructurings."
             },
+            "ignoreUsingDeclarations": {
+              "type": "boolean",
+              "description": "Whether to ignore using or await using declarations."
+            },
             "reportUsedIgnorePattern": {
               "type": "boolean",
               "description": "Whether to report variables that match any of the valid ignore pattern options if they have been used."
@@ -10560,6 +10593,7 @@ exports[`Plugin \"@typescript-eslint\" config > Snapshot of the schema has not b
       "oneOf": [
         {
           "type": "string",
+          "description": "Broadly set functions and allowNamedExports to false.",
           "enum": [
             "nofunc"
           ]
