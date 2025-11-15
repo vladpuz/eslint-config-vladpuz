@@ -1,8 +1,8 @@
-import vladpuz from './vladpuz.js'
+import vladpuz from './vladpuz.ts'
 
-export * from './errorify.js'
-export * from './getCompilerOptions.js'
-export * from './testPluginConfig.js'
-export * from './vladpuz.js'
+export * from './errorify.ts'
+export * from './getCompilerOptions.ts'
+export * from './testPluginConfig.ts'
+export * from './vladpuz.ts'
 
 export default vladpuz

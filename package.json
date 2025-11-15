@@ -1,6 +1,6 @@
 {
   "name": "eslint-config-vladpuz",
-  "version": "2.5.0",
+  "version": "2.5.1",
   "description": "My ESLint config",
   "keywords": [
     "vladpuz",
@@ -24,30 +24,30 @@
     "lint": "eslint .",
     "prepack": "npm run clean && npm run build && npm run check && npm run test",
     "prepare": "husky",
-    "test": "node --test --experimental-transform-types",
-    "test-update-snapshots": "node --test --test-update-snapshots --experimental-transform-types",
+    "test": "node --test",
+    "test-update-snapshots": "node --test --test-update-snapshots",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@stylistic/eslint-plugin": "^5.4.0",
+    "@stylistic/eslint-plugin": "^5.5.0",
     "eslint-config-flat-gitignore": "^2.1.0",
     "eslint-plugin-import-lite": "^0.3.0",
     "eslint-plugin-n": "^17.23.1",
     "eslint-plugin-perfectionist": "^4.15.1",
     "eslint-plugin-promise": "^7.2.1",
-    "globals": "^16.4.0",
-    "typescript-eslint": "^8.46.0"
+    "globals": "^16.5.0",
+    "typescript-eslint": "^8.46.4"
   },
   "devDependencies": {
-    "@tsconfig/node-lts": "^22.0.2",
-    "@tsconfig/node-ts": "^23.6.1",
-    "@tsconfig/strictest": "^2.0.6",
-    "@types/node": "^24.7.2",
-    "@types/react": "^19.2.2",
+    "@tsconfig/node-lts": "^22.0.3",
+    "@tsconfig/node-ts": "^23.6.2",
+    "@tsconfig/strictest": "^2.0.8",
+    "@types/node": "^24.10.1",
+    "@types/react": "^19.2.5",
     "husky": "^9.1.7",
     "prettier": "^3.6.2",
     "prettier-config-vladpuz": "^2.0.0",
-    "rimraf": "^6.0.1",
+    "rimraf": "^6.1.0",
     "typescript": "^5.9.3"
   },
   "peerDependencies": {

@@ -22,7 +22,7 @@ export function getCompilerOptions(
   if (!force) {
     const compilerOptions = cache.get(cacheKey)
 
-    if (compilerOptions != null) {
+    if (compilerOptions) {
       return compilerOptions
     }
   }

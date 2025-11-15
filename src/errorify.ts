@@ -15,7 +15,7 @@ function errorifyConfigArray(configArray: Linter.Config[]): Linter.Config[] {
 function errorifyConfig(config: Linter.Config): Linter.Config {
   const newConfig = { ...config }
 
-  if (newConfig.rules != null) {
+  if (newConfig.rules) {
     newConfig.rules = errorifyRules(newConfig.rules)
   }
 
@@ -32,7 +32,6 @@ function errorifyRules(rules: Partial<Linter.RulesRecord>): Linter.RulesRecord {
 
     if (Array.isArray(ruleEntry)) {
       const [ruleSeverity, ...ruleOptions] = ruleEntry
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       newRules[ruleName] = [errorifySeverity(ruleSeverity), ...ruleOptions]
     } else {
       newRules[ruleName] = errorifySeverity(ruleEntry)

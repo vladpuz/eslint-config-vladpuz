@@ -70,8 +70,8 @@ export function getTypescriptConfig(
       '@typescript-eslint/no-import-type-side-effects': 'error',
       '@typescript-eslint/no-inferrable-types': 'error',
       '@typescript-eslint/no-invalid-this': (
-        compilerOptions.strict === true
-        || compilerOptions.noImplicitThis === true
+        compilerOptions.noImplicitThis
+        ?? compilerOptions.strict === true
       )
         ? 'off'
         : 'error',
@@ -94,8 +94,18 @@ export function getTypescriptConfig(
       '@typescript-eslint/no-restricted-types': 'off',
       '@typescript-eslint/no-shadow': 'off',
       '@typescript-eslint/no-this-alias': 'error',
-      '@typescript-eslint/no-unnecessary-boolean-literal-compare': 'error',
-      '@typescript-eslint/no-unnecessary-condition': 'error',
+      '@typescript-eslint/no-unnecessary-boolean-literal-compare': (
+        compilerOptions.strictNullChecks
+        ?? compilerOptions.strict === true
+      )
+        ? 'error'
+        : 'off',
+      '@typescript-eslint/no-unnecessary-condition': (
+        compilerOptions.strictNullChecks
+        ?? compilerOptions.strict === true
+      )
+        ? 'error'
+        : 'off',
       '@typescript-eslint/no-unnecessary-parameter-property-assignment': 'error',
       '@typescript-eslint/no-unnecessary-qualifier': 'error',
       '@typescript-eslint/no-unnecessary-template-expression': 'error',
@@ -147,7 +157,12 @@ export function getTypescriptConfig(
       '@typescript-eslint/prefer-includes': 'error',
       '@typescript-eslint/prefer-literal-enum-member': 'error',
       '@typescript-eslint/prefer-namespace-keyword': 'error',
-      '@typescript-eslint/prefer-nullish-coalescing': 'error',
+      '@typescript-eslint/prefer-nullish-coalescing': (
+        compilerOptions.strictNullChecks
+        ?? compilerOptions.strict === true
+      )
+        ? 'error'
+        : 'off',
       '@typescript-eslint/prefer-optional-chain': 'error',
       '@typescript-eslint/prefer-promise-reject-errors': 'error',
       '@typescript-eslint/prefer-readonly': 'off',
@@ -163,16 +178,12 @@ export function getTypescriptConfig(
       '@typescript-eslint/restrict-plus-operands': 'error',
       '@typescript-eslint/restrict-template-expressions': 'error',
       '@typescript-eslint/return-await': ['error', 'always'],
-      '@typescript-eslint/strict-boolean-expressions': ['error', {
-        allowAny: false,
-        allowNullableBoolean: false,
-        allowNullableEnum: false,
-        allowNullableNumber: false,
-        allowNullableObject: false,
-        allowNullableString: false,
-        allowNumber: false,
-        allowString: false,
-      }],
+      '@typescript-eslint/strict-boolean-expressions': (
+        compilerOptions.strictNullChecks
+        ?? compilerOptions.strict === true
+      )
+        ? 'error'
+        : 'off',
       '@typescript-eslint/switch-exhaustiveness-check': 'error',
       '@typescript-eslint/triple-slash-reference': 'error',
       '@typescript-eslint/unbound-method': 'error',

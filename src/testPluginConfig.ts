@@ -73,7 +73,7 @@ export function testPluginConfig(
 
     const pluginRule = pluginRules[ruleNameOnly]
 
-    if (pluginRule == null) {
+    if (!pluginRule) {
       invalidNameRules.push(ruleName)
     }
   }

@@ -6,13 +6,13 @@ import gitignore, { type FlatGitignoreOptions } from 'eslint-config-flat-gitigno
 import globals from 'globals'
 import tseslint from 'typescript-eslint'
 
-import { getImportConfig } from './configs/import.js'
-import { getJavascriptConfig } from './configs/javascript.js'
-import { getNodeConfig } from './configs/node.js'
-import { getPerfectionistConfig } from './configs/perfectionist.js'
-import { getPromiseConfig } from './configs/promise.js'
-import { getTypescriptConfig } from './configs/typescript.js'
-import { getCompilerOptions } from './getCompilerOptions.js'
+import { getImportConfig } from './configs/import.ts'
+import { getJavascriptConfig } from './configs/javascript.ts'
+import { getNodeConfig } from './configs/node.ts'
+import { getPerfectionistConfig } from './configs/perfectionist.ts'
+import { getPromiseConfig } from './configs/promise.ts'
+import { getTypescriptConfig } from './configs/typescript.ts'
+import { getCompilerOptions } from './getCompilerOptions.ts'
 
 export const FILES_JS = ['**/*.js', '**/*.jsx', '**/*.mjs', '**/*.cjs']
 export const FILES_TS = ['**/*.ts', '**/*.tsx', '**/*.mts', '**/*.cts']
@@ -178,13 +178,13 @@ function vladpuz(options: Options = {}): Linter.Config[] {
       indent: 2,
       quotes: 'single',
       semi: false,
+      ...stylisticUserOptions,
       jsx: enableJsx,
       arrowParens: true,
       braceStyle: '1tbs',
       blockSpacing: true,
       quoteProps: 'consistent-as-needed',
       commaDangle: 'always-multiline',
-      ...stylisticUserOptions,
     }
 
     const configStylistic = stylistic.configs.customize(stylisticOptions)

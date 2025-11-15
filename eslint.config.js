@@ -14,4 +14,13 @@ export default [
       }],
     },
   },
+  {
+    name: 'extensions',
+    ignores: ['eslint.config.js'],
+    rules: {
+      'no-restricted-imports': ['error', {
+        patterns: ['**/*.js'],
+      }],
+    },
+  },
 ]
