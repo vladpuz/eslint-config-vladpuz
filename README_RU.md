@@ -1,6 +1,6 @@
 # eslint-config-vladpuz
 
-> Мой ESLint конфиг
+> My ESLint config
 
 Особенности:
 
@@ -9,11 +9,13 @@
 - Авто исправление для форматирования через
   [eslint-stylistic](https://github.com/eslint-stylistic/eslint-stylistic)
   (нацелен на использование без Prettier)
-- Поддерживает `.gitignore` по умолчанию
 - Не конфликтует с TypeScript при любых опциях tsconfig.json (TypeScript
   полностью заменяет некоторые правила)
+- Поддерживает `.gitignore` по умолчанию
 - Возможность настроить собственные стилистические предпочтения
-- Нет warn severity
+- Не использует другие готовые конфигурации, все правила рассмотрены вручную
+  (кроме stylistic, используется кастомизированный пресет)
+- Нет warn severity, только error
 
 Принципы:
 
@@ -91,9 +93,9 @@ interface Options {
 
 Type: `string[]`
 
-Default for js: `FILES_JS`
+Default for js: `['**/*.js', '**/*.jsx', '**/*.mjs', '**/*.cjs']`
 
-Default for ts: `FILES_TS`
+Default for ts: `['**/*.ts', '**/*.tsx', '**/*.mts', '**/*.cts']`
 
 Переопределяют паттерны для js и ts файлов:
 
@@ -296,4 +298,5 @@ testPluginConfig('@typescript-eslint', tseslint.plugin.rules, {
 
 ## Смотрите так же
 
+- [eslint-config-vladpuz-react](https://github.com/vladpuz/eslint-config-vladpuz-react)
 - [prettier-config-vladpuz](https://github.com/vladpuz/prettier-config-vladpuz)

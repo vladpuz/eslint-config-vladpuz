@@ -11,15 +11,17 @@ export function testPluginConfig(
   pluginName: string | null,
   pluginRules: Record<string, Rule.RuleModule>,
   config: Linter.Config,
+  recommendedRules?: Linter.RulesRecord,
 ): void {
   const configRules = config.rules ?? {}
 
   const snapshot: Record<string, unknown> = {}
   const missingRules: string[] = []
   const deprecatedRules: string[] = []
-  const invalidEntryRules: string[] = []
+  const invalidConfigRules: string[] = []
   const invalidSeverityRules: string[] = []
   const invalidNameRules: string[] = []
+  const disabledRecommendedRules: string[] = []
 
   const pluginRulesEntries = Object
     .entries(pluginRules)
@@ -34,10 +36,10 @@ export function testPluginConfig(
 
     snapshot[pluginRuleName] = ruleModule.meta?.schema
 
-    const ruleEntry = configRules[pluginRuleName]
+    const ruleConfig = configRules[pluginRuleName]
     const isDeprecated = Boolean(ruleModule.meta?.deprecated)
 
-    if (ruleEntry == null) {
+    if (ruleConfig == null) {
       if (isDeprecated) {
         continue
       }
@@ -50,14 +52,14 @@ export function testPluginConfig(
       deprecatedRules.push(pluginRuleName)
     }
 
-    const isArrayRuleEntry = Array.isArray(ruleEntry)
-    const ruleSeverity = isArrayRuleEntry ? ruleEntry[0] : ruleEntry
+    const isArrayRuleConfig = Array.isArray(ruleConfig)
+    const ruleSeverity = isArrayRuleConfig ? ruleConfig[0] : ruleConfig
 
-    const isInvalidRuleEntry = isArrayRuleEntry && ruleEntry[1] == null
+    const isInvalidRuleConfig = isArrayRuleConfig && ruleConfig[1] == null
     const isInvalidRuleSeverity = !VALID_RULE_SEVERITIES.has(ruleSeverity)
 
-    if (isInvalidRuleEntry) {
-      invalidEntryRules.push(pluginRuleName)
+    if (isInvalidRuleConfig) {
+      invalidConfigRules.push(pluginRuleName)
     }
 
     if (isInvalidRuleSeverity) {
@@ -75,6 +77,32 @@ export function testPluginConfig(
 
     if (!pluginRule) {
       invalidNameRules.push(ruleName)
+    }
+  }
+
+  for (const [ruleName, ruleConfig] of Object.entries(recommendedRules ?? {})) {
+    if (pluginName !== null && !ruleName.startsWith(pluginName)) {
+      continue
+    }
+
+    const ruleSeverity = Array.isArray(ruleConfig) ? ruleConfig[0] : ruleConfig
+
+    if (ruleSeverity === 'off' || ruleSeverity === 0) {
+      continue
+    }
+
+    const configRule = configRules[ruleName]
+
+    if (configRule == null) {
+      continue
+    }
+
+    const configRuleSeverity = Array.isArray(configRule)
+      ? configRule[0]
+      : configRule
+
+    if (configRuleSeverity === 'off') {
+      disabledRecommendedRules.push(ruleName)
     }
   }
 
@@ -105,8 +133,8 @@ export function testPluginConfig(
       assert.deepStrictEqual(deprecatedRules, [])
     })
 
-    test('No invalid entry rules', () => {
-      assert.deepStrictEqual(invalidEntryRules, [])
+    test('No invalid config rules', () => {
+      assert.deepStrictEqual(invalidConfigRules, [])
     })
 
     test('No invalid severity rules', () => {
@@ -116,5 +144,11 @@ export function testPluginConfig(
     test('No invalid name rules', () => {
       assert.deepStrictEqual(invalidNameRules, [])
     })
+
+    if (recommendedRules) {
+      test('No disabled recommended rules', () => {
+        assert.deepStrictEqual(disabledRecommendedRules, [])
+      })
+    }
   })
 }

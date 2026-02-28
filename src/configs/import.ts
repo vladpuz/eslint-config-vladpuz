@@ -10,12 +10,14 @@ export function getImportConfig(): Linter.Config {
     },
     rules: {
       'import-lite/consistent-type-specifier-style': 'off',
+      'import-lite/exports-last': 'off',
       'import-lite/first': 'error',
       'import-lite/newline-after-import': 'error',
       'import-lite/no-default-export': 'off',
       'import-lite/no-duplicates': 'error',
       'import-lite/no-mutable-exports': 'error',
       'import-lite/no-named-default': 'error',
+      'import-lite/prefer-default-export': 'off',
     },
   }
 }

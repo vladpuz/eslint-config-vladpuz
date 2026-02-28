@@ -10,12 +10,14 @@ import { getImportConfig } from './configs/import.ts'
 import { getJavascriptConfig } from './configs/javascript.ts'
 import { getNodeConfig } from './configs/node.ts'
 import { getPerfectionistConfig } from './configs/perfectionist.ts'
-import { getPromiseConfig } from './configs/promise.ts'
 import { getTypescriptConfig } from './configs/typescript.ts'
 import { getCompilerOptions } from './getCompilerOptions.ts'
 
 export const FILES_JS = ['**/*.js', '**/*.jsx', '**/*.mjs', '**/*.cjs']
 export const FILES_TS = ['**/*.ts', '**/*.tsx', '**/*.mts', '**/*.cts']
+
+Object.freeze(FILES_JS)
+Object.freeze(FILES_TS)
 
 export interface Options {
   filesJs?: string[]
@@ -118,22 +120,24 @@ function vladpuz(options: Options = {}): Linter.Config[] {
       tseslint.configs.eslintRecommended.rules ?? {}
     ) as Linter.RulesRecord
 
-    for (const [ruleName, ruleEntry] of Object.entries(tsCompatibilityRules)) {
-      const ruleSeverity = Array.isArray(ruleEntry) ? ruleEntry[0] : ruleEntry
+    for (const [ruleName, ruleConfig] of Object.entries(tsCompatibilityRules)) {
+      const ruleSeverity = Array.isArray(ruleConfig)
+        ? ruleConfig[0]
+        : ruleConfig
 
       if (ruleSeverity === 'off' || ruleSeverity === 0) {
         rulesTs[ruleName] = 'off'
       } else {
-        const ruleEntryJs = rulesJs[ruleName] ?? 'off'
+        const ruleConfigJs = rulesJs[ruleName] ?? 'off'
 
-        let ruleSeverityJs: Linter.RuleSeverity = 'off'
+        let ruleSeverityJs: Linter.RuleSeverity
         let ruleOptionsJs: unknown[] = []
 
-        if (Array.isArray(ruleEntryJs)) {
-          ruleSeverityJs = ruleEntryJs[0]
-          ruleOptionsJs = ruleEntryJs.slice(1)
+        if (Array.isArray(ruleConfigJs)) {
+          ruleSeverityJs = ruleConfigJs[0]
+          ruleOptionsJs = ruleConfigJs.slice(1)
         } else {
-          ruleSeverityJs = ruleEntryJs
+          ruleSeverityJs = ruleConfigJs
         }
 
         if (ruleSeverityJs === 'off') {
@@ -165,9 +169,6 @@ function vladpuz(options: Options = {}): Linter.Config[] {
 
   const perfectionistConfig = getPerfectionistConfig()
   config.push(perfectionistConfig)
-
-  const promiseConfig = getPromiseConfig()
-  config.push(promiseConfig)
 
   if (enableStylistic !== false) {
     const stylisticUserOptions = (typeof enableStylistic === 'object')

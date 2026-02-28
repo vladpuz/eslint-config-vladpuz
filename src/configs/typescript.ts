@@ -6,6 +6,18 @@ import tseslint from 'typescript-eslint'
 export function getTypescriptConfig(
   compilerOptions: CompilerOptions,
 ): Linter.Config {
+  const strictNullChecks = (
+    compilerOptions.strictNullChecks ?? compilerOptions.strict === true
+  )
+  const noImplicitThis = (
+    compilerOptions.noImplicitThis ?? compilerOptions.strict === true
+  )
+  const noUnusedVars = (
+    compilerOptions.noUnusedLocals === true
+    || compilerOptions.noUnusedParameters === true
+  )
+  const noImplicitReturns = compilerOptions.noImplicitReturns === true
+
   return {
     name: 'vladpuz/typescript',
     plugins: {
@@ -17,13 +29,11 @@ export function getTypescriptConfig(
       '@typescript-eslint/await-thenable': 'error',
       '@typescript-eslint/ban-ts-comment': 'error',
       '@typescript-eslint/ban-tslint-comment': 'error',
-      '@typescript-eslint/class-literal-property-style': 'error',
+      '@typescript-eslint/class-literal-property-style': ['error', 'getters'],
       '@typescript-eslint/class-methods-use-this': 'off',
       '@typescript-eslint/consistent-generic-constructors': 'error',
       '@typescript-eslint/consistent-indexed-object-style': 'error',
-      '@typescript-eslint/consistent-return': (
-        compilerOptions.noImplicitReturns === true
-      )
+      '@typescript-eslint/consistent-return': noImplicitReturns
         ? 'off'
         : 'error',
       '@typescript-eslint/consistent-type-assertions': 'error',
@@ -41,7 +51,7 @@ export function getTypescriptConfig(
         accessibility: 'no-public',
       }],
       '@typescript-eslint/explicit-module-boundary-types': 'off',
-      '@typescript-eslint/init-declarations': 'error',
+      '@typescript-eslint/init-declarations': 'off',
       '@typescript-eslint/max-params': 'off',
       '@typescript-eslint/member-ordering': 'off',
       '@typescript-eslint/method-signature-style': 'error',
@@ -51,7 +61,7 @@ export function getTypescriptConfig(
       '@typescript-eslint/no-base-to-string': 'error',
       '@typescript-eslint/no-confusing-non-null-assertion': 'error',
       '@typescript-eslint/no-confusing-void-expression': 'error',
-      '@typescript-eslint/no-deprecated': 'off',
+      '@typescript-eslint/no-deprecated': 'error',
       '@typescript-eslint/no-dupe-class-members': 'off',
       '@typescript-eslint/no-duplicate-enum-values': 'error',
       '@typescript-eslint/no-duplicate-type-constituents': 'error',
@@ -69,10 +79,7 @@ export function getTypescriptConfig(
       '@typescript-eslint/no-implied-eval': 'error',
       '@typescript-eslint/no-import-type-side-effects': 'error',
       '@typescript-eslint/no-inferrable-types': 'error',
-      '@typescript-eslint/no-invalid-this': (
-        compilerOptions.noImplicitThis
-        ?? compilerOptions.strict === true
-      )
+      '@typescript-eslint/no-invalid-this': noImplicitThis
         ? 'off'
         : 'error',
       '@typescript-eslint/no-invalid-void-type': 'error',
@@ -94,16 +101,10 @@ export function getTypescriptConfig(
       '@typescript-eslint/no-restricted-types': 'off',
       '@typescript-eslint/no-shadow': 'off',
       '@typescript-eslint/no-this-alias': 'error',
-      '@typescript-eslint/no-unnecessary-boolean-literal-compare': (
-        compilerOptions.strictNullChecks
-        ?? compilerOptions.strict === true
-      )
+      '@typescript-eslint/no-unnecessary-boolean-literal-compare': strictNullChecks
         ? 'error'
         : 'off',
-      '@typescript-eslint/no-unnecessary-condition': (
-        compilerOptions.strictNullChecks
-        ?? compilerOptions.strict === true
-      )
+      '@typescript-eslint/no-unnecessary-condition': strictNullChecks
         ? 'error'
         : 'off',
       '@typescript-eslint/no-unnecessary-parameter-property-assignment': 'error',
@@ -125,10 +126,8 @@ export function getTypescriptConfig(
       '@typescript-eslint/no-unsafe-type-assertion': 'error',
       '@typescript-eslint/no-unsafe-unary-minus': 'error',
       '@typescript-eslint/no-unused-expressions': 'error',
-      '@typescript-eslint/no-unused-vars': (
-        compilerOptions.noUnusedLocals === true
-        || compilerOptions.noUnusedParameters === true
-      )
+      '@typescript-eslint/no-unused-private-class-members': 'error',
+      '@typescript-eslint/no-unused-vars': noUnusedVars
         ? 'off'
         : ['error', {
             args: 'none',
@@ -143,6 +142,9 @@ export function getTypescriptConfig(
         variables: false,
       }],
       '@typescript-eslint/no-useless-constructor': 'error',
+      '@typescript-eslint/no-useless-default-assignment': strictNullChecks
+        ? 'error'
+        : 'off',
       '@typescript-eslint/no-useless-empty-export': 'error',
       '@typescript-eslint/no-wrapper-object-types': 'error',
       '@typescript-eslint/non-nullable-type-assertion-style': 'error',
@@ -157,10 +159,7 @@ export function getTypescriptConfig(
       '@typescript-eslint/prefer-includes': 'error',
       '@typescript-eslint/prefer-literal-enum-member': 'error',
       '@typescript-eslint/prefer-namespace-keyword': 'error',
-      '@typescript-eslint/prefer-nullish-coalescing': (
-        compilerOptions.strictNullChecks
-        ?? compilerOptions.strict === true
-      )
+      '@typescript-eslint/prefer-nullish-coalescing': strictNullChecks
         ? 'error'
         : 'off',
       '@typescript-eslint/prefer-optional-chain': 'error',
@@ -178,12 +177,10 @@ export function getTypescriptConfig(
       '@typescript-eslint/restrict-plus-operands': 'error',
       '@typescript-eslint/restrict-template-expressions': 'error',
       '@typescript-eslint/return-await': ['error', 'always'],
-      '@typescript-eslint/strict-boolean-expressions': (
-        compilerOptions.strictNullChecks
-        ?? compilerOptions.strict === true
-      )
+      '@typescript-eslint/strict-boolean-expressions': strictNullChecks
         ? 'error'
         : 'off',
+      '@typescript-eslint/strict-void-return': 'error',
       '@typescript-eslint/switch-exhaustiveness-check': 'error',
       '@typescript-eslint/triple-slash-reference': 'error',
       '@typescript-eslint/unbound-method': 'error',

@@ -25,16 +25,16 @@ function errorifyConfig(config: Linter.Config): Linter.Config {
 function errorifyRules(rules: Partial<Linter.RulesRecord>): Linter.RulesRecord {
   const newRules: Linter.RulesRecord = {}
 
-  for (const [ruleName, ruleEntry] of Object.entries(rules)) {
-    if (ruleEntry == null) {
+  for (const [ruleName, ruleConfig] of Object.entries(rules)) {
+    if (ruleConfig == null) {
       continue
     }
 
-    if (Array.isArray(ruleEntry)) {
-      const [ruleSeverity, ...ruleOptions] = ruleEntry
+    if (Array.isArray(ruleConfig)) {
+      const [ruleSeverity, ...ruleOptions] = ruleConfig
       newRules[ruleName] = [errorifySeverity(ruleSeverity), ...ruleOptions]
     } else {
-      newRules[ruleName] = errorifySeverity(ruleEntry)
+      newRules[ruleName] = errorifySeverity(ruleConfig)
     }
   }
 

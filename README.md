@@ -9,11 +9,13 @@ Features:
 - Auto fix for formatting via
   [eslint-stylistic](https://github.com/eslint-stylistic/eslint-stylistic)
   (targeted for use without Prettier)
+- Does not conflict with TypeScript regardless of tsconfig.json options
+  (TypeScript fully replaces some rules)
 - Supports `.gitignore` by default
-- Doesn't conflict with TypeScript at any tsconfig.json options (TypeScript
-  completely replaces some rules)
 - Ability to customize your own stylistic preferences
-- No warn severity
+- Does not use other pre-configured setups, all rules are manually reviewed
+  (except stylistic, uses a custom preset)
+- No warn severity, only error
 
 Principles:
 
@@ -91,9 +93,9 @@ interface Options {
 
 Type: `string[]`
 
-Default for js: `FILES_JS`
+Default for js: `['**/*.js', '**/*.jsx', '**/*.mjs', '**/*.cjs']`
 
-Default for ts: `FILES_TS`
+Default for ts: `['**/*.ts', '**/*.tsx', '**/*.mts', '**/*.cts']`
 
 Override patterns for js and ts files:
 
@@ -296,4 +298,5 @@ we don't consider rule changes critical.
 
 ## See Also
 
+- [eslint-config-vladpuz-react](https://github.com/vladpuz/eslint-config-vladpuz-react)
 - [prettier-config-vladpuz](https://github.com/vladpuz/prettier-config-vladpuz)

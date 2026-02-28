@@ -16,3 +16,6 @@ npm-debug.log*
 # editors
 /.vscode
 /.idea
+
+# hooks
+/.husky/_
