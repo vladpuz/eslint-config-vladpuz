@@ -1,7 +1,7 @@
 import type { Linter, Rule } from 'eslint'
 
 import assert from 'node:assert'
-import { describe, test } from 'node:test'
+import test, { suite } from 'node:test'
 
 /* eslint @typescript-eslint/no-floating-promises: off */
 
@@ -30,9 +30,9 @@ export function testPluginConfig(
     })
 
   for (const [ruleName, ruleModule] of pluginRulesEntries) {
-    const pluginRuleName = (pluginName !== null)
-      ? `${pluginName}/${ruleName}`
-      : ruleName
+    const pluginRuleName = (pluginName === null)
+      ? ruleName
+      : `${pluginName}/${ruleName}`
 
     snapshot[pluginRuleName] = ruleModule.meta?.schema
 
@@ -106,11 +106,11 @@ export function testPluginConfig(
     }
   }
 
-  const describeName = (pluginName !== null)
-    ? `Plugin "${pluginName}" config`
-    : 'ESLint config'
+  const describeName = (pluginName === null)
+    ? 'ESLint config'
+    : `Plugin "${pluginName}" config`
 
-  describe(describeName, () => {
+  suite(describeName, () => {
     test('Snapshot of the schema has not been changed', (t) => {
       t.assert.snapshot(snapshot)
     })

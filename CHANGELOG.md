@@ -1,3 +1,17 @@
+## 3.1.0
+
+- Added plugin
+  [eslint-plugin-unicorn](https://github.com/sindresorhus/eslint-plugin-unicorn).
+- Plugin [eslint-plugin-n](https://github.com/eslint-community/eslint-plugin-n)
+  has been removed. The only required rule from eslint-plugin-n is
+  `prefer-node-protocol`, which is also present in eslint-plugin-unicorn, so
+  eslint-plugin-n is no longer needed. The other rules aren't very useful.
+- Changed default value of env option: added `builtin` preset.
+- @typescript-eslint/no-unnecessary-condition - changed config (Allow
+  `while (true) {...}`).
+- Updated eslint-plugin-import-lite to `0.6.0`.
+- Pin TypeScript 5 to peerDependencies.
+
 ## 3.0.0
 
 - ESLint 10 support.

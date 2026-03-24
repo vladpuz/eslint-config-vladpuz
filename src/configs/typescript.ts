@@ -105,7 +105,7 @@ export function getTypescriptConfig(
         ? 'error'
         : 'off',
       '@typescript-eslint/no-unnecessary-condition': strictNullChecks
-        ? 'error'
+        ? ['error', { allowConstantLoopConditions: 'only-allowed-literals' }]
         : 'off',
       '@typescript-eslint/no-unnecessary-parameter-property-assignment': 'error',
       '@typescript-eslint/no-unnecessary-qualifier': 'error',

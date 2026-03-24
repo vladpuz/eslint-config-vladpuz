@@ -81,7 +81,7 @@ eslint --fix .
 interface Options {
   filesJs?: string[] // Default - ['**/*.js', '**/*.jsx', '**/*.mjs', '**/*.cjs']
   filesTs?: string[] // Default - ['**/*.ts', '**/*.tsx', '**/*.mts', '**/*.cts']
-  env?: Array<keyof typeof globals> // Default - ['node', 'browser']
+  env?: Array<keyof typeof globals> // Default - ['builtin', 'node', 'browser']
   gitignore?: boolean | GitignoreOptions // Default - true
   typescript?: boolean | ParserOptions // Default - true
   stylistic?: boolean | StylisticOptions // Default - true
@@ -113,7 +113,7 @@ export default vladpuz({
 
 Type: `string[]`
 
-Default: `['node', 'browser']`
+Default: `['builtin', 'node', 'browser']`
 
 Переопределяет среды предоставляющие предопределенные глобальные переменные:
 

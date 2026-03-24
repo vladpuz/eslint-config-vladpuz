@@ -8,9 +8,9 @@ import tseslint from 'typescript-eslint'
 
 import { getImportConfig } from './configs/import.ts'
 import { getJavascriptConfig } from './configs/javascript.ts'
-import { getNodeConfig } from './configs/node.ts'
 import { getPerfectionistConfig } from './configs/perfectionist.ts'
 import { getTypescriptConfig } from './configs/typescript.ts'
+import { getUnicornConfig } from './configs/unicorn.ts'
 import { getCompilerOptions } from './getCompilerOptions.ts'
 
 export const FILES_JS = ['**/*.js', '**/*.jsx', '**/*.mjs', '**/*.cjs']
@@ -40,16 +40,16 @@ function vladpuz(options: Options = {}): Linter.Config[] {
   const {
     filesJs = FILES_JS,
     filesTs = FILES_TS,
-    env = ['node', 'browser'],
+    env = ['builtin', 'node', 'browser'],
     gitignore: enableGitignore = true,
     typescript: enableTypescript = true,
     stylistic: enableStylistic = true,
     jsx: enableJsx = true,
   } = options
 
-  const filesJsAndTs = (enableTypescript !== false)
-    ? [...filesJs, ...filesTs]
-    : filesJs
+  const filesJsAndTs = (enableTypescript === false)
+    ? filesJs
+    : [...filesJs, ...filesTs]
 
   const resolvedGlobals: Linter.Globals = {}
 
@@ -59,9 +59,7 @@ function vladpuz(options: Options = {}): Linter.Config[] {
     }
   }
 
-  const config: Linter.Config[] = []
-
-  config.push({
+  const config: Linter.Config[] = [{
     name: 'vladpuz/base',
     files: filesJsAndTs,
     languageOptions: {
@@ -76,7 +74,7 @@ function vladpuz(options: Options = {}): Linter.Config[] {
       reportUnusedDisableDirectives: 'error',
       reportUnusedInlineConfigs: 'error',
     },
-  })
+  }]
 
   if (enableGitignore !== false) {
     const gitignoreOptions = (typeof enableGitignore === 'object')
@@ -161,11 +159,11 @@ function vladpuz(options: Options = {}): Linter.Config[] {
     config.push(configTs)
   }
 
+  const unicornConfig = getUnicornConfig()
+  config.push(unicornConfig)
+
   const importConfig = getImportConfig()
   config.push(importConfig)
-
-  const nodeConfig = getNodeConfig()
-  config.push(nodeConfig)
 
   const perfectionistConfig = getPerfectionistConfig()
   config.push(perfectionistConfig)
@@ -176,10 +174,9 @@ function vladpuz(options: Options = {}): Linter.Config[] {
       : {}
 
     const stylisticOptions: StylisticCustomizeOptions = {
-      indent: 2,
-      quotes: 'single',
-      semi: false,
-      ...stylisticUserOptions,
+      indent: stylisticUserOptions.indent ?? 2,
+      quotes: stylisticUserOptions.quotes ?? 'single',
+      semi: stylisticUserOptions.semi ?? false,
       jsx: enableJsx,
       arrowParens: true,
       braceStyle: '1tbs',
