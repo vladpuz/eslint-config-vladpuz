@@ -47,9 +47,9 @@ function vladpuz(options: Options = {}): Linter.Config[] {
     jsx: enableJsx = true,
   } = options
 
-  const filesJsAndTs = (enableTypescript === false)
-    ? filesJs
-    : [...filesJs, ...filesTs]
+  const filesJsAndTs = (enableTypescript !== false)
+    ? [...filesJs, ...filesTs]
+    : filesJs
 
   const resolvedGlobals: Linter.Globals = {}
 

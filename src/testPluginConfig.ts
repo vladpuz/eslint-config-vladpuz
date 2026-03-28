@@ -30,9 +30,9 @@ export function testPluginConfig(
     })
 
   for (const [ruleName, ruleModule] of pluginRulesEntries) {
-    const pluginRuleName = (pluginName === null)
-      ? ruleName
-      : `${pluginName}/${ruleName}`
+    const pluginRuleName = (pluginName !== null)
+      ? `${pluginName}/${ruleName}`
+      : ruleName
 
     snapshot[pluginRuleName] = ruleModule.meta?.schema
 
@@ -106,11 +106,11 @@ export function testPluginConfig(
     }
   }
 
-  const describeName = (pluginName === null)
-    ? 'ESLint config'
-    : `Plugin "${pluginName}" config`
+  const suiteName = (pluginName !== null)
+    ? `Plugin "${pluginName}" config`
+    : 'ESLint config'
 
-  suite(describeName, () => {
+  suite(suiteName, () => {
     test('Snapshot of the schema has not been changed', (t) => {
       t.assert.snapshot(snapshot)
     })

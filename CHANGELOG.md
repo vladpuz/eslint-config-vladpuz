@@ -1,3 +1,15 @@
+## 3.2.0
+
+- Updated eslint-plugin-unicorn to v64.
+- Rules changes:
+  - unicorn/no-negated-condition - disabled (conflicts with
+    @typescript-eslint/strict-boolean-expressions).
+  - unicorn/numeric-separators-style - changed config (onlyIfContainsSeparator).
+  - unicorn/consistent-template-literal-escape - enabled (new rule).
+  - unicorn/no-useless-iterator-to-array - enabled (new rule).
+  - unicorn/prefer-simple-condition-first - enabled (new rule).
+  - unicorn/switch-case-break-position - enabled (new rule).
+
 ## 3.1.0
 
 - Added plugin
