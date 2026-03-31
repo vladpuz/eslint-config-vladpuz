@@ -1,3 +1,7 @@
+## 4.0.0
+
+- TypeScript 6 support.
+
 ## 3.2.0
 
 - Updated eslint-plugin-unicorn to v64.

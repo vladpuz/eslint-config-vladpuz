@@ -7,10 +7,10 @@ export function getTypescriptConfig(
   compilerOptions: CompilerOptions,
 ): Linter.Config {
   const strictNullChecks = (
-    compilerOptions.strictNullChecks ?? compilerOptions.strict === true
+    compilerOptions.strictNullChecks ?? compilerOptions.strict !== false
   )
   const noImplicitThis = (
-    compilerOptions.noImplicitThis ?? compilerOptions.strict === true
+    compilerOptions.noImplicitThis ?? compilerOptions.strict !== false
   )
   const noUnusedVars = (
     compilerOptions.noUnusedLocals === true

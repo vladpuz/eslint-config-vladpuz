@@ -5,6 +5,7 @@
     "@tsconfig/node-ts/tsconfig.json"
   ],
   "compilerOptions": {
+    "types": ["node", "react"],
     "jsx": "preserve"
   }
 }

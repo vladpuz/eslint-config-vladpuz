@@ -1,6 +1,6 @@
 {
   "name": "eslint-config-vladpuz",
-  "version": "3.2.0",
+  "version": "4.0.0",
   "description": "My ESLint config",
   "keywords": [
     "vladpuz",
@@ -14,12 +14,12 @@
   "license": "MIT",
   "author": "Vladislav Puzyrev",
   "type": "module",
-  "main": "build/index.js",
-  "types": "build/index.d.ts",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "scripts": {
     "build": "tsc --project tsconfig.build.json",
     "check": "npm run typecheck && npm run lint && npm run format",
-    "clean": "rimraf build",
+    "clean": "rimraf dist",
     "format": "prettier --check .",
     "lint": "eslint .",
     "prepack": "npm run clean && npm run build && npm run check && npm run test",
@@ -35,7 +35,7 @@
     "eslint-plugin-perfectionist": "^5.7.0",
     "eslint-plugin-unicorn": "^64.0.0",
     "globals": "^17.4.0",
-    "typescript-eslint": "^8.57.2"
+    "typescript-eslint": "^8.58.0"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
@@ -51,6 +51,6 @@
   },
   "peerDependencies": {
     "eslint": "^10.0.0",
-    "typescript": "^5.0.0"
+    "typescript": "^6.0.0"
   }
 }

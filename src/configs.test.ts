@@ -32,7 +32,7 @@ testPluginConfig(
 testPluginConfig(
   '@typescript-eslint',
   ((tseslint.plugin as ESLint.Plugin).rules ?? {}),
-  getTypescriptConfig({ strict: true }),
+  getTypescriptConfig({}),
   [
     ...tseslint.configs.strictTypeChecked,
     ...tseslint.configs.stylisticTypeChecked,
