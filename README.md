@@ -248,13 +248,16 @@ console.log(compilerOptions.strict)
 console.log(compilerOptions.noEmit)
 ```
 
-### testPluginConfig(pluginName, pluginRules, config)
+### testPluginConfig(pluginName, pluginRules, config, recommendedRules?)
 
 Tests plugin config via node:test.
 
 - pluginName (`string | null`) - Plugin name.
 - pluginRules (`Record<string, Rule.RuleModule>`) - Plugin rules.
 - config (`Linter.Config`) - Tested config.
+- recommendedRules (`Partial<Linter.RulesRecord> = {}`) - Preset of recommended
+  plugin rules. It will throw an error if at least one recommended rule is
+  disabled in the tested configuration.
 
 Return: `void`
 
@@ -264,16 +267,22 @@ configs (e.g.
 
 ```javascript
 import { testPluginConfig } from 'eslint-config-vladpuz'
-import tseslint from 'typescript-eslint'
+import unicorn from 'eslint-plugin-unicorn'
 
-testPluginConfig('@typescript-eslint', tseslint.plugin.rules, {
-  name: 'vladpuz/typescript',
-  files: [],
-  plugins: {
-    '@typescript-eslint': tseslint.plugin,
+testPluginConfig(
+  'unicorn',
+  unicorn.rules ?? {},
+  {
+    name: 'vladpuz/unicorn',
+    plugins: {
+      unicorn,
+    },
+    rules: {
+      // ...
+    },
   },
-  rules: {},
-})
+  unicorn.configs.unopinionated.rules ?? {},
+)
 ```
 
 ## FAQ

@@ -10,6 +10,7 @@ export function getPerfectionistConfig(): Linter.Config {
     },
     rules: {
       'perfectionist/sort-array-includes': 'off',
+      'perfectionist/sort-arrays': 'off',
       'perfectionist/sort-classes': 'off',
       'perfectionist/sort-decorators': 'off',
       'perfectionist/sort-enums': 'off',

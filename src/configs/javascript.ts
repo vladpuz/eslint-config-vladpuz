@@ -21,7 +21,7 @@ export function getJavascriptConfig(): Linter.Config {
       'default-case-last': 'error',
       'default-param-last': 'error',
       'dot-notation': 'error',
-      'eqeqeq': ['error', 'always', { null: 'ignore' }],
+      'eqeqeq': 'error',
       'for-direction': 'error',
       'func-name-matching': 'off',
       'func-names': 'off',

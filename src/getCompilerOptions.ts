@@ -35,7 +35,7 @@ export function getCompilerOptions(
     configName,
   )
 
-  if (tsconfigPath == null) {
+  if (tsconfigPath === undefined) {
     throw new Error(`Config file "${configName}" not found in "${searchPath}"`)
   }
 

@@ -1,3 +1,14 @@
+## 4.0.1
+
+- The eqeqeq rule configuration has been changed. Now, loose comparison with
+  null (`value == null`) is prohibited. This is inconsistent and usually
+  unnecessary because it's rare for a variable to contain both null and
+  undefined values, but if it is necessary, explicitly check with
+  `value === null || value === undefined`.
+- Changed the argument type of the function testPluginConfig from
+  `recommendedRules?: Linter.RulesRecord` to
+  `recommendedRules?: Partial<Linter.RulesRecord>`.
+
 ## 4.0.0
 
 - TypeScript 6 support.

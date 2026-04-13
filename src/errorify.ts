@@ -26,7 +26,7 @@ function errorifyRules(rules: Partial<Linter.RulesRecord>): Linter.RulesRecord {
   const newRules: Linter.RulesRecord = {}
 
   for (const [ruleName, ruleConfig] of Object.entries(rules)) {
-    if (ruleConfig == null) {
+    if (ruleConfig === undefined) {
       continue
     }
 

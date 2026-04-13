@@ -11,7 +11,7 @@ export function testPluginConfig(
   pluginName: string | null,
   pluginRules: Record<string, Rule.RuleModule>,
   config: Linter.Config,
-  recommendedRules?: Linter.RulesRecord,
+  recommendedRules?: Partial<Linter.RulesRecord>,
 ): void {
   const configRules = config.rules ?? {}
 
@@ -39,7 +39,7 @@ export function testPluginConfig(
     const ruleConfig = configRules[pluginRuleName]
     const isDeprecated = Boolean(ruleModule.meta?.deprecated)
 
-    if (ruleConfig == null) {
+    if (ruleConfig === undefined) {
       if (isDeprecated) {
         continue
       }
@@ -55,7 +55,7 @@ export function testPluginConfig(
     const isArrayRuleConfig = Array.isArray(ruleConfig)
     const ruleSeverity = isArrayRuleConfig ? ruleConfig[0] : ruleConfig
 
-    const isInvalidRuleConfig = isArrayRuleConfig && ruleConfig[1] == null
+    const isInvalidRuleConfig = isArrayRuleConfig && ruleConfig[1] === undefined
     const isInvalidRuleSeverity = !VALID_RULE_SEVERITIES.has(ruleSeverity)
 
     if (isInvalidRuleConfig) {
@@ -81,6 +81,10 @@ export function testPluginConfig(
   }
 
   for (const [ruleName, ruleConfig] of Object.entries(recommendedRules ?? {})) {
+    if (ruleConfig === undefined) {
+      continue
+    }
+
     if (pluginName !== null && !ruleName.startsWith(pluginName)) {
       continue
     }
@@ -93,7 +97,7 @@ export function testPluginConfig(
 
     const configRule = configRules[ruleName]
 
-    if (configRule == null) {
+    if (configRule === undefined) {
       continue
     }
 

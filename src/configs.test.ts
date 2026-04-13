@@ -46,11 +46,7 @@ testPluginConfig(
   'unicorn',
   unicorn.rules ?? {},
   getUnicornConfig(),
-  Object.entries(unicorn.configs.unopinionated.rules ?? {})
-  // eslint-disable-next-line unicorn/no-array-reduce
-    .reduce<Linter.RulesRecord>((acc, [ruleName, ruleConfig]) => {
-      return (ruleConfig == null) ? acc : { ...acc, [ruleName]: ruleConfig }
-    }, {}),
+  unicorn.configs.unopinionated.rules ?? {},
 )
 
 testPluginConfig(
