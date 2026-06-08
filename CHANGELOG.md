@@ -1,3 +1,7 @@
+## 4.1.0
+
+- Updated eslint-plugin-unicorn from v64 to v65.
+
 ## 4.0.1
 
 - The eqeqeq rule configuration has been changed. Now, loose comparison with
