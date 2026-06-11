@@ -1,3 +1,9 @@
+## 4.1.1
+
+- Rules changes:
+  - unicorn/no-manually-wrapped-comments - disabled.
+  - unicorn/prefer-iterator-concat - disabled.
+
 ## 4.1.0
 
 - Updated eslint-plugin-unicorn from v64 to v65.
