@@ -1,3 +1,7 @@
+## 4.2.0
+
+- Updated eslint-plugin-unicorn from v65 to v72.
+
 ## 4.1.1
 
 - Rules changes:

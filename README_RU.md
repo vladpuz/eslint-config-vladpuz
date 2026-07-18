@@ -305,6 +305,15 @@ testPluginConfig(
 это всего лишь конфигурация, требующая мнений и множества изменяемых
 компонентов, мы не считаем изменения правил критическими.
 
+Для полной стабильности вы можете зафиксировать конкретную версию пакета:
+
+```diff
+"devDependencies": {
+-  "eslint-config-vladpuz": "^4.2.0",
++  "eslint-config-vladpuz": "4.2.0",
+}
+```
+
 ## Смотрите так же
 
 - [eslint-config-vladpuz-react](https://github.com/vladpuz/eslint-config-vladpuz-react)

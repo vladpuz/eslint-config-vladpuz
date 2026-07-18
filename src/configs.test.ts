@@ -16,6 +16,9 @@ import { testPluginConfig } from './testPluginConfig.ts'
 
 // These rules are opinionated
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
+unicorn.configs.unopinionated.rules!['unicorn/prefer-number-coercion'] = 'off'
+unicorn.configs.unopinionated.rules!['unicorn/no-top-level-side-effects'] = 'off'
+unicorn.configs.unopinionated.rules!['unicorn/no-declarations-before-early-exit'] = 'off'
 unicorn.configs.unopinionated.rules!['unicorn/no-negated-condition'] = 'off'
 unicorn.configs.unopinionated.rules!['unicorn/prefer-event-target'] = 'off'
 unicorn.configs.unopinionated.rules!['unicorn/import-style'] = 'off'

@@ -1,15 +1,9 @@
 import type { Linter } from 'eslint'
 
 function errorifyConfigArray(configArray: Linter.Config[]): Linter.Config[] {
-  const newConfigArray: Linter.Config[] = []
-
-  for (const config of configArray) {
-    newConfigArray.push(
-      errorifyConfig(config),
-    )
-  }
-
-  return newConfigArray
+  return configArray.map((config) => {
+    return errorifyConfig(config)
+  })
 }
 
 function errorifyConfig(config: Linter.Config): Linter.Config {

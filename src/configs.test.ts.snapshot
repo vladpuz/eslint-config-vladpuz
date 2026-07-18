@@ -3011,6 +3011,9 @@ exports[`ESLint config > Snapshot of the schema has not been changed 1`] = `
             "max": {
               "type": "integer",
               "minimum": 0
+            },
+            "checkConstructorCallCallbacks": {
+              "type": "boolean"
             }
           },
           "additionalProperties": false
@@ -3300,7 +3303,17 @@ exports[`ESLint config > Snapshot of the schema has not been changed 1`] = `
     }
   ],
   "no-const-assign": [],
-  "no-constant-binary-expression": [],
+  "no-constant-binary-expression": [
+    {
+      "type": "object",
+      "properties": {
+        "checkRelationalComparisons": {
+          "type": "boolean"
+        }
+      },
+      "additionalProperties": false
+    }
+  ],
   "no-constant-condition": [
     {
       "type": "object",
@@ -5762,6 +5775,35 @@ exports[`ESLint config > Snapshot of the schema has not been changed 1`] = `
         "requireCatchParameter": {
           "type": "boolean",
           "description": "Requires the catch blocks to always have the caught error parameter so it is not discarded."
+        },
+        "errorClassNames": {
+          "type": "array",
+          "description": "Additional error class names to check for cause preservation.",
+          "items": {
+            "oneOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "object",
+                "required": [
+                  "name",
+                  "argumentPosition"
+                ],
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "argumentPosition": {
+                    "type": "integer",
+                    "minimum": 1
+                  }
+                },
+                "additionalProperties": false
+              }
+            ]
+          },
+          "uniqueItems": true
         }
       },
       "additionalProperties": false
@@ -6457,19 +6499,19 @@ exports[`Plugin \"@typescript-eslint\" config > Snapshot of the schema has not b
         },
         "ts-check": {
           "$ref": "#/items/0/$defs/directiveConfigSchema",
-          "description": "Whether allow ts-check directives, and with which restrictions."
+          "description": "Whether to allow ts-check directives, and with which restrictions."
         },
         "ts-expect-error": {
           "$ref": "#/items/0/$defs/directiveConfigSchema",
-          "description": "Whether and when expect-error directives, and with which restrictions."
+          "description": "Whether to allow ts-expect-error directives, and with which restrictions."
         },
         "ts-ignore": {
           "$ref": "#/items/0/$defs/directiveConfigSchema",
-          "description": "Whether allow ts-ignore directives, and with which restrictions."
+          "description": "Whether to allow ts-ignore directives, and with which restrictions."
         },
         "ts-nocheck": {
           "$ref": "#/items/0/$defs/directiveConfigSchema",
-          "description": "Whether allow ts-nocheck directives, and with which restrictions."
+          "description": "Whether to allow ts-nocheck directives, and with which restrictions."
         }
       }
     }
@@ -10299,7 +10341,7 @@ exports[`Plugin \"@typescript-eslint\" config > Snapshot of the schema has not b
         },
         "ignoreOnInitialization": {
           "type": "boolean",
-          "description": "Whether to ignore the variable initializers when the shadowed variable is presumably still unitialized."
+          "description": "Whether to ignore the variable initializers when the shadowed variable is presumably still uninitialized."
         },
         "ignoreTypeValueShadow": {
           "type": "boolean",
@@ -10315,7 +10357,7 @@ exports[`Plugin \"@typescript-eslint\" config > Snapshot of the schema has not b
       "properties": {
         "allowDestructuring": {
           "type": "boolean",
-          "description": "Whether to ignore destructurings, such as \`const { props, state } = this\`."
+          "description": "Whether to ignore destructuring, such as \`const { props, state } = this\`."
         },
         "allowedNames": {
           "type": "array",
@@ -10572,7 +10614,7 @@ exports[`Plugin \"@typescript-eslint\" config > Snapshot of the schema has not b
             },
             "ignoreRestSiblings": {
               "type": "boolean",
-              "description": "Whether to ignore sibling properties in \`...\` destructurings."
+              "description": "Whether to ignore sibling properties in \`...\` destructuring."
             },
             "ignoreUsingDeclarations": {
               "type": "boolean",
@@ -13599,7 +13641,8 @@ exports[`Plugin \"perfectionist\" config > Snapshot of the schema has not been c
       "type": "object"
     },
     "uniqueItems": true,
-    "type": "array"
+    "type": "array",
+    "minItems": 1
   },
   "perfectionist/sort-classes": {
     "items": {
@@ -16279,6 +16322,15 @@ exports[`Plugin \"perfectionist\" config > Snapshot of the schema has not been c
             }
           ]
         },
+        "sortByValue": {
+          "description": "Specifies whether to sort enums by value.",
+          "enum": [
+            "always",
+            "ifNumericEnum",
+            "never"
+          ],
+          "type": "string"
+        },
         "useConfigurationIf": {
           "description": "Specifies filters to match a particular options configuration for a given element to sort.",
           "properties": {
@@ -16347,15 +16399,6 @@ exports[`Plugin \"perfectionist\" config > Snapshot of the schema has not been c
           },
           "additionalProperties": false,
           "type": "object"
-        },
-        "sortByValue": {
-          "description": "Specifies whether to sort enums by value.",
-          "enum": [
-            "always",
-            "ifNumericEnum",
-            "never"
-          ],
-          "type": "string"
         },
         "useExperimentalDependencyDetection": {
           "description": "Enables experimental dependency detection for sorting rules that support it.",
@@ -22984,6 +23027,9 @@ exports[`Plugin \"perfectionist\" config > Snapshot of the schema has not been c
         },
         "partitionByNewLine": {
           "description": "Enables the use of newlines to separate the nodes into logical groups.",
+          "type": "boolean"
+        },
+        "ignoreCallableTypes": {
           "type": "boolean"
         }
       },
@@ -32586,7 +32632,132 @@ exports[`Plugin \"unicorn\" config > Snapshot of the schema has not been changed
       }
     }
   ],
+  "unicorn/class-reference-in-static-methods": [
+    {
+      "type": "object",
+      "properties": {
+        "preferThis": {
+          "type": "boolean",
+          "description": "Prefer \`this\` over the current class name in static methods."
+        },
+        "preferSuper": {
+          "type": "boolean",
+          "description": "Prefer \`super\` over the superclass name in static methods."
+        }
+      },
+      "additionalProperties": false
+    }
+  ],
+  "unicorn/comment-content": [
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "checkUniformCase": {
+          "type": "boolean",
+          "description": "Whether to also re-case all-lowercase and all-uppercase tokens. When \`false\`, only tokens that already mix upper- and lower-case (for example, \`Github\`) are corrected."
+        },
+        "extendDefaultReplacements": {
+          "type": "boolean",
+          "description": "Whether to extend the default replacements."
+        },
+        "replacements": {
+          "type": "object",
+          "propertyNames": {
+            "minLength": 1
+          },
+          "additionalProperties": {
+            "anyOf": [
+              {
+                "enum": [
+                  false
+                ]
+              },
+              {
+                "type": "string",
+                "minLength": 1
+              },
+              {
+                "type": "object",
+                "required": [
+                  "replacement"
+                ],
+                "properties": {
+                  "replacement": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "caseSensitive": {
+                    "type": "boolean"
+                  }
+                },
+                "additionalProperties": false
+              }
+            ]
+          },
+          "description": "Custom comment content replacements."
+        }
+      }
+    }
+  ],
   "unicorn/consistent-assert": [],
+  "unicorn/consistent-boolean-name": [
+    {
+      "type": "object",
+      "description": "Rule options.",
+      "additionalProperties": false,
+      "properties": {
+        "checkProperties": {
+          "type": "boolean",
+          "description": "Whether to check object, class, and TypeScript property and method names."
+        },
+        "prefixes": {
+          "type": "object",
+          "description": "Boolean name prefixes to allow or disallow.",
+          "additionalProperties": {
+            "type": "boolean",
+            "description": "Whether the prefix is allowed."
+          },
+          "propertyNames": {
+            "description": "Prefix name.",
+            "pattern": "^[a-z][a-zA-Z0-9]*$"
+          }
+        },
+        "ignore": {
+          "type": "array",
+          "uniqueItems": true,
+          "description": "Patterns to ignore."
+        }
+      }
+    }
+  ],
+  "unicorn/consistent-class-member-order": [
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "order": {
+          "type": "array",
+          "description": "The class member group order.",
+          "items": {
+            "enum": [
+              "static-field",
+              "static-block",
+              "static-method",
+              "private-field",
+              "public-field",
+              "constructor",
+              "private-method",
+              "public-method"
+            ]
+          },
+          "minItems": 8,
+          "maxItems": 8,
+          "uniqueItems": true
+        }
+      }
+    }
+  ],
   "unicorn/consistent-compound-words": {
     "type": "array",
     "additionalItems": false,
@@ -32681,10 +32852,29 @@ exports[`Plugin \"unicorn\" config > Snapshot of the schema has not been changed
       }
     }
   },
+  "unicorn/consistent-conditional-object-spread": [
+    {
+      "description": "The conditional object spread style to enforce.",
+      "enum": [
+        "logical",
+        "ternary"
+      ]
+    }
+  ],
   "unicorn/consistent-date-clone": [],
   "unicorn/consistent-destructuring": [],
   "unicorn/consistent-empty-array-spread": [],
   "unicorn/consistent-existence-index-check": [],
+  "unicorn/consistent-export-decorator-position": [
+    {
+      "enum": [
+        "above",
+        "before",
+        "after"
+      ],
+      "description": "Decorator position relative to the export declaration."
+    }
+  ],
   "unicorn/consistent-function-scoping": [
     {
       "type": "object",
@@ -32697,6 +32887,67 @@ exports[`Plugin \"unicorn\" config > Snapshot of the schema has not been changed
       }
     }
   ],
+  "unicorn/consistent-function-style": [
+    {
+      "type": "object",
+      "properties": {
+        "default": {
+          "enum": [
+            "declaration",
+            "function-expression",
+            "arrow-function",
+            "ignore"
+          ]
+        },
+        "namedFunctions": {
+          "enum": [
+            "declaration",
+            "function-expression",
+            "arrow-function",
+            "ignore"
+          ]
+        },
+        "namedExports": {
+          "enum": [
+            "declaration",
+            "function-expression",
+            "arrow-function",
+            "ignore"
+          ]
+        },
+        "callbacks": {
+          "enum": [
+            "function-expression",
+            "arrow-function",
+            "ignore"
+          ]
+        },
+        "objectProperties": {
+          "enum": [
+            "method",
+            "function-expression",
+            "arrow-function",
+            "ignore"
+          ]
+        },
+        "reassignedVariables": {
+          "enum": [
+            "function-expression",
+            "arrow-function",
+            "ignore"
+          ]
+        },
+        "typedVariables": {
+          "enum": [
+            "function-expression",
+            "arrow-function",
+            "ignore"
+          ]
+        }
+      },
+      "additionalProperties": false
+    }
+  ],
   "unicorn/consistent-json-file-read": [
     {
       "enum": [
@@ -32706,8 +32957,32 @@ exports[`Plugin \"unicorn\" config > Snapshot of the schema has not been changed
       "description": "Whether to prefer reading JSON files as strings or buffers before passing them to \`JSON.parse()\`."
     }
   ],
+  "unicorn/consistent-optional-chaining": [],
   "unicorn/consistent-template-literal-escape": [],
+  "unicorn/consistent-tuple-labels": [],
   "unicorn/custom-error-definition": [],
+  "unicorn/default-export-style": [
+    {
+      "type": "object",
+      "properties": {
+        "functions": {
+          "enum": [
+            "inline",
+            "separate",
+            "ignore"
+          ]
+        },
+        "classes": {
+          "enum": [
+            "inline",
+            "separate",
+            "ignore"
+          ]
+        }
+      },
+      "additionalProperties": false
+    }
+  ],
   "unicorn/dom-node-dataset": [
     {
       "type": "object",
@@ -32783,6 +33058,15 @@ exports[`Plugin \"unicorn\" config > Snapshot of the schema has not been changed
       }
     }
   ],
+  "unicorn/explicit-timer-delay": [
+    {
+      "enum": [
+        "always",
+        "never"
+      ],
+      "description": "Whether to always require an explicit \`delay\` argument, or disallow an explicit \`0\` delay."
+    }
+  ],
   "unicorn/filename-case": [
     {
       "description": "The rule options.",
@@ -32792,6 +33076,7 @@ exports[`Plugin \"unicorn\" config > Snapshot of the schema has not been changed
             "case": {
               "enum": [
                 "camelCase",
+                "camelCaseWithAcronyms",
                 "snakeCase",
                 "kebabCase",
                 "pascalCase"
@@ -32821,6 +33106,10 @@ exports[`Plugin \"unicorn\" config > Snapshot of the schema has not been changed
                 "camelCase": {
                   "type": "boolean",
                   "description": "Whether to allow camelCase filenames and directory names."
+                },
+                "camelCaseWithAcronyms": {
+                  "type": "boolean",
+                  "description": "Whether to allow camelCase filenames and directory names with acronym segments."
                 },
                 "snakeCase": {
                   "type": "boolean",
@@ -32855,6 +33144,33 @@ exports[`Plugin \"unicorn\" config > Snapshot of the schema has not been changed
           "additionalProperties": false
         }
       ]
+    }
+  ],
+  "unicorn/id-match": [
+    {
+      "type": "string"
+    },
+    {
+      "type": "object",
+      "properties": {
+        "properties": {
+          "type": "boolean"
+        },
+        "classFields": {
+          "type": "boolean"
+        },
+        "onlyDeclarations": {
+          "type": "boolean"
+        },
+        "ignoreDestructuring": {
+          "type": "boolean"
+        },
+        "checkNamedSpecifiers": {
+          "type": "boolean",
+          "description": "Whether to check named import specifiers and external named export specifiers."
+        }
+      },
+      "additionalProperties": false
     }
   ],
   "unicorn/import-style": {
@@ -32970,9 +33286,146 @@ exports[`Plugin \"unicorn\" config > Snapshot of the schema has not been changed
       }
     }
   ],
+  "unicorn/logical-assignment-operators": {
+    "type": "array",
+    "oneOf": [
+      {
+        "items": [
+          {
+            "const": "always"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "enforceForIfStatements": {
+                "type": "boolean"
+              }
+            },
+            "additionalProperties": false
+          }
+        ],
+        "minItems": 0,
+        "maxItems": 2
+      },
+      {
+        "items": [
+          {
+            "const": "never"
+          }
+        ],
+        "minItems": 1,
+        "maxItems": 1
+      }
+    ]
+  },
+  "unicorn/max-nested-calls": [
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "max": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "The maximum allowed nested call depth."
+        }
+      }
+    }
+  ],
+  "unicorn/name-replacements": {
+    "type": "array",
+    "additionalItems": false,
+    "items": [
+      {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "checkProperties": {
+            "type": "boolean",
+            "description": "Whether to check property names."
+          },
+          "checkVariables": {
+            "type": "boolean",
+            "description": "Whether to check variable names."
+          },
+          "checkDefaultAndNamespaceImports": {
+            "type": [
+              "boolean",
+              "string"
+            ],
+            "pattern": "internal",
+            "description": "Whether to check default and namespace import names."
+          },
+          "checkShorthandImports": {
+            "type": [
+              "boolean",
+              "string"
+            ],
+            "pattern": "internal",
+            "description": "Whether to check shorthand import names."
+          },
+          "checkShorthandProperties": {
+            "type": "boolean",
+            "description": "Whether to check shorthand property names."
+          },
+          "checkFilenames": {
+            "type": "boolean",
+            "description": "Whether to check filenames."
+          },
+          "extendDefaultReplacements": {
+            "type": "boolean",
+            "description": "Whether to extend the default replacements."
+          },
+          "replacements": {
+            "$ref": "#/definitions/nameReplacements",
+            "description": "Custom name replacements."
+          },
+          "extendDefaultAllowList": {
+            "type": "boolean",
+            "description": "Whether to extend the default allow list."
+          },
+          "allowList": {
+            "$ref": "#/definitions/booleanObject",
+            "description": "Custom allow list of names."
+          },
+          "ignore": {
+            "type": "array",
+            "uniqueItems": true,
+            "description": "Patterns to ignore."
+          }
+        }
+      }
+    ],
+    "definitions": {
+      "nameReplacements": {
+        "type": "object",
+        "additionalProperties": {
+          "$ref": "#/definitions/replacements"
+        }
+      },
+      "replacements": {
+        "anyOf": [
+          {
+            "enum": [
+              false
+            ]
+          },
+          {
+            "$ref": "#/definitions/booleanObject"
+          }
+        ]
+      },
+      "booleanObject": {
+        "type": "object",
+        "additionalProperties": {
+          "type": "boolean"
+        }
+      }
+    }
+  },
   "unicorn/new-for-builtins": [],
   "unicorn/no-abusive-eslint-disable": [],
   "unicorn/no-accessor-recursion": [],
+  "unicorn/no-accidental-bitwise-operator": [],
   "unicorn/no-anonymous-default-export": [],
   "unicorn/no-array-callback-reference": [
     {
@@ -32990,9 +33443,10 @@ exports[`Plugin \"unicorn\" config > Snapshot of the schema has not been changed
       }
     }
   ],
+  "unicorn/no-array-concat-in-loop": [],
   "unicorn/no-array-fill-with-reference-type": [],
-  "unicorn/no-array-for-each": [],
   "unicorn/no-array-from-fill": [],
+  "unicorn/no-array-front-mutation": [],
   "unicorn/no-array-method-this-argument": [],
   "unicorn/no-array-reduce": [
     {
@@ -33028,13 +33482,29 @@ exports[`Plugin \"unicorn\" config > Snapshot of the schema has not been changed
       }
     }
   ],
+  "unicorn/no-array-sort-for-min-max": [],
+  "unicorn/no-array-splice": [],
+  "unicorn/no-asterisk-prefix-in-documentation-comments": [],
+  "unicorn/no-async-promise-finally": [],
   "unicorn/no-await-expression-member": [],
   "unicorn/no-await-in-promise-methods": [],
   "unicorn/no-blob-to-file": [],
+  "unicorn/no-boolean-sort-comparator": [],
+  "unicorn/no-break-in-nested-loop": [],
   "unicorn/no-canvas-to-image": [],
+  "unicorn/no-chained-comparison": [],
+  "unicorn/no-collection-bracket-access": [],
+  "unicorn/no-computed-property-existence-check": [],
   "unicorn/no-confusing-array-splice": [],
+  "unicorn/no-confusing-array-with": [],
   "unicorn/no-console-spaces": [],
+  "unicorn/no-constant-zero-expression": [],
+  "unicorn/no-declarations-before-early-exit": [],
   "unicorn/no-document-cookie": [],
+  "unicorn/no-double-comparison": [],
+  "unicorn/no-duplicate-if-branches": [],
+  "unicorn/no-duplicate-logical-operands": [],
+  "unicorn/no-duplicate-loops": [],
   "unicorn/no-duplicate-set-values": [],
   "unicorn/no-empty-file": [
     {
@@ -33048,11 +33518,15 @@ exports[`Plugin \"unicorn\" config > Snapshot of the schema has not been changed
       }
     }
   ],
+  "unicorn/no-error-property-assignment": [],
   "unicorn/no-exports-in-scripts": [],
+  "unicorn/no-for-each": [],
   "unicorn/no-for-loop": [],
-  "unicorn/no-hex-escape": [],
+  "unicorn/no-global-object-property-assignment": [],
   "unicorn/no-immediate-mutation": [],
+  "unicorn/no-impossible-length-comparison": [],
   "unicorn/no-incorrect-query-selector": [],
+  "unicorn/no-incorrect-template-string-interpolation": [],
   "unicorn/no-instanceof-builtins": [
     {
       "type": "object",
@@ -33082,9 +33556,52 @@ exports[`Plugin \"unicorn\" config > Snapshot of the schema has not been changed
       "additionalProperties": false
     }
   ],
+  "unicorn/no-invalid-argument-count": [
+    {
+      "type": "object",
+      "description": "Additional call and constructor patterns to check.",
+      "propertyNames": {
+        "pattern": "^(?:new )?(?:\\\\*|[A-Za-z_$][\\\\w$]*)(?:\\\\.(?:\\\\*|[A-Za-z_$][\\\\w$]*))*$"
+      },
+      "additionalProperties": {
+        "anyOf": [
+          {
+            "type": "integer",
+            "minimum": 0
+          },
+          {
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "minItems": 1,
+            "uniqueItems": true
+          },
+          {
+            "type": "object",
+            "properties": {
+              "min": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "max": {
+                "type": "integer",
+                "minimum": 0
+              }
+            },
+            "additionalProperties": false,
+            "minProperties": 1
+          }
+        ]
+      }
+    }
+  ],
+  "unicorn/no-invalid-character-comparison": [],
   "unicorn/no-invalid-fetch-options": [],
   "unicorn/no-invalid-file-input-accept": [],
   "unicorn/no-invalid-remove-event-listener": [],
+  "unicorn/no-invalid-well-known-symbol-methods": [],
   "unicorn/no-keyword-prefix": [
     {
       "type": "object",
@@ -33113,15 +33630,58 @@ exports[`Plugin \"unicorn\" config > Snapshot of the schema has not been changed
     }
   ],
   "unicorn/no-late-current-target-access": [],
+  "unicorn/no-late-event-control": [],
   "unicorn/no-lonely-if": [],
+  "unicorn/no-loop-iterable-mutation": [],
   "unicorn/no-magic-array-flat-depth": [],
   "unicorn/no-manually-wrapped-comments": [],
+  "unicorn/no-mismatched-map-key": [],
+  "unicorn/no-misrefactored-assignment": [],
+  "unicorn/no-missing-local-resource": [],
+  "unicorn/no-multiple-promise-resolver-calls": [],
   "unicorn/no-named-default": [],
+  "unicorn/no-negated-array-predicate": [],
+  "unicorn/no-negated-comparison": [
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "checkLogicalExpressions": {
+          "type": "boolean",
+          "description": "Check logical expressions that only contain comparisons."
+        }
+      }
+    }
+  ],
   "unicorn/no-negated-condition": [],
   "unicorn/no-negation-in-equality-check": [],
   "unicorn/no-nested-ternary": [],
   "unicorn/no-new-array": [],
   "unicorn/no-new-buffer": [],
+  "unicorn/no-non-function-verb-prefix": [
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "verbs": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "minItems": 0,
+          "uniqueItems": true,
+          "description": "Function-style verb prefixes to check."
+        },
+        "ignore": {
+          "type": "array",
+          "uniqueItems": true,
+          "description": "Patterns to ignore."
+        }
+      }
+    }
+  ],
+  "unicorn/no-nonstandard-builtin-properties": [],
   "unicorn/no-null": [
     {
       "type": "object",
@@ -33139,12 +33699,22 @@ exports[`Plugin \"unicorn\" config > Snapshot of the schema has not been changed
     }
   ],
   "unicorn/no-object-as-default-parameter": [],
+  "unicorn/no-object-methods-with-collections": [],
+  "unicorn/no-optional-chaining-on-undeclared-variable": [],
   "unicorn/no-process-exit": [],
+  "unicorn/no-redundant-comparison": [],
+  "unicorn/no-return-array-push": [],
+  "unicorn/no-selector-as-dom-name": [],
+  "unicorn/no-shorthand-property-overrides": [],
   "unicorn/no-single-promise-in-promise-methods": [],
   "unicorn/no-static-only-class": [],
+  "unicorn/no-subtraction-comparison": [],
   "unicorn/no-thenable": [],
   "unicorn/no-this-assignment": [],
   "unicorn/no-this-outside-of-class": [],
+  "unicorn/no-top-level-assignment-in-function": [],
+  "unicorn/no-top-level-side-effects": [],
+  "unicorn/no-transition-all": [],
   "unicorn/no-typeof-undefined": [
     {
       "type": "object",
@@ -33157,9 +33727,15 @@ exports[`Plugin \"unicorn\" config > Snapshot of the schema has not been changed
       }
     }
   ],
+  "unicorn/no-uncalled-method": [],
+  "unicorn/no-undeclared-class-members": [],
   "unicorn/no-unnecessary-array-flat-depth": [],
+  "unicorn/no-unnecessary-array-flat-map": [],
   "unicorn/no-unnecessary-array-splice-count": [],
   "unicorn/no-unnecessary-await": [],
+  "unicorn/no-unnecessary-boolean-comparison": [],
+  "unicorn/no-unnecessary-fetch-options": [],
+  "unicorn/no-unnecessary-global-this": [],
   "unicorn/no-unnecessary-nested-ternary": [],
   "unicorn/no-unnecessary-polyfills": [
     {
@@ -33187,18 +33763,52 @@ exports[`Plugin \"unicorn\" config > Snapshot of the schema has not been changed
     }
   ],
   "unicorn/no-unnecessary-slice-end": [],
-  "unicorn/no-unreadable-array-destructuring": [],
+  "unicorn/no-unnecessary-splice": [],
+  "unicorn/no-unnecessary-string-trim": [],
+  "unicorn/no-unreadable-array-destructuring": [
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "maximumIgnoredElements": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Maximum number of consecutive ignored elements allowed."
+        }
+      }
+    }
+  ],
+  "unicorn/no-unreadable-for-of-expression": [],
   "unicorn/no-unreadable-iife": [],
+  "unicorn/no-unreadable-new-expression": [],
+  "unicorn/no-unreadable-object-destructuring": [],
+  "unicorn/no-unsafe-buffer-conversion": [],
+  "unicorn/no-unsafe-dom-html": [],
+  "unicorn/no-unsafe-promise-all-settled-values": [],
+  "unicorn/no-unsafe-property-key": [],
+  "unicorn/no-unsafe-string-replacement": [],
   "unicorn/no-unused-array-method-return": [],
   "unicorn/no-unused-properties": [],
+  "unicorn/no-useless-boolean-cast": [],
+  "unicorn/no-useless-coercion": [],
   "unicorn/no-useless-collection-argument": [],
+  "unicorn/no-useless-compound-assignment": [],
+  "unicorn/no-useless-concat": [],
+  "unicorn/no-useless-continue": [],
+  "unicorn/no-useless-delete-check": [],
+  "unicorn/no-useless-else": [],
   "unicorn/no-useless-error-capture-stack-trace": [],
   "unicorn/no-useless-fallback-in-spread": [],
   "unicorn/no-useless-iterator-to-array": [],
   "unicorn/no-useless-length-check": [],
+  "unicorn/no-useless-logical-operand": [],
+  "unicorn/no-useless-override": [],
   "unicorn/no-useless-promise-resolve-reject": [],
+  "unicorn/no-useless-re-export": [],
+  "unicorn/no-useless-recursion": [],
   "unicorn/no-useless-spread": [],
   "unicorn/no-useless-switch-case": [],
+  "unicorn/no-useless-template-literals": [],
   "unicorn/no-useless-undefined": [
     {
       "type": "object",
@@ -33215,6 +33825,7 @@ exports[`Plugin \"unicorn\" config > Snapshot of the schema has not been changed
       }
     }
   ],
+  "unicorn/no-xor-as-exponentiation": [],
   "unicorn/no-zero-fractions": [],
   "unicorn/number-literal-case": [
     {
@@ -33327,6 +33938,16 @@ exports[`Plugin \"unicorn\" config > Snapshot of the schema has not been changed
       }
     }
   ],
+  "unicorn/operator-assignment": [
+    {
+      "enum": [
+        "always",
+        "never"
+      ]
+    }
+  ],
+  "unicorn/prefer-abort-signal-any": [],
+  "unicorn/prefer-abort-signal-timeout": [],
   "unicorn/prefer-add-event-listener": [
     {
       "type": "object",
@@ -33343,6 +33964,8 @@ exports[`Plugin \"unicorn\" config > Snapshot of the schema has not been changed
       }
     }
   ],
+  "unicorn/prefer-add-event-listener-options": [],
+  "unicorn/prefer-aggregate-error": [],
   "unicorn/prefer-array-find": [
     {
       "type": "object",
@@ -33369,8 +33992,13 @@ exports[`Plugin \"unicorn\" config > Snapshot of the schema has not been changed
     }
   ],
   "unicorn/prefer-array-flat-map": [],
+  "unicorn/prefer-array-from-async": [],
+  "unicorn/prefer-array-from-map": [],
+  "unicorn/prefer-array-from-range": [],
   "unicorn/prefer-array-index-of": [],
+  "unicorn/prefer-array-iterable-methods": [],
   "unicorn/prefer-array-last-methods": [],
+  "unicorn/prefer-array-slice": [],
   "unicorn/prefer-array-some": [],
   "unicorn/prefer-at": [
     {
@@ -33384,22 +34012,88 @@ exports[`Plugin \"unicorn\" config > Snapshot of the schema has not been changed
         },
         "checkAllIndexAccess": {
           "type": "boolean",
-          "description": "Whether to also check positive integer index access."
+          "description": "Whether to also check non-negative integer index access."
         }
       }
     }
   ],
+  "unicorn/prefer-await": [],
   "unicorn/prefer-bigint-literals": [],
   "unicorn/prefer-blob-reading-methods": [],
+  "unicorn/prefer-block-statement-over-iife": [],
+  "unicorn/prefer-boolean-return": [],
   "unicorn/prefer-class-fields": [],
   "unicorn/prefer-classlist-toggle": [],
   "unicorn/prefer-code-point": [],
+  "unicorn/prefer-continue": [
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "maximumStatements": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Maximum number of statements allowed in a whole-loop conditional wrapper."
+        }
+      }
+    }
+  ],
   "unicorn/prefer-date-now": [],
   "unicorn/prefer-default-parameters": [],
+  "unicorn/prefer-direct-iteration": [],
+  "unicorn/prefer-dispose": [],
   "unicorn/prefer-dom-node-append": [],
+  "unicorn/prefer-dom-node-html-methods": [
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "checkGetHTML": {
+          "type": "boolean",
+          "description": "Whether to check reads from \`.innerHTML\`."
+        },
+        "checkSetHTML": {
+          "type": "boolean",
+          "description": "Whether to check assignments to \`.innerHTML\`."
+        }
+      }
+    }
+  ],
   "unicorn/prefer-dom-node-remove": [],
+  "unicorn/prefer-dom-node-replace-children": [],
   "unicorn/prefer-dom-node-text-content": [],
+  "unicorn/prefer-early-return": [
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "maximumStatements": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Maximum number of statements allowed in a whole-function conditional wrapper."
+        }
+      }
+    }
+  ],
+  "unicorn/prefer-else-if": [],
+  "unicorn/prefer-error-is-error": [],
   "unicorn/prefer-event-target": [],
+  "unicorn/prefer-explicit-viewport-units": [
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "unit": {
+          "enum": [
+            "dvh",
+            "svh",
+            "lvh"
+          ],
+          "description": "The viewport height unit to prefer."
+        }
+      }
+    }
+  ],
   "unicorn/prefer-export-from": [
     {
       "type": "object",
@@ -33412,9 +34106,15 @@ exports[`Plugin \"unicorn\" config > Snapshot of the schema has not been changed
       }
     }
   ],
+  "unicorn/prefer-flat-math-min-max": [],
   "unicorn/prefer-get-or-insert-computed": [],
+  "unicorn/prefer-global-number-constants": [],
   "unicorn/prefer-global-this": [],
+  "unicorn/prefer-group-by": [],
+  "unicorn/prefer-has-check": [],
+  "unicorn/prefer-hoisting-branch-code": [],
   "unicorn/prefer-https": [],
+  "unicorn/prefer-identifier-import-export-specifiers": [],
   "unicorn/prefer-import-meta-properties": [],
   "unicorn/prefer-includes": [],
   "unicorn/prefer-includes-over-repeated-comparisons": [
@@ -33430,19 +34130,43 @@ exports[`Plugin \"unicorn\" config > Snapshot of the schema has not been changed
       }
     }
   ],
+  "unicorn/prefer-iterable-in-constructor": [],
   "unicorn/prefer-iterator-concat": [],
+  "unicorn/prefer-iterator-helpers": [],
+  "unicorn/prefer-iterator-to-array": [],
   "unicorn/prefer-iterator-to-array-at-end": [],
   "unicorn/prefer-keyboard-event-key": [],
+  "unicorn/prefer-location-assign": [],
   "unicorn/prefer-logical-operator-over-ternary": [],
+  "unicorn/prefer-map-from-entries": [],
   "unicorn/prefer-math-abs": [],
+  "unicorn/prefer-math-constants": [],
   "unicorn/prefer-math-min-max": [],
   "unicorn/prefer-math-trunc": [],
+  "unicorn/prefer-minimal-ternary": [
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "checkVaryingBase": {
+          "type": "boolean",
+          "description": "Also report ternaries that differ only by the base of a call or member access, whose minimization moves the ternary into the base (\`(test ? a : b).foo\`)."
+        },
+        "checkComputedMemberAccess": {
+          "type": "boolean",
+          "description": "Also report method-call ternaries that differ only by the method name, whose minimization requires computed member access."
+        }
+      }
+    }
+  ],
   "unicorn/prefer-modern-dom-apis": [],
   "unicorn/prefer-modern-math-apis": [],
   "unicorn/prefer-module": [],
   "unicorn/prefer-native-coercion-functions": [],
   "unicorn/prefer-negative-index": [],
   "unicorn/prefer-node-protocol": [],
+  "unicorn/prefer-number-coercion": [],
+  "unicorn/prefer-number-is-safe-integer": [],
   "unicorn/prefer-number-properties": [
     {
       "type": "object",
@@ -33459,6 +34183,8 @@ exports[`Plugin \"unicorn\" config > Snapshot of the schema has not been changed
       }
     }
   ],
+  "unicorn/prefer-object-define-properties": [],
+  "unicorn/prefer-object-destructuring-defaults": [],
   "unicorn/prefer-object-from-entries": [
     {
       "type": "object",
@@ -33472,7 +34198,13 @@ exports[`Plugin \"unicorn\" config > Snapshot of the schema has not been changed
       }
     }
   ],
+  "unicorn/prefer-object-iterable-methods": [],
+  "unicorn/prefer-observer-apis": [],
   "unicorn/prefer-optional-catch-binding": [],
+  "unicorn/prefer-path2d": [],
+  "unicorn/prefer-private-class-fields": [],
+  "unicorn/prefer-promise-try": [],
+  "unicorn/prefer-promise-with-resolvers": [],
   "unicorn/prefer-prototype-methods": [],
   "unicorn/prefer-query-selector": [
     {
@@ -33503,8 +34235,10 @@ exports[`Plugin \"unicorn\" config > Snapshot of the schema has not been changed
     }
   ],
   "unicorn/prefer-reflect-apply": [],
+  "unicorn/prefer-regexp-escape": [],
   "unicorn/prefer-regexp-test": [],
   "unicorn/prefer-response-static-json": [],
+  "unicorn/prefer-scoped-selector": [],
   "unicorn/prefer-set-has": [
     {
       "type": "object",
@@ -33518,8 +34252,21 @@ exports[`Plugin \"unicorn\" config > Snapshot of the schema has not been changed
       }
     }
   ],
+  "unicorn/prefer-set-methods": [],
   "unicorn/prefer-set-size": [],
+  "unicorn/prefer-short-arrow-method": [
+    {
+      "description": "Mode to use when reporting methods.",
+      "enum": [
+        "always",
+        "consistent-as-needed"
+      ]
+    }
+  ],
   "unicorn/prefer-simple-condition-first": [],
+  "unicorn/prefer-simple-sort-comparator": [],
+  "unicorn/prefer-simplified-conditions": [],
+  "unicorn/prefer-single-array-predicate": [],
   "unicorn/prefer-single-call": [
     {
       "type": "object",
@@ -33533,6 +34280,9 @@ exports[`Plugin \"unicorn\" config > Snapshot of the schema has not been changed
       }
     }
   ],
+  "unicorn/prefer-single-object-destructuring": [],
+  "unicorn/prefer-single-replace": [],
+  "unicorn/prefer-smaller-scope": [],
   "unicorn/prefer-split-limit": [],
   "unicorn/prefer-spread": [],
   "unicorn/prefer-string-match-all": [],
@@ -33589,6 +34339,26 @@ exports[`Plugin \"unicorn\" config > Snapshot of the schema has not been changed
       }
     }
   ],
+  "unicorn/prefer-temporal": [
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "checkDateNow": {
+          "type": "boolean",
+          "description": "Whether to also flag \`Date.now()\`."
+        },
+        "checkReferences": {
+          "type": "boolean",
+          "description": "Whether to also flag bare references to \`Date\`, such as \`x instanceof Date\`."
+        },
+        "checkMethods": {
+          "type": "boolean",
+          "description": "Whether to also flag methods called on \`Date\` instances, such as \`date.getFullYear()\`. Requires TypeScript type information."
+        }
+      }
+    }
+  ],
   "unicorn/prefer-ternary": [
     {
       "enum": [
@@ -33598,99 +34368,18 @@ exports[`Plugin \"unicorn\" config > Snapshot of the schema has not been changed
       "description": "Whether to always prefer ternary, or only for single-line expressions."
     }
   ],
+  "unicorn/prefer-then-catch": [],
+  "unicorn/prefer-toggle-attribute": [],
   "unicorn/prefer-top-level-await": [],
   "unicorn/prefer-type-error": [],
-  "unicorn/prevent-abbreviations": {
-    "type": "array",
-    "additionalItems": false,
-    "items": [
-      {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "checkProperties": {
-            "type": "boolean",
-            "description": "Whether to check property names."
-          },
-          "checkVariables": {
-            "type": "boolean",
-            "description": "Whether to check variable names."
-          },
-          "checkDefaultAndNamespaceImports": {
-            "type": [
-              "boolean",
-              "string"
-            ],
-            "pattern": "internal",
-            "description": "Whether to check default and namespace import names."
-          },
-          "checkShorthandImports": {
-            "type": [
-              "boolean",
-              "string"
-            ],
-            "pattern": "internal",
-            "description": "Whether to check shorthand import names."
-          },
-          "checkShorthandProperties": {
-            "type": "boolean",
-            "description": "Whether to check shorthand property names."
-          },
-          "checkFilenames": {
-            "type": "boolean",
-            "description": "Whether to check filenames."
-          },
-          "extendDefaultReplacements": {
-            "type": "boolean",
-            "description": "Whether to extend the default replacements."
-          },
-          "replacements": {
-            "$ref": "#/definitions/abbreviations",
-            "description": "Custom abbreviation replacements."
-          },
-          "extendDefaultAllowList": {
-            "type": "boolean",
-            "description": "Whether to extend the default allow list."
-          },
-          "allowList": {
-            "$ref": "#/definitions/booleanObject",
-            "description": "Custom allow list of names."
-          },
-          "ignore": {
-            "type": "array",
-            "uniqueItems": true,
-            "description": "Patterns to ignore."
-          }
-        }
-      }
-    ],
-    "definitions": {
-      "abbreviations": {
-        "type": "object",
-        "additionalProperties": {
-          "$ref": "#/definitions/replacements"
-        }
-      },
-      "replacements": {
-        "anyOf": [
-          {
-            "enum": [
-              false
-            ]
-          },
-          {
-            "$ref": "#/definitions/booleanObject"
-          }
-        ]
-      },
-      "booleanObject": {
-        "type": "object",
-        "additionalProperties": {
-          "type": "boolean"
-        }
-      }
-    }
-  },
+  "unicorn/prefer-type-literal-last": [],
+  "unicorn/prefer-uint8array-base64": [],
+  "unicorn/prefer-unary-minus": [],
+  "unicorn/prefer-unicode-code-point-escapes": [],
+  "unicorn/prefer-url-can-parse": [],
+  "unicorn/prefer-url-href": [],
+  "unicorn/prefer-url-search-parameters": [],
+  "unicorn/prefer-while-loop-condition": [],
   "unicorn/relative-url-style": [
     {
       "enum": [
@@ -33701,6 +34390,7 @@ exports[`Plugin \"unicorn\" config > Snapshot of the schema has not been changed
     }
   ],
   "unicorn/require-array-join-separator": [],
+  "unicorn/require-array-sort-compare": [],
   "unicorn/require-css-escape": [
     {
       "type": "object",
@@ -33713,11 +34403,29 @@ exports[`Plugin \"unicorn\" config > Snapshot of the schema has not been changed
       }
     }
   ],
+  "unicorn/require-frontmatter-fields": [
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "fields": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "description": "Top-level YAML frontmatter fields that are required."
+        }
+      }
+    }
+  ],
   "unicorn/require-module-attributes": [],
   "unicorn/require-module-specifiers": [],
   "unicorn/require-number-to-fixed-digits-argument": [],
   "unicorn/require-passive-events": [],
   "unicorn/require-post-message-target-origin": [],
+  "unicorn/require-proxy-trap-boolean-return": [],
   "unicorn/string-content": [
     {
       "type": "object",
@@ -33770,9 +34478,10 @@ exports[`Plugin \"unicorn\" config > Snapshot of the schema has not been changed
     {
       "enum": [
         "always",
-        "avoid"
+        "avoid",
+        "single-statement"
       ],
-      "description": "Whether to always require braces or avoid them for empty cases."
+      "description": "Whether to always require braces, avoid them when possible, or require one statement per case."
     }
   ],
   "unicorn/switch-case-break-position": [],
