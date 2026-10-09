@@ -1,3 +1,11 @@
+## 4.3.0
+
+- Updated eslint-plugin-unicorn from v72 to v77. Many new rules.
+- Updated typescript-eslint. Rules changes:
+  - @typescript-eslint/no-generated-empty-object-type - enabled (new rule).
+  - @typescript-eslint/no-unsafe-enum-assignment - enabled (new rule).
+  - @typescript-eslint/no-restricted-imports - removed (deprecated rule).
+
 ## 4.2.0
 
 - Updated eslint-plugin-unicorn from v65 to v72.

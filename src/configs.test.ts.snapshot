@@ -4746,7 +4746,17 @@ exports[`ESLint config > Snapshot of the schema has not been changed 1`] = `
     }
   ],
   "no-unexpected-multiline": [],
-  "no-unmodified-loop-condition": [],
+  "no-unmodified-loop-condition": [
+    {
+      "type": "object",
+      "properties": {
+        "checkConditionalExpressions": {
+          "type": "boolean"
+        }
+      },
+      "additionalProperties": false
+    }
+  ],
   "no-unneeded-ternary": [
     {
       "type": "object",
@@ -9729,6 +9739,7 @@ exports[`Plugin \"@typescript-eslint\" config > Snapshot of the schema has not b
     }
   ],
   "@typescript-eslint/no-for-in-array": [],
+  "@typescript-eslint/no-generated-empty-object-type": [],
   "@typescript-eslint/no-implied-eval": [],
   "@typescript-eslint/no-import-type-side-effects": [],
   "@typescript-eslint/no-inferrable-types": [
@@ -9850,7 +9861,7 @@ exports[`Plugin \"@typescript-eslint\" config > Snapshot of the schema has not b
       "properties": {
         "checkNever": {
           "type": "boolean",
-          "description": "Whether to suggest removing \`void\` when the argument has type \`never\`."
+          "description": "Whether to suggest removing \`void\` when a call's return type is \`never\`."
         }
       }
     }
@@ -9862,8 +9873,29 @@ exports[`Plugin \"@typescript-eslint\" config > Snapshot of the schema has not b
       "additionalProperties": false,
       "properties": {
         "checksConditionals": {
-          "type": "boolean",
-          "description": "Whether to warn when a Promise is provided to conditional statements."
+          "description": "Whether to warn when a Promise is provided to conditional statements.",
+          "oneOf": [
+            {
+              "type": "boolean",
+              "description": "Whether to check conditionals."
+            },
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "description": "Detailed settings for conditional inspection.",
+              "properties": {
+                "flagUnions": {
+                  "type": "string",
+                  "description": "Configures how union types containing Promise-like types are checked.",
+                  "enum": [
+                    "all",
+                    "strict",
+                    "none"
+                  ]
+                }
+              }
+            }
+          ]
         },
         "checksSpreads": {
           "type": "boolean",
@@ -10512,6 +10544,7 @@ exports[`Plugin \"@typescript-eslint\" config > Snapshot of the schema has not b
   "@typescript-eslint/no-unsafe-assignment": [],
   "@typescript-eslint/no-unsafe-call": [],
   "@typescript-eslint/no-unsafe-declaration-merging": [],
+  "@typescript-eslint/no-unsafe-enum-assignment": [],
   "@typescript-eslint/no-unsafe-enum-comparison": [],
   "@typescript-eslint/no-unsafe-function-type": [],
   "@typescript-eslint/no-unsafe-member-access": [
@@ -20645,23 +20678,6 @@ exports[`Plugin \"perfectionist\" config > Snapshot of the schema has not been c
             }
           ]
         },
-        "tsconfig": {
-          "properties": {
-            "rootDir": {
-              "description": "Specifies the tsConfig root directory.",
-              "type": "string"
-            },
-            "filename": {
-              "description": "Specifies the tsConfig filename.",
-              "type": "string"
-            }
-          },
-          "additionalProperties": false,
-          "required": [
-            "rootDir"
-          ],
-          "type": "object"
-        },
         "maxLineLength": {
           "description": "Specifies the maximum line length.",
           "exclusiveMinimum": true,
@@ -20950,6 +20966,23 @@ exports[`Plugin \"perfectionist\" config > Snapshot of the schema has not been c
             }
           ],
           "description": "Regular expression."
+        },
+        "tsconfig": {
+          "properties": {
+            "rootDir": {
+              "description": "Specifies the tsConfig root directory.",
+              "type": "string"
+            },
+            "filename": {
+              "description": "Specifies the tsConfig filename.",
+              "type": "string"
+            }
+          },
+          "additionalProperties": false,
+          "required": [
+            "rootDir"
+          ],
+          "type": "object"
         }
       },
       "additionalProperties": false,
@@ -25450,6 +25483,13 @@ exports[`Plugin \"perfectionist\" config > Snapshot of the schema has not been c
             }
           ]
         },
+        "additionalModuleBlockTypes": {
+          "description": "Specifies the node types to analyze as module blocks, in addition to the built-in ones.",
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
         "useExperimentalDependencyDetection": {
           "description": "Enables experimental dependency detection for sorting rules that support it.",
           "type": "boolean"
@@ -25677,6 +25717,23 @@ exports[`Plugin \"perfectionist\" config > Snapshot of the schema has not been c
         "partitionByNewLine": {
           "description": "Enables the use of newlines to separate the nodes into logical groups.",
           "type": "boolean"
+        },
+        "tsconfig": {
+          "properties": {
+            "rootDir": {
+              "description": "Specifies the tsConfig root directory.",
+              "type": "string"
+            },
+            "filename": {
+              "description": "Specifies the tsConfig filename.",
+              "type": "string"
+            }
+          },
+          "additionalProperties": false,
+          "required": [
+            "rootDir"
+          ],
+          "type": "object"
         }
       },
       "additionalProperties": false,
@@ -29717,6 +29774,64 @@ exports[`Plugin \"perfectionist\" config > Snapshot of the schema has not been c
           "description": "Enables experimental dependency detection for sorting rules that support it.",
           "type": "boolean"
         },
+        "ignoreCallbackDependenciesPatterns": {
+          "oneOf": [
+            {
+              "items": {
+                "oneOf": [
+                  {
+                    "properties": {
+                      "pattern": {
+                        "description": "Regular expression pattern.",
+                        "type": "string"
+                      },
+                      "flags": {
+                        "description": "Regular expression flags.",
+                        "type": "string"
+                      }
+                    },
+                    "additionalProperties": false,
+                    "required": [
+                      "pattern"
+                    ],
+                    "type": "object"
+                  },
+                  {
+                    "type": "string"
+                  }
+                ],
+                "description": "Regular expression."
+              },
+              "type": "array"
+            },
+            {
+              "oneOf": [
+                {
+                  "properties": {
+                    "pattern": {
+                      "description": "Regular expression pattern.",
+                      "type": "string"
+                    },
+                    "flags": {
+                      "description": "Regular expression flags.",
+                      "type": "string"
+                    }
+                  },
+                  "additionalProperties": false,
+                  "required": [
+                    "pattern"
+                  ],
+                  "type": "object"
+                },
+                {
+                  "type": "string"
+                }
+              ],
+              "description": "Regular expression."
+            }
+          ],
+          "description": "Regular expression."
+        },
         "partitionByComment": {
           "oneOf": [
             {
@@ -32393,6 +32508,64 @@ exports[`Plugin \"perfectionist\" config > Snapshot of the schema has not been c
           "description": "Enables experimental dependency detection for sorting rules that support it.",
           "type": "boolean"
         },
+        "ignoreCallbackDependenciesPatterns": {
+          "oneOf": [
+            {
+              "items": {
+                "oneOf": [
+                  {
+                    "properties": {
+                      "pattern": {
+                        "description": "Regular expression pattern.",
+                        "type": "string"
+                      },
+                      "flags": {
+                        "description": "Regular expression flags.",
+                        "type": "string"
+                      }
+                    },
+                    "additionalProperties": false,
+                    "required": [
+                      "pattern"
+                    ],
+                    "type": "object"
+                  },
+                  {
+                    "type": "string"
+                  }
+                ],
+                "description": "Regular expression."
+              },
+              "type": "array"
+            },
+            {
+              "oneOf": [
+                {
+                  "properties": {
+                    "pattern": {
+                      "description": "Regular expression pattern.",
+                      "type": "string"
+                    },
+                    "flags": {
+                      "description": "Regular expression flags.",
+                      "type": "string"
+                    }
+                  },
+                  "additionalProperties": false,
+                  "required": [
+                    "pattern"
+                  ],
+                  "type": "object"
+                },
+                {
+                  "type": "string"
+                }
+              ],
+              "description": "Regular expression."
+            }
+          ],
+          "description": "Regular expression."
+        },
         "partitionByComment": {
           "oneOf": [
             {
@@ -32626,6 +32799,13 @@ exports[`Plugin \"unicorn\" config > Snapshot of the schema has not been changed
         },
         "ignore": {
           "type": "array",
+          "items": {
+            "type": [
+              "string",
+              "object"
+            ],
+            "additionalProperties": true
+          },
           "uniqueItems": true,
           "description": "Patterns to ignore."
         }
@@ -32648,6 +32828,7 @@ exports[`Plugin \"unicorn\" config > Snapshot of the schema has not been changed
       "additionalProperties": false
     }
   ],
+  "unicorn/comma-spacing": [],
   "unicorn/comment-content": [
     {
       "type": "object",
@@ -32700,16 +32881,56 @@ exports[`Plugin \"unicorn\" config > Snapshot of the schema has not been changed
       }
     }
   ],
+  "unicorn/consistent-arrow-return-style": [],
   "unicorn/consistent-assert": [],
   "unicorn/consistent-boolean-name": [
     {
       "type": "object",
       "description": "Rule options.",
       "additionalProperties": false,
+      "patternProperties": {
+        "^checkProperties$": {}
+      },
       "properties": {
-        "checkProperties": {
-          "type": "boolean",
-          "description": "Whether to check object, class, and TypeScript property and method names."
+        "checkVariables": {
+          "enum": [
+            "always",
+            "prohibit",
+            "never"
+          ],
+          "description": "How to check variable names."
+        },
+        "checkArguments": {
+          "enum": [
+            "always",
+            "prohibit",
+            "never"
+          ],
+          "description": "How to check parameter names."
+        },
+        "checkFunctions": {
+          "enum": [
+            "always",
+            "prohibit",
+            "never"
+          ],
+          "description": "How to check function names."
+        },
+        "checkMethods": {
+          "enum": [
+            "always",
+            "prohibit",
+            "never"
+          ],
+          "description": "How to check object and class methods, getters, and TypeScript method signatures. Setter names are ignored because setters do not return values."
+        },
+        "checkFields": {
+          "enum": [
+            "always",
+            "prohibit",
+            "never"
+          ],
+          "description": "How to check object properties, class fields, TypeScript property signatures, and constructor parameter properties."
         },
         "prefixes": {
           "type": "object",
@@ -32721,6 +32942,15 @@ exports[`Plugin \"unicorn\" config > Snapshot of the schema has not been changed
           "propertyNames": {
             "description": "Prefix name.",
             "pattern": "^[a-z][a-zA-Z0-9]*$"
+          }
+        },
+        "wrappers": {
+          "type": "object",
+          "description": "Wrapper type names and their boolean-like value members.",
+          "additionalProperties": {
+            "type": "string",
+            "description": "The property or method that provides the wrapped value.",
+            "minLength": 1
           }
         },
         "ignore": {
@@ -32899,6 +33129,14 @@ exports[`Plugin \"unicorn\" config > Snapshot of the schema has not been changed
             "ignore"
           ]
         },
+        "defaultExport": {
+          "enum": [
+            "declaration",
+            "function-expression",
+            "arrow-function",
+            "ignore"
+          ]
+        },
         "namedFunctions": {
           "enum": [
             "declaration",
@@ -33020,6 +33258,13 @@ exports[`Plugin \"unicorn\" config > Snapshot of the schema has not been changed
         },
         "ignore": {
           "type": "array",
+          "items": {
+            "type": [
+              "string",
+              "object"
+            ],
+            "additionalProperties": true
+          },
           "uniqueItems": true,
           "description": "Patterns to ignore."
         },
@@ -33072,6 +33317,7 @@ exports[`Plugin \"unicorn\" config > Snapshot of the schema has not been changed
       "description": "The rule options.",
       "anyOf": [
         {
+          "type": "object",
           "properties": {
             "case": {
               "enum": [
@@ -33085,6 +33331,13 @@ exports[`Plugin \"unicorn\" config > Snapshot of the schema has not been changed
             },
             "ignore": {
               "type": "array",
+              "items": {
+                "type": [
+                  "string",
+                  "object"
+                ],
+                "additionalProperties": true
+              },
               "uniqueItems": true,
               "description": "Path segment patterns to ignore."
             },
@@ -33095,13 +33348,27 @@ exports[`Plugin \"unicorn\" config > Snapshot of the schema has not been changed
             "checkDirectories": {
               "type": "boolean",
               "description": "Whether to check directory names."
+            },
+            "directoryRoots": {
+              "type": "array",
+              "items": {
+                "type": [
+                  "string",
+                  "object"
+                ],
+                "additionalProperties": true
+              },
+              "uniqueItems": true,
+              "description": "Directory root paths or patterns, relative to the current working directory."
             }
           },
           "additionalProperties": false
         },
         {
+          "type": "object",
           "properties": {
             "cases": {
+              "type": "object",
               "properties": {
                 "camelCase": {
                   "type": "boolean",
@@ -33129,6 +33396,13 @@ exports[`Plugin \"unicorn\" config > Snapshot of the schema has not been changed
             },
             "ignore": {
               "type": "array",
+              "items": {
+                "type": [
+                  "string",
+                  "object"
+                ],
+                "additionalProperties": true
+              },
               "uniqueItems": true,
               "description": "Path segment patterns to ignore."
             },
@@ -33139,6 +33413,18 @@ exports[`Plugin \"unicorn\" config > Snapshot of the schema has not been changed
             "checkDirectories": {
               "type": "boolean",
               "description": "Whether to check directory names."
+            },
+            "directoryRoots": {
+              "type": "array",
+              "items": {
+                "type": [
+                  "string",
+                  "object"
+                ],
+                "additionalProperties": true
+              },
+              "uniqueItems": true,
+              "description": "Directory root paths or patterns, relative to the current working directory."
             }
           },
           "additionalProperties": false
@@ -33235,6 +33521,35 @@ exports[`Plugin \"unicorn\" config > Snapshot of the schema has not been changed
       }
     }
   },
+  "unicorn/indent": [
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "indent": {
+          "oneOf": [
+            {
+              "enum": [
+                "tab"
+              ],
+              "description": "Use tabs."
+            },
+            {
+              "type": "integer",
+              "minimum": 1,
+              "description": "Number of spaces per indentation unit."
+            }
+          ],
+          "description": "Use tabs or the specified number of spaces per indentation unit."
+        },
+        "tabWidth": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "Tab stop width used when converting CSS indentation."
+        }
+      }
+    }
+  ],
   "unicorn/isolated-functions": [
     {
       "type": "object",
@@ -33271,7 +33586,9 @@ exports[`Plugin \"unicorn\" config > Snapshot of the schema has not been changed
           "type": "array",
           "uniqueItems": true,
           "items": {
-            "type": "string"
+            "type": "string",
+            "minLength": 1,
+            "pattern": "\\\\S"
           },
           "description": "AST selectors that mark a scope as isolated."
         },
@@ -33282,6 +33599,51 @@ exports[`Plugin \"unicorn\" config > Snapshot of the schema has not been changed
             "type": "string"
           },
           "description": "Comment patterns that mark a scope as isolated."
+        }
+      }
+    }
+  ],
+  "unicorn/iteration-fallback-style": [
+    {
+      "enum": [
+        "guard",
+        "fallback"
+      ],
+      "description": "The preferred style for optional loop sources."
+    }
+  ],
+  "unicorn/key-name-casing": [
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "camelCase": {
+          "type": "boolean",
+          "description": "Whether to allow camelCase keys."
+        },
+        "PascalCase": {
+          "type": "boolean",
+          "description": "Whether to allow PascalCase keys."
+        },
+        "SCREAMING_SNAKE_CASE": {
+          "type": "boolean",
+          "description": "Whether to allow SCREAMING_SNAKE_CASE keys."
+        },
+        "kebab-case": {
+          "type": "boolean",
+          "description": "Whether to allow kebab-case keys."
+        },
+        "snake_case": {
+          "type": "boolean",
+          "description": "Whether to allow snake_case keys."
+        },
+        "ignore": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "uniqueItems": true,
+          "description": "Regular expression patterns for keys to ignore."
         }
       }
     }
@@ -33389,6 +33751,13 @@ exports[`Plugin \"unicorn\" config > Snapshot of the schema has not been changed
           },
           "ignore": {
             "type": "array",
+            "items": {
+              "type": [
+                "string",
+                "object"
+              ],
+              "additionalProperties": true
+            },
             "uniqueItems": true,
             "description": "Patterns to ignore."
           }
@@ -33485,16 +33854,30 @@ exports[`Plugin \"unicorn\" config > Snapshot of the schema has not been changed
   "unicorn/no-array-sort-for-min-max": [],
   "unicorn/no-array-splice": [],
   "unicorn/no-asterisk-prefix-in-documentation-comments": [],
+  "unicorn/no-async-iterator-callback": [],
   "unicorn/no-async-promise-finally": [],
   "unicorn/no-await-expression-member": [],
   "unicorn/no-await-in-promise-methods": [],
+  "unicorn/no-barrel-files": [],
   "unicorn/no-blob-to-file": [],
   "unicorn/no-boolean-sort-comparator": [],
-  "unicorn/no-break-in-nested-loop": [],
+  "unicorn/no-break-in-nested-loop": [
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "checkContinue": {
+          "type": "boolean",
+          "description": "Whether to also check unlabeled \`continue\` statements in nested loops and switches inside loops."
+        }
+      }
+    }
+  ],
   "unicorn/no-canvas-to-image": [],
   "unicorn/no-chained-comparison": [],
   "unicorn/no-collection-bracket-access": [],
   "unicorn/no-computed-property-existence-check": [],
+  "unicorn/no-conflicting-constraints": [],
   "unicorn/no-confusing-array-splice": [],
   "unicorn/no-confusing-array-with": [],
   "unicorn/no-console-spaces": [],
@@ -33518,15 +33901,29 @@ exports[`Plugin \"unicorn\" config > Snapshot of the schema has not been changed
       }
     }
   ],
+  "unicorn/no-empty-link-text": [],
   "unicorn/no-error-property-assignment": [],
   "unicorn/no-exports-in-scripts": [],
   "unicorn/no-for-each": [],
   "unicorn/no-for-loop": [],
   "unicorn/no-global-object-property-assignment": [],
-  "unicorn/no-immediate-mutation": [],
+  "unicorn/no-immediate-mutation": [
+    {
+      "type": "object",
+      "properties": {
+        "checkConditionals": {
+          "type": "boolean",
+          "description": "Whether to check conditional mutations."
+        }
+      },
+      "additionalProperties": false
+    }
+  ],
   "unicorn/no-impossible-length-comparison": [],
+  "unicorn/no-incomplete-accessor-override": [],
   "unicorn/no-incorrect-query-selector": [],
   "unicorn/no-incorrect-template-string-interpolation": [],
+  "unicorn/no-ineffective-csp-directives": [],
   "unicorn/no-instanceof-builtins": [
     {
       "type": "object",
@@ -33597,11 +33994,21 @@ exports[`Plugin \"unicorn\" config > Snapshot of the schema has not been changed
       }
     }
   ],
+  "unicorn/no-invalid-boolean-attribute-value": [],
   "unicorn/no-invalid-character-comparison": [],
+  "unicorn/no-invalid-dom-token": [],
   "unicorn/no-invalid-fetch-options": [],
   "unicorn/no-invalid-file-input-accept": [],
+  "unicorn/no-invalid-integrity": [],
+  "unicorn/no-invalid-intl-options": [],
+  "unicorn/no-invalid-property-descriptor": [],
   "unicorn/no-invalid-remove-event-listener": [],
+  "unicorn/no-invalid-response-options": [],
+  "unicorn/no-invalid-style-set-property": [],
+  "unicorn/no-invalid-temporal-arithmetic": [],
+  "unicorn/no-invalid-url-protocol-comparison": [],
   "unicorn/no-invalid-well-known-symbol-methods": [],
+  "unicorn/no-javascript-url": [],
   "unicorn/no-keyword-prefix": [
     {
       "type": "object",
@@ -33609,11 +34016,9 @@ exports[`Plugin \"unicorn\" config > Snapshot of the schema has not been changed
       "properties": {
         "disallowedPrefixes": {
           "type": "array",
-          "items": [
-            {
-              "type": "string"
-            }
-          ],
+          "items": {
+            "type": "string"
+          },
           "minItems": 0,
           "uniqueItems": true,
           "description": "The prefixes to disallow."
@@ -33631,8 +34036,10 @@ exports[`Plugin \"unicorn\" config > Snapshot of the schema has not been changed
   ],
   "unicorn/no-late-current-target-access": [],
   "unicorn/no-late-event-control": [],
+  "unicorn/no-leading-empty-lines": [],
   "unicorn/no-lonely-if": [],
   "unicorn/no-loop-iterable-mutation": [],
+  "unicorn/no-loss-of-precision": [],
   "unicorn/no-magic-array-flat-depth": [],
   "unicorn/no-manually-wrapped-comments": [],
   "unicorn/no-mismatched-map-key": [],
@@ -33648,7 +34055,7 @@ exports[`Plugin \"unicorn\" config > Snapshot of the schema has not been changed
       "properties": {
         "checkLogicalExpressions": {
           "type": "boolean",
-          "description": "Check logical expressions that only contain comparisons."
+          "description": "Check logical expressions that only contain equality comparisons."
         }
       }
     }
@@ -33675,6 +34082,13 @@ exports[`Plugin \"unicorn\" config > Snapshot of the schema has not been changed
         },
         "ignore": {
           "type": "array",
+          "items": {
+            "type": [
+              "string",
+              "object"
+            ],
+            "additionalProperties": true
+          },
           "uniqueItems": true,
           "description": "Patterns to ignore."
         }
@@ -33701,6 +34115,7 @@ exports[`Plugin \"unicorn\" config > Snapshot of the schema has not been changed
   "unicorn/no-object-as-default-parameter": [],
   "unicorn/no-object-methods-with-collections": [],
   "unicorn/no-optional-chaining-on-undeclared-variable": [],
+  "unicorn/no-prevent-default-in-passive-listener": [],
   "unicorn/no-process-exit": [],
   "unicorn/no-redundant-comparison": [],
   "unicorn/no-return-array-push": [],
@@ -33737,6 +34152,19 @@ exports[`Plugin \"unicorn\" config > Snapshot of the schema has not been changed
   "unicorn/no-unnecessary-fetch-options": [],
   "unicorn/no-unnecessary-global-this": [],
   "unicorn/no-unnecessary-nested-ternary": [],
+  "unicorn/no-unnecessary-parameters": [
+    {
+      "type": "object",
+      "properties": {
+        "minimumCallCount": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "Minimum number of external call sites required to check a function."
+        }
+      },
+      "additionalProperties": false
+    }
+  ],
   "unicorn/no-unnecessary-polyfills": [
     {
       "type": "object",
@@ -33750,10 +34178,14 @@ exports[`Plugin \"unicorn\" config > Snapshot of the schema has not been changed
             },
             {
               "type": "array",
+              "items": {
+                "type": "string"
+              },
               "description": "An array of browserslist query strings."
             },
             {
               "type": "object",
+              "additionalProperties": true,
               "description": "A browserslist targets object."
             }
           ],
@@ -33784,11 +34216,15 @@ exports[`Plugin \"unicorn\" config > Snapshot of the schema has not been changed
   "unicorn/no-unreadable-object-destructuring": [],
   "unicorn/no-unsafe-buffer-conversion": [],
   "unicorn/no-unsafe-dom-html": [],
+  "unicorn/no-unsafe-json-serialization": [],
   "unicorn/no-unsafe-promise-all-settled-values": [],
   "unicorn/no-unsafe-property-key": [],
+  "unicorn/no-unsafe-sqlite-interpolation": [],
   "unicorn/no-unsafe-string-replacement": [],
-  "unicorn/no-unused-array-method-return": [],
+  "unicorn/no-unused-builtin-method-return": [],
+  "unicorn/no-unused-iterator-helper": [],
   "unicorn/no-unused-properties": [],
+  "unicorn/no-url-in-search-params": [],
   "unicorn/no-useless-boolean-cast": [],
   "unicorn/no-useless-coercion": [],
   "unicorn/no-useless-collection-argument": [],
@@ -33806,6 +34242,7 @@ exports[`Plugin \"unicorn\" config > Snapshot of the schema has not been changed
   "unicorn/no-useless-promise-resolve-reject": [],
   "unicorn/no-useless-re-export": [],
   "unicorn/no-useless-recursion": [],
+  "unicorn/no-useless-set-construction": [],
   "unicorn/no-useless-spread": [],
   "unicorn/no-useless-switch-case": [],
   "unicorn/no-useless-template-literals": [],
@@ -33825,6 +34262,7 @@ exports[`Plugin \"unicorn\" config > Snapshot of the schema has not been changed
       }
     }
   ],
+  "unicorn/no-using-resource-escape": [],
   "unicorn/no-xor-as-exponentiation": [],
   "unicorn/no-zero-fractions": [],
   "unicorn/number-literal-case": [
@@ -33985,6 +34423,9 @@ exports[`Plugin \"unicorn\" config > Snapshot of the schema has not been changed
       "properties": {
         "functions": {
           "type": "array",
+          "items": {
+            "type": "string"
+          },
           "uniqueItems": true,
           "description": "Additional functions to check."
         }
@@ -34007,6 +34448,9 @@ exports[`Plugin \"unicorn\" config > Snapshot of the schema has not been changed
       "properties": {
         "getLastElementFunctions": {
           "type": "array",
+          "items": {
+            "type": "string"
+          },
           "uniqueItems": true,
           "description": "Additional functions that return the last element."
         },
@@ -34025,6 +34469,22 @@ exports[`Plugin \"unicorn\" config > Snapshot of the schema has not been changed
   "unicorn/prefer-class-fields": [],
   "unicorn/prefer-classlist-toggle": [],
   "unicorn/prefer-code-point": [],
+  "unicorn/prefer-combined-guards": [
+    {
+      "type": "object",
+      "properties": {
+        "checkCompoundConditions": {
+          "type": "boolean",
+          "description": "Check guards with compound conditions."
+        },
+        "checkMultiStatementBodies": {
+          "type": "boolean",
+          "description": "Check guards whose bodies run the same statements before the exit."
+        }
+      },
+      "additionalProperties": false
+    }
+  ],
   "unicorn/prefer-continue": [
     {
       "type": "object",
@@ -34033,7 +34493,11 @@ exports[`Plugin \"unicorn\" config > Snapshot of the schema has not been changed
         "maximumStatements": {
           "type": "integer",
           "minimum": 0,
-          "description": "Maximum number of statements allowed in a whole-loop conditional wrapper."
+          "description": "Maximum number of statements allowed in a conditional wrapping the remainder of the loop body."
+        },
+        "checkShortBodies": {
+          "type": "boolean",
+          "description": "Enforce conditional wrapping when the body after a guard, or its else body, has between one and maximumStatements statements."
         }
       }
     }
@@ -34070,30 +34534,19 @@ exports[`Plugin \"unicorn\" config > Snapshot of the schema has not been changed
         "maximumStatements": {
           "type": "integer",
           "minimum": 0,
-          "description": "Maximum number of statements allowed in a whole-function conditional wrapper."
+          "description": "Maximum number of statements allowed in a conditional wrapping the remainder of the function body."
+        },
+        "checkShortBodies": {
+          "type": "boolean",
+          "description": "Enforce conditional wrapping when the body after a guard, or its else body, has between one and maximumStatements statements."
         }
       }
     }
   ],
   "unicorn/prefer-else-if": [],
   "unicorn/prefer-error-is-error": [],
+  "unicorn/prefer-escaped-irregular-whitespace": [],
   "unicorn/prefer-event-target": [],
-  "unicorn/prefer-explicit-viewport-units": [
-    {
-      "type": "object",
-      "additionalProperties": false,
-      "properties": {
-        "unit": {
-          "enum": [
-            "dvh",
-            "svh",
-            "lvh"
-          ],
-          "description": "The viewport height unit to prefer."
-        }
-      }
-    }
-  ],
   "unicorn/prefer-export-from": [
     {
       "type": "object",
@@ -34113,7 +34566,26 @@ exports[`Plugin \"unicorn\" config > Snapshot of the schema has not been changed
   "unicorn/prefer-group-by": [],
   "unicorn/prefer-has-check": [],
   "unicorn/prefer-hoisting-branch-code": [],
-  "unicorn/prefer-https": [],
+  "unicorn/prefer-https": [
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "ignore": {
+          "type": "array",
+          "items": {
+            "type": [
+              "string",
+              "object"
+            ],
+            "additionalProperties": true
+          },
+          "uniqueItems": true,
+          "description": "Exact URLs and regular expressions to ignore."
+        }
+      }
+    }
+  ],
   "unicorn/prefer-identifier-import-export-specifiers": [],
   "unicorn/prefer-import-meta-properties": [],
   "unicorn/prefer-includes": [],
@@ -34135,7 +34607,10 @@ exports[`Plugin \"unicorn\" config > Snapshot of the schema has not been changed
   "unicorn/prefer-iterator-helpers": [],
   "unicorn/prefer-iterator-to-array": [],
   "unicorn/prefer-iterator-to-array-at-end": [],
+  "unicorn/prefer-iterator-zip": [],
+  "unicorn/prefer-json-import": [],
   "unicorn/prefer-keyboard-event-key": [],
+  "unicorn/prefer-literal-ascii": [],
   "unicorn/prefer-location-assign": [],
   "unicorn/prefer-logical-operator-over-ternary": [],
   "unicorn/prefer-map-from-entries": [],
@@ -34154,7 +34629,7 @@ exports[`Plugin \"unicorn\" config > Snapshot of the schema has not been changed
         },
         "checkComputedMemberAccess": {
           "type": "boolean",
-          "description": "Also report method-call ternaries that differ only by the method name, whose minimization requires computed member access."
+          "description": "Also report property reads and method calls sharing a simple receiver when only the static property or method name differs, requiring computed member access."
         }
       }
     }
@@ -34192,6 +34667,9 @@ exports[`Plugin \"unicorn\" config > Snapshot of the schema has not been changed
       "properties": {
         "functions": {
           "type": "array",
+          "items": {
+            "type": "string"
+          },
           "uniqueItems": true,
           "description": "Additional functions to check."
         }
@@ -34203,6 +34681,7 @@ exports[`Plugin \"unicorn\" config > Snapshot of the schema has not been changed
   "unicorn/prefer-optional-catch-binding": [],
   "unicorn/prefer-path2d": [],
   "unicorn/prefer-private-class-fields": [],
+  "unicorn/prefer-promise-static-methods": [],
   "unicorn/prefer-promise-try": [],
   "unicorn/prefer-promise-with-resolvers": [],
   "unicorn/prefer-prototype-methods": [],
@@ -34263,9 +34742,24 @@ exports[`Plugin \"unicorn\" config > Snapshot of the schema has not been changed
       ]
     }
   ],
+  "unicorn/prefer-short-escape-sequences": [],
   "unicorn/prefer-simple-condition-first": [],
   "unicorn/prefer-simple-sort-comparator": [],
-  "unicorn/prefer-simplified-conditions": [],
+  "unicorn/prefer-simplified-conditions": [
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "negatedConditions": {
+          "enum": [
+            "simplify",
+            "expand"
+          ],
+          "description": "Whether to expand negated logical conditions only when it reduces negations or regardless of negation count."
+        }
+      }
+    }
+  ],
   "unicorn/prefer-single-array-predicate": [],
   "unicorn/prefer-single-call": [
     {
@@ -34274,6 +34768,9 @@ exports[`Plugin \"unicorn\" config > Snapshot of the schema has not been changed
       "properties": {
         "ignore": {
           "type": "array",
+          "items": {
+            "type": "string"
+          },
           "uniqueItems": true,
           "description": "Methods to ignore."
         }
@@ -34312,6 +34809,9 @@ exports[`Plugin \"unicorn\" config > Snapshot of the schema has not been changed
       "properties": {
         "functions": {
           "type": "array",
+          "items": {
+            "type": "string"
+          },
           "uniqueItems": true,
           "description": "Additional functions to check."
         }
@@ -34359,6 +34859,7 @@ exports[`Plugin \"unicorn\" config > Snapshot of the schema has not been changed
       }
     }
   ],
+  "unicorn/prefer-temporal-conversion": [],
   "unicorn/prefer-ternary": [
     {
       "enum": [
@@ -34374,6 +34875,7 @@ exports[`Plugin \"unicorn\" config > Snapshot of the schema has not been changed
   "unicorn/prefer-type-error": [],
   "unicorn/prefer-type-literal-last": [],
   "unicorn/prefer-uint8array-base64": [],
+  "unicorn/prefer-uint8array-hex": [],
   "unicorn/prefer-unary-minus": [],
   "unicorn/prefer-unicode-code-point-escapes": [],
   "unicorn/prefer-url-can-parse": [],
@@ -34426,6 +34928,34 @@ exports[`Plugin \"unicorn\" config > Snapshot of the schema has not been changed
   "unicorn/require-passive-events": [],
   "unicorn/require-post-message-target-origin": [],
   "unicorn/require-proxy-trap-boolean-return": [],
+  "unicorn/require-text-decoder-streaming": [],
+  "unicorn/single-line-block-comment-style": [
+    {
+      "enum": [
+        "multiline",
+        "single-line"
+      ],
+      "description": "The style for block comments with one line of content."
+    },
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "ignore": {
+          "type": "array",
+          "items": {
+            "type": [
+              "string",
+              "object"
+            ],
+            "additionalProperties": true
+          },
+          "uniqueItems": true,
+          "description": "Regular expressions to ignore."
+        }
+      }
+    }
+  ],
   "unicorn/string-content": [
     {
       "type": "object",
@@ -34467,7 +34997,9 @@ exports[`Plugin \"unicorn\" config > Snapshot of the schema has not been changed
           "type": "array",
           "uniqueItems": true,
           "items": {
-            "type": "string"
+            "type": "string",
+            "minLength": 1,
+            "pattern": "\\\\S"
           },
           "description": "AST selectors for string nodes to check."
         }
@@ -34525,7 +35057,9 @@ exports[`Plugin \"unicorn\" config > Snapshot of the schema has not been changed
           "type": "array",
           "uniqueItems": true,
           "items": {
-            "type": "string"
+            "type": "string",
+            "minLength": 1,
+            "pattern": "\\\\S"
           },
           "description": "AST selectors for template literals to check."
         },

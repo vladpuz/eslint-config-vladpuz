@@ -22,6 +22,8 @@ unicorn.configs.unopinionated.rules!['unicorn/no-declarations-before-early-exit'
 unicorn.configs.unopinionated.rules!['unicorn/no-negated-condition'] = 'off'
 unicorn.configs.unopinionated.rules!['unicorn/prefer-event-target'] = 'off'
 unicorn.configs.unopinionated.rules!['unicorn/import-style'] = 'off'
+unicorn.configs.unopinionated.rules!['unicorn/prefer-ternary'] = 'off'
+unicorn.configs.unopinionated.rules!['unicorn/prefer-early-return'] = 'off'
 /* eslint-enable @typescript-eslint/no-non-null-assertion */
 
 testPluginConfig(
