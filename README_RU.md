@@ -234,7 +234,7 @@ export default [...vladpuz(), errorify(x.configs.recommended)]
 - parserOptions (`ParserOptions = {}`) - Опции парсера для поиска tsconfig.json.
 - force (`boolean = false`) - Отключает кеш.
 
-Return: `CompilerOptions`
+Return: `CompilerOptions | null`
 
 Предназначается для динамического управления правилами в зависимости от опций
 компилятора из tsconfig.json:
@@ -244,8 +244,10 @@ import { getCompilerOptions } from 'eslint-config-vladpuz'
 
 const compilerOptions = getCompilerOptions()
 
-console.log(compilerOptions.strict)
-console.log(compilerOptions.noEmit)
+if (compilerOptions) {
+  console.log(compilerOptions.strict)
+  console.log(compilerOptions.noEmit)
+}
 ```
 
 ### testPluginConfig(pluginName, pluginRules, config, recommendedRules?)

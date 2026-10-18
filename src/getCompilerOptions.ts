@@ -11,7 +11,7 @@ const cache = new Map<string, CompilerOptions>()
 export function getCompilerOptions(
   parserOptions: ParserOptions = {},
   force = false,
-): CompilerOptions {
+): CompilerOptions | null {
   const searchPath = parserOptions.tsconfigRootDir ?? process.cwd()
   const configName = (typeof parserOptions.projectService === 'object')
     ? parserOptions.projectService.defaultProject ?? 'tsconfig.json'
@@ -36,7 +36,7 @@ export function getCompilerOptions(
   )
 
   if (tsconfigPath === undefined) {
-    throw new Error(`Config file "${configName}" not found in "${searchPath}"`)
+    return null
   }
 
   const tsconfigFile = readConfigFile(

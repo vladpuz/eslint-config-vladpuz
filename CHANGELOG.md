@@ -1,3 +1,19 @@
+## 4.4.0
+
+- Updated eslint-plugin-unicorn to v78.
+- For TypeScript files, if the `rewriteRelativeImportExtensions` option is
+  enabled, the `no-restricted-imports` rule is applied. This rule prohibits
+  importing files with a `.js` extension, ensuring consistent file extensions
+  and enabling TypeScript files to be executed directly via Node.js
+  (https://github.com/microsoft/TypeScript/issues/61021).
+- The rule `@typescript-eslint/strict-void-return` was disabled because it works
+  mostly simultaneously with `@typescript-eslint/no-misused-promises` and
+  sometimes you have to ignore two of these rules at once in
+  `eslint-ignore-next-line` instead of one.
+- In projects that do not use TypeScript, an error no longer occurs when the
+  `tsconfig.json` file is missing (previously, an error was thrown unless
+  TypeScript was explicitly disabled via the `typescript: false` option).
+
 ## 4.3.0
 
 - Updated eslint-plugin-unicorn from v72 to v77. Many new rules.

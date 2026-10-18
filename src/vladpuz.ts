@@ -94,14 +94,26 @@ function vladpuz(options: Options = {}): Linter.Config[] {
   const rulesJs = configJs.rules ?? {}
   config.push(configJs)
 
-  if (enableTypescript !== false) {
-    const parserOptions = (typeof enableTypescript === 'object')
-      ? enableTypescript
-      : {}
+  const parserOptions = (typeof enableTypescript === 'object')
+    ? enableTypescript
+    : {}
 
-    const compilerOptions = getCompilerOptions(parserOptions)
+  const compilerOptions = (enableTypescript !== false)
+    ? getCompilerOptions(parserOptions)
+    : null
+
+  if (compilerOptions) {
     const configTs = getTypescriptConfig(compilerOptions)
     const rulesTs = configTs.rules ?? {}
+
+    if (compilerOptions.rewriteRelativeImportExtensions === true) {
+      rulesTs['no-restricted-imports'] = ['error', {
+        patterns: [{
+          group: FILES_JS,
+          message: 'Use the `.ts` extension instead of `.js` in imports, since the `rewriteRelativeImportExtensions` option is enabled in `tsconfig.json`.',
+        }],
+      }]
+    }
 
     configTs.files = filesTs
     configTs.languageOptions = {
@@ -119,6 +131,12 @@ function vladpuz(options: Options = {}): Linter.Config[] {
     ) as Linter.RulesRecord
 
     for (const [ruleName, ruleConfig] of Object.entries(tsCompatibilityRules)) {
+      const hasJsRule = ruleName in rulesJs
+
+      if (!hasJsRule) {
+        continue
+      }
+
       const ruleSeverity = Array.isArray(ruleConfig)
         ? ruleConfig[0]
         : ruleConfig

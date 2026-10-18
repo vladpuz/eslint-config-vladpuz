@@ -34118,6 +34118,7 @@ exports[`Plugin \"unicorn\" config > Snapshot of the schema has not been changed
   "unicorn/no-prevent-default-in-passive-listener": [],
   "unicorn/no-process-exit": [],
   "unicorn/no-redundant-comparison": [],
+  "unicorn/no-repeated-call-wrappers": [],
   "unicorn/no-return-array-push": [],
   "unicorn/no-selector-as-dom-name": [],
   "unicorn/no-shorthand-property-overrides": [],
@@ -34128,7 +34129,24 @@ exports[`Plugin \"unicorn\" config > Snapshot of the schema has not been changed
   "unicorn/no-this-assignment": [],
   "unicorn/no-this-outside-of-class": [],
   "unicorn/no-top-level-assignment-in-function": [],
-  "unicorn/no-top-level-side-effects": [],
+  "unicorn/no-top-level-side-effects": [
+    {
+      "type": "object",
+      "properties": {
+        "allow": {
+          "type": "object",
+          "description": "Additional pure export names by import source.",
+          "additionalProperties": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "additionalProperties": false
+    }
+  ],
   "unicorn/no-transition-all": [],
   "unicorn/no-typeof-undefined": [
     {
@@ -34149,6 +34167,7 @@ exports[`Plugin \"unicorn\" config > Snapshot of the schema has not been changed
   "unicorn/no-unnecessary-array-splice-count": [],
   "unicorn/no-unnecessary-await": [],
   "unicorn/no-unnecessary-boolean-comparison": [],
+  "unicorn/no-unnecessary-default-arguments": [],
   "unicorn/no-unnecessary-fetch-options": [],
   "unicorn/no-unnecessary-global-this": [],
   "unicorn/no-unnecessary-nested-ternary": [],
@@ -34503,7 +34522,18 @@ exports[`Plugin \"unicorn\" config > Snapshot of the schema has not been changed
     }
   ],
   "unicorn/prefer-date-now": [],
-  "unicorn/prefer-default-parameters": [],
+  "unicorn/prefer-default-parameters": [
+    {
+      "type": "object",
+      "properties": {
+        "checkFallbackExpressions": {
+          "type": "boolean",
+          "description": "Check fallback reads in parameters and destructured variables."
+        }
+      },
+      "additionalProperties": false
+    }
+  ],
   "unicorn/prefer-direct-iteration": [],
   "unicorn/prefer-dispose": [],
   "unicorn/prefer-dom-node-append": [],
@@ -34625,7 +34655,7 @@ exports[`Plugin \"unicorn\" config > Snapshot of the schema has not been changed
       "properties": {
         "checkVaryingBase": {
           "type": "boolean",
-          "description": "Also report ternaries that differ only by the base of a call or member access, whose minimization moves the ternary into the base (\`(test ? a : b).foo\`)."
+          "description": "Also report expressions that differ only by the base of a call or member access, whose minimization moves the ternary into the base (\`(test ? a : b).foo\`)."
         },
         "checkComputedMemberAccess": {
           "type": "boolean",
@@ -34867,6 +34897,20 @@ exports[`Plugin \"unicorn\" config > Snapshot of the schema has not been changed
         "only-single-line"
       ],
       "description": "Whether to always prefer ternary, or only for single-line expressions."
+    },
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "checkVaryingBase": {
+          "type": "boolean",
+          "description": "Also report expressions that differ only by the base of a call or member access, whose minimization moves the ternary into the base (\`(test ? a : b).foo\`)."
+        },
+        "checkComputedMemberAccess": {
+          "type": "boolean",
+          "description": "Also report property reads and method calls sharing a simple receiver when only the static property or method name differs, requiring computed member access."
+        }
+      }
     }
   ],
   "unicorn/prefer-then-catch": [],

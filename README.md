@@ -234,7 +234,7 @@ Gets compiler options from tsconfig.json.
   tsconfig.json.
 - force (`boolean = false`) - Disables cache.
 
-Return: `CompilerOptions`
+Return: `CompilerOptions | null`
 
 Intended for dynamic management of rules depending on compiler options from
 tsconfig.json:
@@ -244,8 +244,10 @@ import { getCompilerOptions } from 'eslint-config-vladpuz'
 
 const compilerOptions = getCompilerOptions()
 
-console.log(compilerOptions.strict)
-console.log(compilerOptions.noEmit)
+if (compilerOptions) {
+  console.log(compilerOptions.strict)
+  console.log(compilerOptions.noEmit)
+}
 ```
 
 ### testPluginConfig(pluginName, pluginRules, config, recommendedRules?)

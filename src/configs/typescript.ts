@@ -180,7 +180,7 @@ export function getTypescriptConfig(
       '@typescript-eslint/strict-boolean-expressions': strictNullChecks
         ? 'error'
         : 'off',
-      '@typescript-eslint/strict-void-return': 'error',
+      '@typescript-eslint/strict-void-return': 'off',
       '@typescript-eslint/switch-exhaustiveness-check': 'error',
       '@typescript-eslint/triple-slash-reference': 'error',
       '@typescript-eslint/unbound-method': 'error',
