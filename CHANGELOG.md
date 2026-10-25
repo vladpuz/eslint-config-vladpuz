@@ -1,3 +1,9 @@
+## 4.4.1
+
+- Updated eslint-plugin-unicorn to v79.
+- The `getCompilerOptions` function now caches `null` if the file
+  `tsconfig.json` is missing (previously not added to the cache by mistake).
+
 ## 4.4.0
 
 - Updated eslint-plugin-unicorn to v78.

@@ -2,7 +2,7 @@ import type { ParserOptions } from '@typescript-eslint/types'
 
 import { type CompilerOptions, findConfigFile, parseJsonConfigFileContent, readConfigFile, sys } from 'typescript'
 
-const cache = new Map<string, CompilerOptions>()
+const cache = new Map<string, CompilerOptions | null>()
 
 /*
  * Source:
@@ -10,7 +10,7 @@ const cache = new Map<string, CompilerOptions>()
  */
 export function getCompilerOptions(
   parserOptions: ParserOptions = {},
-  force = false,
+  reload = false,
 ): CompilerOptions | null {
   const searchPath = parserOptions.tsconfigRootDir ?? process.cwd()
   const configName = (typeof parserOptions.projectService === 'object')
@@ -19,7 +19,7 @@ export function getCompilerOptions(
 
   const cacheKey = `${searchPath}:${configName}`
 
-  if (!force) {
+  if (!reload) {
     const compilerOptions = cache.get(cacheKey)
 
     if (compilerOptions) {
@@ -36,6 +36,7 @@ export function getCompilerOptions(
   )
 
   if (tsconfigPath === undefined) {
+    cache.set(cacheKey, null)
     return null
   }
 

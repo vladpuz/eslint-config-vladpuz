@@ -226,13 +226,13 @@ import x from 'eslint-plugin-x'
 export default [...vladpuz(), errorify(x.configs.recommended)]
 ```
 
-### getCompilerOptions(parserOptions?, force?)
+### getCompilerOptions(parserOptions?, reload?)
 
 Gets compiler options from tsconfig.json.
 
 - parserOptions (`ParserOptions = {}`) - Parser options for searching
   tsconfig.json.
-- force (`boolean = false`) - Disables cache.
+- reload (`boolean = false`) - Overwrites the cache if true.
 
 Return: `CompilerOptions | null`
 

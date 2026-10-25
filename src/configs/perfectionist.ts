@@ -12,6 +12,7 @@ export function getPerfectionistConfig(): Linter.Config {
       'perfectionist/sort-array-includes': 'off',
       'perfectionist/sort-arrays': 'off',
       'perfectionist/sort-classes': 'off',
+      'perfectionist/sort-constructor-parameters': 'off',
       'perfectionist/sort-decorators': 'off',
       'perfectionist/sort-enums': 'off',
       'perfectionist/sort-export-attributes': 'error',
