@@ -1,3 +1,8 @@
+## 4.4.2
+
+- Updated **@stylistic/eslint-plugin** to v6.
+- Updated **eslint-plugin-unicorn** to v80.
+
 ## 4.4.1
 
 - Updated eslint-plugin-unicorn to v79.

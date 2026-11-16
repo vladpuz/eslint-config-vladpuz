@@ -13910,17 +13910,17 @@ exports[`Plugin \"perfectionist\" config > Snapshot of the schema has not been c
                         "modifiers": {
                           "items": {
                             "enum": [
-                              "async",
+                              "static",
+                              "declare",
+                              "abstract",
+                              "decorated",
+                              "override",
+                              "readonly",
                               "protected",
                               "private",
                               "public",
-                              "static",
-                              "abstract",
-                              "override",
-                              "readonly",
-                              "decorated",
-                              "declare",
-                              "optional"
+                              "optional",
+                              "async"
                             ],
                             "type": "string"
                           },
@@ -13930,15 +13930,15 @@ exports[`Plugin \"perfectionist\" config > Snapshot of the schema has not been c
                         "selector": {
                           "description": "Selector filter.",
                           "enum": [
+                            "function-property",
                             "accessor-property",
-                            "index-signature",
+                            "property",
                             "constructor",
-                            "static-block",
                             "get-method",
                             "set-method",
-                            "function-property",
-                            "property",
-                            "method"
+                            "method",
+                            "index-signature",
+                            "static-block"
                           ],
                           "type": "string"
                         },
@@ -14207,17 +14207,17 @@ exports[`Plugin \"perfectionist\" config > Snapshot of the schema has not been c
                   "modifiers": {
                     "items": {
                       "enum": [
-                        "async",
+                        "static",
+                        "declare",
+                        "abstract",
+                        "decorated",
+                        "override",
+                        "readonly",
                         "protected",
                         "private",
                         "public",
-                        "static",
-                        "abstract",
-                        "override",
-                        "readonly",
-                        "decorated",
-                        "declare",
-                        "optional"
+                        "optional",
+                        "async"
                       ],
                       "type": "string"
                     },
@@ -14227,15 +14227,15 @@ exports[`Plugin \"perfectionist\" config > Snapshot of the schema has not been c
                   "selector": {
                     "description": "Selector filter.",
                     "enum": [
+                      "function-property",
                       "accessor-property",
-                      "index-signature",
+                      "property",
                       "constructor",
-                      "static-block",
                       "get-method",
                       "set-method",
-                      "function-property",
-                      "property",
-                      "method"
+                      "method",
+                      "index-signature",
+                      "static-block"
                     ],
                     "type": "string"
                   },
@@ -21252,16 +21252,16 @@ exports[`Plugin \"perfectionist\" config > Snapshot of the schema has not been c
                         "modifiers": {
                           "items": {
                             "enum": [
-                              "default",
-                              "multiline",
-                              "named",
-                              "require",
                               "side-effect",
-                              "singleline",
-                              "ts-equals",
                               "type",
                               "value",
-                              "wildcard"
+                              "ts-equals",
+                              "require",
+                              "default",
+                              "wildcard",
+                              "named",
+                              "multiline",
+                              "singleline"
                             ],
                             "type": "string"
                           },
@@ -21271,19 +21271,19 @@ exports[`Plugin \"perfectionist\" config > Snapshot of the schema has not been c
                         "selector": {
                           "description": "Selector filter.",
                           "enum": [
+                            "type",
                             "side-effect-style",
-                            "tsconfig-path",
                             "side-effect",
-                            "external",
+                            "style",
+                            "tsconfig-path",
+                            "index",
+                            "sibling",
+                            "parent",
+                            "subpath",
                             "internal",
                             "builtin",
-                            "sibling",
-                            "subpath",
-                            "import",
-                            "parent",
-                            "index",
-                            "style",
-                            "type"
+                            "external",
+                            "import"
                           ],
                           "type": "string"
                         }
@@ -21452,16 +21452,16 @@ exports[`Plugin \"perfectionist\" config > Snapshot of the schema has not been c
                   "modifiers": {
                     "items": {
                       "enum": [
-                        "default",
-                        "multiline",
-                        "named",
-                        "require",
                         "side-effect",
-                        "singleline",
-                        "ts-equals",
                         "type",
                         "value",
-                        "wildcard"
+                        "ts-equals",
+                        "require",
+                        "default",
+                        "wildcard",
+                        "named",
+                        "multiline",
+                        "singleline"
                       ],
                       "type": "string"
                     },
@@ -21471,19 +21471,19 @@ exports[`Plugin \"perfectionist\" config > Snapshot of the schema has not been c
                   "selector": {
                     "description": "Selector filter.",
                     "enum": [
+                      "type",
                       "side-effect-style",
-                      "tsconfig-path",
                       "side-effect",
-                      "external",
+                      "style",
+                      "tsconfig-path",
+                      "index",
+                      "sibling",
+                      "parent",
+                      "subpath",
                       "internal",
                       "builtin",
-                      "sibling",
-                      "subpath",
-                      "import",
-                      "parent",
-                      "index",
-                      "style",
-                      "type"
+                      "external",
+                      "import"
                     ],
                     "type": "string"
                   }
@@ -22255,9 +22255,9 @@ exports[`Plugin \"perfectionist\" config > Snapshot of the schema has not been c
                         "modifiers": {
                           "items": {
                             "enum": [
+                              "multiline",
                               "optional",
-                              "required",
-                              "multiline"
+                              "required"
                             ],
                             "type": "string"
                           },
@@ -22268,9 +22268,9 @@ exports[`Plugin \"perfectionist\" config > Snapshot of the schema has not been c
                           "description": "Selector filter.",
                           "enum": [
                             "index-signature",
-                            "member",
                             "method",
-                            "property"
+                            "property",
+                            "member"
                           ],
                           "type": "string"
                         },
@@ -22495,9 +22495,9 @@ exports[`Plugin \"perfectionist\" config > Snapshot of the schema has not been c
                   "modifiers": {
                     "items": {
                       "enum": [
+                        "multiline",
                         "optional",
-                        "required",
-                        "multiline"
+                        "required"
                       ],
                       "type": "string"
                     },
@@ -22508,9 +22508,9 @@ exports[`Plugin \"perfectionist\" config > Snapshot of the schema has not been c
                     "description": "Selector filter.",
                     "enum": [
                       "index-signature",
-                      "member",
                       "method",
-                      "property"
+                      "property",
+                      "member"
                     ],
                     "type": "string"
                   },
@@ -25995,10 +25995,11 @@ exports[`Plugin \"perfectionist\" config > Snapshot of the schema has not been c
                         "modifiers": {
                           "items": {
                             "enum": [
-                              "async",
+                              "arrow",
                               "declare",
-                              "decorated",
                               "default",
+                              "async",
+                              "decorated",
                               "export"
                             ],
                             "type": "string"
@@ -26226,10 +26227,11 @@ exports[`Plugin \"perfectionist\" config > Snapshot of the schema has not been c
                   "modifiers": {
                     "items": {
                       "enum": [
-                        "async",
+                        "arrow",
                         "declare",
-                        "decorated",
                         "default",
+                        "async",
+                        "decorated",
                         "export"
                       ],
                       "type": "string"
@@ -26503,6 +26505,10 @@ exports[`Plugin \"perfectionist\" config > Snapshot of the schema has not been c
             "type": "string"
           },
           "type": "array"
+        },
+        "sortArrowFunctions": {
+          "description": "Enables sorting of arrow functions declared with const.",
+          "type": "boolean"
         },
         "useExperimentalDependencyDetection": {
           "description": "Enables experimental dependency detection for sorting rules that support it.",
@@ -28762,9 +28768,9 @@ exports[`Plugin \"perfectionist\" config > Snapshot of the schema has not been c
                         "modifiers": {
                           "items": {
                             "enum": [
+                              "multiline",
                               "optional",
-                              "required",
-                              "multiline"
+                              "required"
                             ],
                             "type": "string"
                           },
@@ -28775,9 +28781,9 @@ exports[`Plugin \"perfectionist\" config > Snapshot of the schema has not been c
                           "description": "Selector filter.",
                           "enum": [
                             "index-signature",
-                            "member",
                             "method",
-                            "property"
+                            "property",
+                            "member"
                           ],
                           "type": "string"
                         },
@@ -29002,9 +29008,9 @@ exports[`Plugin \"perfectionist\" config > Snapshot of the schema has not been c
                   "modifiers": {
                     "items": {
                       "enum": [
+                        "multiline",
                         "optional",
-                        "required",
-                        "multiline"
+                        "required"
                       ],
                       "type": "string"
                     },
@@ -29015,9 +29021,9 @@ exports[`Plugin \"perfectionist\" config > Snapshot of the schema has not been c
                     "description": "Selector filter.",
                     "enum": [
                       "index-signature",
-                      "member",
                       "method",
-                      "property"
+                      "property",
+                      "member"
                     ],
                     "type": "string"
                   },
@@ -29975,9 +29981,9 @@ exports[`Plugin \"perfectionist\" config > Snapshot of the schema has not been c
                         "selector": {
                           "description": "Selector filter.",
                           "enum": [
-                            "member",
                             "method",
-                            "property"
+                            "property",
+                            "member"
                           ],
                           "type": "string"
                         },
@@ -30212,9 +30218,9 @@ exports[`Plugin \"perfectionist\" config > Snapshot of the schema has not been c
                   "selector": {
                     "description": "Selector filter.",
                     "enum": [
-                      "member",
                       "method",
-                      "property"
+                      "property",
+                      "member"
                     ],
                     "type": "string"
                   },
@@ -34936,6 +34942,10 @@ exports[`Plugin \"unicorn\" config > Snapshot of the schema has not been changed
     {
       "type": "object",
       "properties": {
+        "checkCollections": {
+          "type": "boolean",
+          "description": "Whether to check mutations of Map, Set, WeakMap, and WeakSet."
+        },
         "checkConditionals": {
           "type": "boolean",
           "description": "Whether to check conditional mutations."
@@ -35688,7 +35698,7 @@ exports[`Plugin \"unicorn\" config > Snapshot of the schema has not been changed
         },
         "checkComputedMemberAccess": {
           "type": "boolean",
-          "description": "Also report property reads and method calls sharing a simple receiver when only the static property or method name differs, requiring computed member access."
+          "description": "Whether to also report static property or method name differences on a shared receiver, including member chains, requiring computed member access."
         }
       }
     }
@@ -35738,6 +35748,18 @@ exports[`Plugin \"unicorn\" config > Snapshot of the schema has not been changed
   "unicorn/prefer-object-iterable-methods": [],
   "unicorn/prefer-observer-apis": [],
   "unicorn/prefer-optional-catch-binding": [],
+  "unicorn/prefer-options-parameter": [
+    {
+      "type": "object",
+      "properties": {
+        "checkWithoutOptionsObject": {
+          "type": "boolean",
+          "description": "Whether to check functions without an existing options object parameter."
+        }
+      },
+      "additionalProperties": false
+    }
+  ],
   "unicorn/prefer-path2d": [],
   "unicorn/prefer-private-class-fields": [],
   "unicorn/prefer-promise-static-methods": [],
@@ -35774,6 +35796,7 @@ exports[`Plugin \"unicorn\" config > Snapshot of the schema has not been changed
   ],
   "unicorn/prefer-reflect-apply": [],
   "unicorn/prefer-regexp-escape": [],
+  "unicorn/prefer-regexp-exec": [],
   "unicorn/prefer-regexp-test": [],
   "unicorn/prefer-response-static-json": [],
   "unicorn/prefer-scoped-selector": [],
@@ -35838,7 +35861,18 @@ exports[`Plugin \"unicorn\" config > Snapshot of the schema has not been changed
   ],
   "unicorn/prefer-single-object-destructuring": [],
   "unicorn/prefer-single-replace": [],
-  "unicorn/prefer-smaller-scope": [],
+  "unicorn/prefer-smaller-scope": [
+    {
+      "type": "object",
+      "properties": {
+        "checkTypeAliases": {
+          "type": "boolean",
+          "description": "Check TypeScript type aliases."
+        }
+      },
+      "additionalProperties": false
+    }
+  ],
   "unicorn/prefer-split-limit": [],
   "unicorn/prefer-spread": [],
   "unicorn/prefer-string-match-all": [],
@@ -35937,7 +35971,11 @@ exports[`Plugin \"unicorn\" config > Snapshot of the schema has not been changed
         },
         "checkComputedMemberAccess": {
           "type": "boolean",
-          "description": "Also report property reads and method calls sharing a simple receiver when only the static property or method name differs, requiring computed member access."
+          "description": "Whether to also report static property or method name differences on a shared receiver, including member chains, requiring computed member access."
+        },
+        "checkNestedTernaries": {
+          "type": "boolean",
+          "description": "Whether to report merges whose conditions or values contain ternary expressions."
         }
       }
     }
@@ -35947,8 +35985,30 @@ exports[`Plugin \"unicorn\" config > Snapshot of the schema has not been changed
   "unicorn/prefer-top-level-await": [],
   "unicorn/prefer-type-error": [],
   "unicorn/prefer-type-literal-last": [],
-  "unicorn/prefer-uint8array-base64": [],
-  "unicorn/prefer-uint8array-hex": [],
+  "unicorn/prefer-uint8array-base64": [
+    {
+      "type": "object",
+      "properties": {
+        "checkBufferDecoding": {
+          "type": "boolean",
+          "description": "Whether to check \`Buffer.from()\` decoding calls."
+        }
+      },
+      "additionalProperties": false
+    }
+  ],
+  "unicorn/prefer-uint8array-hex": [
+    {
+      "type": "object",
+      "properties": {
+        "checkBufferDecoding": {
+          "type": "boolean",
+          "description": "Whether to check \`Buffer.from()\` decoding calls."
+        }
+      },
+      "additionalProperties": false
+    }
+  ],
   "unicorn/prefer-unary-minus": [],
   "unicorn/prefer-unicode-code-point-escapes": [],
   "unicorn/prefer-url-can-parse": [],
@@ -36001,6 +36061,7 @@ exports[`Plugin \"unicorn\" config > Snapshot of the schema has not been changed
   "unicorn/require-passive-events": [],
   "unicorn/require-post-message-target-origin": [],
   "unicorn/require-proxy-trap-boolean-return": [],
+  "unicorn/require-spread-parentheses": [],
   "unicorn/require-text-decoder-streaming": [],
   "unicorn/single-line-block-comment-style": [
     {
